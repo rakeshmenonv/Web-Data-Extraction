@@ -12,7 +12,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 		<!--主要依赖库的版本定义 -->
 		<springside.version>4.2.1.GA</springside.version>
 		<spring.version>4.0.0.RELEASE</spring.version>
-		<hibernate.version>4.3.1.Final</hibernate.version>
+		<hibernate.version>4.3.5.Final</hibernate.version>
 		<spring-data-jpa.version>1.4.2.RELEASE</spring-data-jpa.version>
 		<infotop.version>1.0.0.RELEASE</infotop.version>
 		<tomcat-jdbc.version>7.0.50</tomcat-jdbc.version>
@@ -108,6 +108,12 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-entitymanager</artifactId>
 			<version>${hibernate.version}</version>
+			<exclusions>
+            <exclusion>
+                <artifactId>xml-apis</artifactId>
+                <groupId>xml-apis</groupId>
+            </exclusion>
+        </exclusions>
 		</dependency>
 
 		<!-- spring data access -->
@@ -340,11 +346,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 			<artifactId>hibernate-ehcache</artifactId>
 			<version>${hibernate.version}</version>
 		</dependency>
-	</dependencies>
-
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
+		<dependency>
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-framework-bom</artifactId>
 				<version>${spring.version}</version>
@@ -385,6 +387,27 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 				<groupId>commons-httpclient</groupId>
 				<artifactId>commons-httpclient</artifactId>
 				<version>3.1</version>
+			</dependency>
+	</dependencies>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-framework-bom</artifactId>
+				<version>${spring.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<dependency>
+				<groupId>net.sf.ehcache</groupId>
+				<artifactId>ehcache-core</artifactId>
+				<version>2.6.6</version>
+			</dependency>
+			<dependency>
+				<groupId>commons-codec</groupId>
+				<artifactId>commons-codec</artifactId>
+				<version>1.9</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

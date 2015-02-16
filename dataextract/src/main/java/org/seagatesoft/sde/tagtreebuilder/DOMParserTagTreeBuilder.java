@@ -32,9 +32,9 @@ import java.util.regex.Matcher;
 
 import org.seagatesoft.sde.TagNode;
 import org.seagatesoft.sde.TagTree;
-import org.w3c.dom.Node;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.apache.commons.httpclient.HttpClient;
@@ -155,7 +155,7 @@ public class DOMParserTagTreeBuilder implements TagTreeBuilder
 	          } catch (Exception e) {  
 	           e.printStackTrace();  
 	          }  
-		Document documentNode = parser.getDocument();
+		org.w3c.dom.Document documentNode = parser.getDocument();
 		System.out.println(documentNode.getFirstChild().getTextContent());
 		// dapatkan BaseURI+nama file dari dokumen HTML ini
 		baseURI = documentNode.getBaseURI();
