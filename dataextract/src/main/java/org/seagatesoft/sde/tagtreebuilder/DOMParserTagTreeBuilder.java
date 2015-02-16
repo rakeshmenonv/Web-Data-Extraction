@@ -138,24 +138,23 @@ public class DOMParserTagTreeBuilder implements TagTreeBuilder
 
 		// parse dokumen HTML menjadi pohon DOM dan dapatkan Document-nya
 		DOMParser parser = new DOMParser();
-		parser.setProperty("http://cyberneko.org/html/properties/default-encoding", "gb2312");
-		inputSource.setEncoding("gb2312");
-		parser.parse(inputSource);
-		// URL a = new URL("http://www.hudong.com/wiki/JTM");  
-		  // BufferedReader in = new BufferedReader(new InputStreamReader(a.openStream(),"gb2312"));  
-		   //BufferedReader in = new BufferedReader(new FileReader("input.htm"));  
-		  // parser.parse(new InputSource(in));  
-		
-		/*URL url = new URL(
-                "http://www.hudong.com/wiki/JTM");
-        HttpURLConnection connection = (java.net.HttpURLConnection)url.openConnection();
-        connection.connect();
-        InputStream stream = connection.getInputStream();
-        
-        parser.setProperty("http://cyberneko.org/html/properties/default-encoding","utf-8");
-        parser.parse(new InputSource(stream));*/
-       // Document doc = parser.getDocument();
-        
+		try {  
+	           //设置网页的默认编码  
+	           parser.setProperty("http://cyberneko.org/html/properties/default-encoding","gb2312");  
+	           /*The Xerces HTML DOM implementation does not support namespaces  
+	           and cannot represent XHTML documents with namespace information.  
+	           Therefore, in order to use the default HTML DOM implementation with NekoHTML's  
+	           DOMParser to parse XHTML documents, you must turn off namespace processing.*/  
+	           parser.setFeature("http://xml.org/sax/features/namespaces", false);  
+	           String strURL = "http://product.dangdang.com/product.aspx?product_id=9317290";  
+	           BufferedReader in = new BufferedReader(  
+	                   new InputStreamReader(  
+	                           new URL(strURL).openStream()));  
+	           parser.parse(new InputSource(in));  
+	           in.close();  
+	          } catch (Exception e) {  
+	           e.printStackTrace();  
+	          }  
 		Document documentNode = parser.getDocument();
 		System.out.println(documentNode.getFirstChild().getTextContent());
 		// dapatkan BaseURI+nama file dari dokumen HTML ini
