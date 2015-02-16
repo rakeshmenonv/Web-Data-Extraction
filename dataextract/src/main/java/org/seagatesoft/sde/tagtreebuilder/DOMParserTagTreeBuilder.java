@@ -21,7 +21,12 @@
  */
 package org.seagatesoft.sde.tagtreebuilder;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
@@ -32,6 +37,10 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
+import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.HttpException;
+import org.apache.commons.httpclient.HttpStatus;
+import org.apache.commons.httpclient.methods.GetMethod;
 import org.cyberneko.html.HTMLElements;
 import org.cyberneko.html.parsers.DOMParser;
 
@@ -64,6 +73,10 @@ public class DOMParserTagTreeBuilder implements TagTreeBuilder
 	 */
 	private TagNodeCreator tagNodeCreator;
 	
+	
+	private int connectionTimeout = 5000;
+    private int soTimeout = 12000;
+    
 	/**
 	 * Membangun TagTree dari system identifier yang diberikan. Method ini equivalent dengan 
 	 * <code>parse(new InputSource(htmlDocument));</code>
@@ -78,6 +91,21 @@ public class DOMParserTagTreeBuilder implements TagTreeBuilder
 	
 	public TagTree buildTagTree(String htmlDocument, boolean ignoreFormattingTags)  throws IOException, SAXException
 	{
+		HttpClient client = new HttpClient();
+        
+        client.getHttpConnectionManager().getParams().setConnectionTimeout(connectionTimeout);
+        client.getHttpConnectionManager().getParams().setSoTimeout(soTimeout);
+        GetMethod method = new GetMethod(htmlDocument);
+        method.addRequestHeader("Content-Type", "text/html; charset=utf-8");
+        try {
+            int statusCode = client.executeMethod(method);
+            if (statusCode != HttpStatus.SC_OK) {
+                throw new HttpException("HttpStatusCode : " + statusCode);
+            }
+        } catch (HttpException he) {
+            he.printStackTrace();
+        } 
+        InputStream is = method.getResponseBodyAsStream();
 		return buildTagTree(new InputSource(htmlDocument), ignoreFormattingTags);
 	}
 	
@@ -110,18 +138,37 @@ public class DOMParserTagTreeBuilder implements TagTreeBuilder
 
 		// parse dokumen HTML menjadi pohon DOM dan dapatkan Document-nya
 		DOMParser parser = new DOMParser();
+		parser.setProperty("http://cyberneko.org/html/properties/default-encoding", "gb2312");
+		inputSource.setEncoding("gb2312");
 		parser.parse(inputSource);
+		// URL a = new URL("http://www.hudong.com/wiki/JTM");  
+		  // BufferedReader in = new BufferedReader(new InputStreamReader(a.openStream(),"gb2312"));  
+		   //BufferedReader in = new BufferedReader(new FileReader("input.htm"));  
+		  // parser.parse(new InputSource(in));  
+		
+		/*URL url = new URL(
+                "http://www.hudong.com/wiki/JTM");
+        HttpURLConnection connection = (java.net.HttpURLConnection)url.openConnection();
+        connection.connect();
+        InputStream stream = connection.getInputStream();
+        
+        parser.setProperty("http://cyberneko.org/html/properties/default-encoding","utf-8");
+        parser.parse(new InputSource(stream));*/
+       // Document doc = parser.getDocument();
+        
 		Document documentNode = parser.getDocument();
+		System.out.println(documentNode.getFirstChild().getTextContent());
 		// dapatkan BaseURI+nama file dari dokumen HTML ini
 		baseURI = documentNode.getBaseURI();
+		//baseURI = documentNode.get;
 		Pattern baseDirectoryPattern = Pattern.compile("^(.*/)[^/]*$");
-		Matcher matcher = baseDirectoryPattern.matcher( baseURI );
+		/*Matcher matcher = baseDirectoryPattern.matcher( baseURI );
 			
 		// dapatkan BaseURI dari dokumen HTML ini
 		if ( matcher.lookingAt() )
 		{
 			baseURI = matcher.group(1);
-		}
+		}*/
 			
 		// dapatkan node BODY dan salin sebagai root untuk pohon tag
 		Node bodyNode = documentNode.getElementsByTagName("BODY").item(0);

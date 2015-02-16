@@ -177,6 +177,7 @@ public class AppConsole
 						{
 							itemText = "";
 						}
+						System.out.println(itemText);
 						output.format("<td>%s</td>\n", itemText);
 						columnCounter++;
 					}
@@ -247,7 +248,7 @@ public class AppConsole
 	{
 		output.format("%s%s<br />", indent, tagNode.toString());
 		output.format("%s%s<br />", indent, tagNode.getInnerText());
-		
+		System.out.println(tagNode.getInnerText());
 		for (TagNode child: tagNode.getChildren() )
 		{
 			printTree( child, "&nbsp;#&nbsp;"+indent);
