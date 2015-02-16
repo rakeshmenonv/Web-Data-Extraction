@@ -25,10 +25,10 @@ USE `webharvest`;
 -- Table structure for table ` sys_area_city`
 --
 
-DROP TABLE IF EXISTS ` sys_area_city`;
+DROP TABLE IF EXISTS `sys_area_city`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE ` sys_area_city` (
+CREATE TABLE `sys_area_city` (
   `id` int(11) NOT NULL auto_increment,
   `city_id` varchar(4) NOT NULL,
   `city` varchar(50) NOT NULL,
@@ -41,7 +41,7 @@ CREATE TABLE ` sys_area_city` (
 -- Dumping data for table ` sys_area_city`
 --
 
-LOCK TABLES ` sys_area_city` WRITE;
+LOCK TABLES `sys_area_city` WRITE;
 /*!40000 ALTER TABLE ` sys_area_city` DISABLE KEYS */;
 /*!40000 ALTER TABLE ` sys_area_city` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -50,10 +50,10 @@ UNLOCK TABLES;
 -- Table structure for table ` sys_area_county`
 --
 
-DROP TABLE IF EXISTS ` sys_area_county`;
+DROP TABLE IF EXISTS `sys_area_county`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE ` sys_area_county` (
+CREATE TABLE `sys_area_county` (
   `id` int(11) NOT NULL auto_increment,
   `county_id` varchar(6) NOT NULL,
   `county` varchar(50) NOT NULL,
@@ -67,7 +67,7 @@ CREATE TABLE ` sys_area_county` (
 -- Dumping data for table ` sys_area_county`
 --
 
-LOCK TABLES ` sys_area_county` WRITE;
+LOCK TABLES `sys_area_county` WRITE;
 /*!40000 ALTER TABLE ` sys_area_county` DISABLE KEYS */;
 /*!40000 ALTER TABLE ` sys_area_county` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -76,10 +76,10 @@ UNLOCK TABLES;
 -- Table structure for table ` sys_area_province`
 --
 
-DROP TABLE IF EXISTS ` sys_area_province`;
+DROP TABLE IF EXISTS `sys_area_province`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE ` sys_area_province` (
+CREATE TABLE `sys_area_province` (
   `id` int(11) NOT NULL auto_increment,
   `province_id` varchar(2) NOT NULL,
   `province` varchar(50) NOT NULL,
@@ -93,7 +93,7 @@ CREATE TABLE ` sys_area_province` (
 -- Dumping data for table ` sys_area_province`
 --
 
-LOCK TABLES ` sys_area_province` WRITE;
+LOCK TABLES `sys_area_province` WRITE;
 /*!40000 ALTER TABLE ` sys_area_province` DISABLE KEYS */;
 /*!40000 ALTER TABLE ` sys_area_province` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -102,10 +102,10 @@ UNLOCK TABLES;
 -- Table structure for table ` sys_attachment`
 --
 
-DROP TABLE IF EXISTS ` sys_attachment`;
+DROP TABLE IF EXISTS `sys_attachment`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE ` sys_attachment` (
+CREATE TABLE `sys_attachment` (
   `id` int(11) NOT NULL auto_increment,
   `file_name` varchar(500) NOT NULL,
   `file_path` varchar(500) NOT NULL,
@@ -118,7 +118,7 @@ CREATE TABLE ` sys_attachment` (
 -- Dumping data for table ` sys_attachment`
 --
 
-LOCK TABLES ` sys_attachment` WRITE;
+LOCK TABLES `sys_attachment` WRITE;
 /*!40000 ALTER TABLE ` sys_attachment` DISABLE KEYS */;
 /*!40000 ALTER TABLE ` sys_attachment` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -127,10 +127,10 @@ UNLOCK TABLES;
 -- Table structure for table ` sys_organization`
 --
 
-DROP TABLE IF EXISTS ` sys_organization`;
+DROP TABLE IF EXISTS `sys_organization`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE ` sys_organization` (
+CREATE TABLE `sys_organization` (
   `id` int(11) NOT NULL auto_increment,
   `unit_code` varchar(100) default NULL,
   `unit_name` varchar(50) NOT NULL,
@@ -145,7 +145,7 @@ CREATE TABLE ` sys_organization` (
 -- Dumping data for table ` sys_organization`
 --
 
-LOCK TABLES ` sys_organization` WRITE;
+LOCK TABLES `sys_organization` WRITE;
 /*!40000 ALTER TABLE ` sys_organization` DISABLE KEYS */;
 /*!40000 ALTER TABLE ` sys_organization` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -154,10 +154,10 @@ UNLOCK TABLES;
 -- Table structure for table ` sys_parameter`
 --
 
-DROP TABLE IF EXISTS ` sys_parameter`;
+DROP TABLE IF EXISTS `sys_parameter`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE ` sys_parameter` (
+CREATE TABLE `sys_parameter` (
   `id` bigint(20) NOT NULL auto_increment,
   `uuid` varchar(255) NOT NULL default '',
   `category` varchar(255) default NULL,
@@ -176,7 +176,7 @@ CREATE TABLE ` sys_parameter` (
 -- Dumping data for table ` sys_parameter`
 --
 
-LOCK TABLES ` sys_parameter` WRITE;
+LOCK TABLES `sys_parameter` WRITE;
 /*!40000 ALTER TABLE ` sys_parameter` DISABLE KEYS */;
 /*!40000 ALTER TABLE ` sys_parameter` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -185,10 +185,10 @@ UNLOCK TABLES;
 -- Table structure for table ` sys_permission`
 --
 
-DROP TABLE IF EXISTS ` sys_permission`;
+DROP TABLE IF EXISTS `sys_permission`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE ` sys_permission` (
+CREATE TABLE `sys_permission` (
   `id` bigint(20) NOT NULL auto_increment,
   `pid` bigint(20) NOT NULL,
   `ckey` varchar(255) NOT NULL,
@@ -205,9 +205,9 @@ CREATE TABLE ` sys_permission` (
 -- Dumping data for table ` sys_permission`
 --
 
-LOCK TABLES ` sys_permission` WRITE;
+LOCK TABLES `sys_permission` WRITE;
 /*!40000 ALTER TABLE ` sys_permission` DISABLE KEYS */;
-INSERT INTO ` sys_permission` VALUES (1,0,'bc914d00-6837-492c-8f99-471b2176bdb4','0','ç³»ç»Ÿè®¾ç½®','menu:setting','2',0),(2,1,'d2274a49-74a6-4d0c-b7a8-0f16d125b4c0','bc914d00-6837-492c-8f99-471b2176bdb4','ç”¨æˆ·ç®¡ç†','menu:user','2',0),(3,1,'d271d733-4e57-4181-9f5f-730b53b4edc8','bc914d00-6837-492c-8f99-471b2176bdb4','è§’è‰²ç®¡ç†','menu:role','2',0),(4,1,'92c2b77c-6e77-4eaf-aa43-cfba4c3da583','bc914d00-6837-492c-8f99-471b2176bdb4','æƒé™ç®¡ç†','menu:permisson','2',0),(5,1,'c66f2469-ce0e-4e52-9d31-c9940df79ebe','bc914d00-6837-492c-8f99-471b2176bdb4','å‚æ•°ç®¡ç†','menu:parameter','2',0);
+INSERT INTO `sys_permission` VALUES (1,0,'bc914d00-6837-492c-8f99-471b2176bdb4','0','ç³»ç»Ÿè®¾ç½®','menu:setting','2',0),(2,1,'d2274a49-74a6-4d0c-b7a8-0f16d125b4c0','bc914d00-6837-492c-8f99-471b2176bdb4','ç”¨æˆ·ç®¡ç†','menu:user','2',0),(3,1,'d271d733-4e57-4181-9f5f-730b53b4edc8','bc914d00-6837-492c-8f99-471b2176bdb4','è§’è‰²ç®¡ç†','menu:role','2',0),(4,1,'92c2b77c-6e77-4eaf-aa43-cfba4c3da583','bc914d00-6837-492c-8f99-471b2176bdb4','æƒé™ç®¡ç†','menu:permisson','2',0),(5,1,'c66f2469-ce0e-4e52-9d31-c9940df79ebe','bc914d00-6837-492c-8f99-471b2176bdb4','å‚æ•°ç®¡ç†','menu:parameter','2',0);
 /*!40000 ALTER TABLE ` sys_permission` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -215,10 +215,10 @@ UNLOCK TABLES;
 -- Table structure for table ` sys_role`
 --
 
-DROP TABLE IF EXISTS ` sys_role`;
+DROP TABLE IF EXISTS `sys_role`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE ` sys_role` (
+CREATE TABLE `sys_role` (
   `id` bigint(20) NOT NULL auto_increment,
   `name` varchar(255) NOT NULL,
   `role_type` varchar(255) default NULL,
@@ -232,9 +232,9 @@ CREATE TABLE ` sys_role` (
 -- Dumping data for table ` sys_role`
 --
 
-LOCK TABLES ` sys_role` WRITE;
+LOCK TABLES `sys_role` WRITE;
 /*!40000 ALTER TABLE ` sys_role` DISABLE KEYS */;
-INSERT INTO ` sys_role` VALUES (1,'è¶…çº§ç®¡ç†å‘˜','cb6e6022-955e-4978-ae2c-afa392be5ebf',0,'æ‹¥æœ‰æœ€é«˜æƒé™');
+INSERT INTO `sys_role` VALUES (1,'è¶…çº§ç®¡ç†å‘˜','cb6e6022-955e-4978-ae2c-afa392be5ebf',0,'æ‹¥æœ‰æœ€é«˜æƒé™');
 /*!40000 ALTER TABLE ` sys_role` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -242,10 +242,10 @@ UNLOCK TABLES;
 -- Table structure for table ` sys_role_permission`
 --
 
-DROP TABLE IF EXISTS ` sys_role_permission`;
+DROP TABLE IF EXISTS `sys_role_permission`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE ` sys_role_permission` (
+CREATE TABLE `sys_role_permission` (
   `role_id` bigint(20) NOT NULL,
   `permission` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -255,9 +255,9 @@ CREATE TABLE ` sys_role_permission` (
 -- Dumping data for table ` sys_role_permission`
 --
 
-LOCK TABLES ` sys_role_permission` WRITE;
+LOCK TABLES `sys_role_permission` WRITE;
 /*!40000 ALTER TABLE ` sys_role_permission` DISABLE KEYS */;
-INSERT INTO ` sys_role_permission` VALUES (1,'menu:parameter'),(1,'menu:permisson'),(1,'menu:role'),(1,'menu:user'),(1,'menu:setting'),(1,'menu:setting'),(1,'menu:setting');
+INSERT INTO `sys_role_permission` VALUES (1,'menu:parameter'),(1,'menu:permisson'),(1,'menu:role'),(1,'menu:user'),(1,'menu:setting'),(1,'menu:setting'),(1,'menu:setting');
 /*!40000 ALTER TABLE ` sys_role_permission` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -265,10 +265,10 @@ UNLOCK TABLES;
 -- Table structure for table ` sys_user`
 --
 
-DROP TABLE IF EXISTS ` sys_user`;
+DROP TABLE IF EXISTS `sys_user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE ` sys_user` (
+CREATE TABLE `sys_user` (
   `id` bigint(20) NOT NULL auto_increment,
   `login_name` varchar(18) NOT NULL,
   `name` varchar(200) default NULL,
@@ -287,9 +287,9 @@ CREATE TABLE ` sys_user` (
 -- Dumping data for table ` sys_user`
 --
 
-LOCK TABLES ` sys_user` WRITE;
+LOCK TABLES `sys_user` WRITE;
 /*!40000 ALTER TABLE ` sys_user` DISABLE KEYS */;
-INSERT INTO ` sys_user` VALUES (1,'admin','è¶…çº§ç®¡ç†å‘˜','af27c8816506bf1b6705b50866f9cde0a67401cb','eb69619a75232f52','371401',0,'0',0,'bootstrap'),(2,'user','user','fc4b2d83355003aa9649ddcb47a38a4f957636e4','cba97144a760fd39',NULL,0,NULL,0,'bootstrap');
+INSERT INTO `sys_user` VALUES (1,'admin','è¶…çº§ç®¡ç†å‘˜','af27c8816506bf1b6705b50866f9cde0a67401cb','eb69619a75232f52','371401',0,'0',0,'bootstrap'),(2,'user','user','fc4b2d83355003aa9649ddcb47a38a4f957636e4','cba97144a760fd39',NULL,0,NULL,0,'bootstrap');
 /*!40000 ALTER TABLE ` sys_user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -297,10 +297,10 @@ UNLOCK TABLES;
 -- Table structure for table ` sys_user_role`
 --
 
-DROP TABLE IF EXISTS ` sys_user_role`;
+DROP TABLE IF EXISTS `sys_user_role`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE ` sys_user_role` (
+CREATE TABLE `sys_user_role` (
   `user_id` bigint(20) NOT NULL,
   `role_id` bigint(20) NOT NULL,
   KEY `user_id_index` (`user_id`),
@@ -312,9 +312,9 @@ CREATE TABLE ` sys_user_role` (
 -- Dumping data for table ` sys_user_role`
 --
 
-LOCK TABLES ` sys_user_role` WRITE;
+LOCK TABLES `sys_user_role` WRITE;
 /*!40000 ALTER TABLE ` sys_user_role` DISABLE KEYS */;
-INSERT INTO ` sys_user_role` VALUES (1,1);
+INSERT INTO `sys_user_role` VALUES (1,1);
 /*!40000 ALTER TABLE ` sys_user_role` ENABLE KEYS */;
 UNLOCK TABLES;
 
