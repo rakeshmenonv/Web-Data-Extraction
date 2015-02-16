@@ -332,7 +332,7 @@ CREATE TABLE `page_data_info` (
   `row_group_key` varchar(20) default NULL,
   `content` text,
   `type` varchar(20) default NULL,
-  `date` varchar(100) default NULL,
+  `extracted_time` varchar(100) default NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -359,7 +359,7 @@ CREATE TABLE `page_url_info` (
   `element` varchar(50) default NULL,
   `attribute` varchar(50) default NULL,
   `value` varchar(50) default NULL,
-  `date` varchar(100) default NULL,
+  `extracted_time` varchar(100) default NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
