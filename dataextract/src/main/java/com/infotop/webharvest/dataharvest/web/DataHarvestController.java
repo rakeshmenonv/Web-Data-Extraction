@@ -108,7 +108,12 @@ public class DataHarvestController extends BasicController {
 		}
 		return msg;
 	}
-	
+
+	@RequestMapping(value = "")
+	public String list() {
+		return "dataharvest/basicsearch";
+	}
+
 	
 	void basicsave(Pageurlinfo pageurlinfo){
 	
