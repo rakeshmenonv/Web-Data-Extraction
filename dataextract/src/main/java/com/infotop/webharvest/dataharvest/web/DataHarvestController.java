@@ -13,4 +13,9 @@ public class DataHarvestController extends BasicController {
 	void saveData(){
 		
 	}
+	
+	@RequestMapping(value = "")
+	public String list() {
+		return "dataharvest/basicsearch";
+	}
 }
