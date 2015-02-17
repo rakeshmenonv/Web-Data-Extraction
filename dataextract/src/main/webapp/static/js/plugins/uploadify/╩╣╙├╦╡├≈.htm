@@ -1,0 +1,379 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>jquery文件上传控件 Uploadify - 沫鱼 - 博客园</title>
+<link type="text/css" rel="stylesheet" href="http://common.cnblogs.com/blog/css/common.css?id=20130901"/>
+<link id="MainCss" type="text/css" rel="stylesheet" href="http://common.cnblogs.com/Skins/SimpleBlue/style.css?id=20130901"/>
+<link type="text/css" rel="stylesheet" href="http://common.cnblogs.com/blog/css/common2.css"/>
+<link type="text/css" rel="stylesheet" href="http://common.cnblogs.com/css/shStyle.css"/>
+<link title="RSS" type="application/rss+xml" rel="alternate" href="http://www.cnblogs.com/mofish/rss"/>
+<link title="RSD" type="application/rsd+xml" rel="EditURI" href="http://www.cnblogs.com/mofish/rsd.xml"/>
+<link type="application/wlwmanifest+xml" rel="wlwmanifest" href="http://www.cnblogs.com/mofish/wlwmanifest.xml"/>
+<script src="http://common.cnblogs.com/script/jquery.js" type="text/javascript"></script>  
+<script type="text/javascript">
+var currentBlogApp = 'mofish';
+</script>
+<script src="http://common.cnblogs.com/blog/script/common.js?id=20130901" type="text/javascript"></script> 
+<script src="http://common.cnblogs.com/script/json2.js" type="text/javascript"></script>
+<script type="text/javascript" src="http://common.cnblogs.com/script/syntaxHighlighter.js"></script>
+</head>
+<body>
+<a name="top"></a>
+
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+		
+<!--done-->
+<div class="title"><a id="Header1_HeaderTitle" class="headermaintitle" href="http://www.cnblogs.com/mofish/">沫鱼的前端世界</a></div>
+<div class="subtitle">关注前端技术及用户体验</div>
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li id="nav_sitehome"><a id="MyLinks1_HomeLink" class="menu" href="http://www.cnblogs.com/">博客园</a></li>
+<li id="nav_myhome"><a id="MyLinks1_MyHomeLink" class="menu" href="http://www.cnblogs.com/mofish/">首页</a></li>
+<li id="nav_q"><a class="menu" href="http://q.cnblogs.com/">博问</a></li>
+<li id="nav_ing"><a class="menu" href="http://home.cnblogs.com/ing/">闪存</a></li>
+<li id="nav_newpost"><a id="MyLinks1_NewPostLink" class="menu" rel="nofollow" href="http://www.cnblogs.com/mofish/admin/EditPosts.aspx?opt=1">新随笔</a></li>
+<li id="nav_contact"><a id="MyLinks1_ContactLink" class="menu" rel="nofollow" href="http://space.cnblogs.com/msg/send/%e6%b2%ab%e9%b1%bc">联系</a></li>
+<li id="nav_rss"><a id="MyLinks1_Syndication" class="menu" href="http://www.cnblogs.com/mofish/rss">订阅</a>
+<!--<a id="MyLinks1_XMLLink" class="aHeaderXML" href="http://www.cnblogs.com/mofish/rss"><img src="http://www.cnblogs.com/images/xml.gif" alt="订阅" /></a>--></li>
+<li id="nav_admin"><a id="MyLinks1_Admin" class="menu" rel="nofollow" href="http://www.cnblogs.com/mofish/admin/EditPosts.aspx">管理</a></li>
+</ul>
+
+		<div class="blogStats">
+			
+			
+<!--done-->
+随笔-122&nbsp;
+文章-0&nbsp;
+评论-103&nbsp;
+
+			
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		
+	
+<!--done-->
+<div id="topics">
+	<div class = "post">
+		<h1 class = "postTitle">
+			<a id="cb_post_title_url" class="postTitle2" href="http://www.cnblogs.com/mofish/archive/2012/11/30/2796698.html">jquery文件上传控件 Uploadify</a>
+		</h1>
+		<div class="clear"></div>
+		<div class="postBody">
+			<div id="cnblogs_post_body"><p>基于jquery的文件上传控件，支持ajax无刷新上传，多个文件同时上传，上传进行进度显示，删除已上传文件。</p>
+<p>要求使用jquery1.4或以上版本，flash player 9.0.24以上。</p>
+<p>有两个版本，一个用flash,一个是html5。html5的需要付费~所以这里只说flash版本的用法。</p>
+<p>&nbsp;</p>
+<p>官网：<a href="http://www.uploadify.com/">http://www.uploadify.com/</a></p>
+<p>控件截图：</p>
+<p><img style="line-height: 1.5;" src="http://pic002.cnblogs.com/images/2012/125698/2012113018525358.jpg" alt="" /></p>
+<p>用法：</p>
+<p>首先引用下面的文件</p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff;">&lt;</span><span style="color: #800000;">link </span><span style="color: #ff0000;">rel</span><span style="color: #0000ff;">="stylesheet"</span><span style="color: #ff0000;"> type</span><span style="color: #0000ff;">="text/css"</span><span style="color: #ff0000;"> href</span><span style="color: #0000ff;">="uploadify.css"</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #0000ff;">&lt;</span><span style="color: #800000;">script </span><span style="color: #ff0000;">type</span><span style="color: #0000ff;">="text/javascript"</span><span style="color: #ff0000;"> src</span><span style="color: #0000ff;">="http://code.jquery.com/jquery-1.7.2.min.js"</span><span style="color: #0000ff;">&gt;&lt;/</span><span style="color: #800000;">script</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #0000ff;">&lt;</span><span style="color: #800000;">script </span><span style="color: #ff0000;">type</span><span style="color: #0000ff;">="text/javascript"</span><span style="color: #ff0000;"> src</span><span style="color: #0000ff;">="jquery.uploadify-3.1.min.js"</span><span style="color: #0000ff;">&gt;&lt;/</span><span style="color: #800000;">script</span><span style="color: #0000ff;">&gt;</span></pre>
+</div>
+<p><span style="line-height: 1.5;">创建一个file input，或者其它任何带ID的元素，并对其初始化</span><span style="line-height: 1.5;">Uploadify（注意目录下要有uploadify.swf这个文件，和uploadify.php后台文件，路径按项目中的目录结构）</span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff;">&lt;</span><span style="color: #800000;">input </span><span style="color: #ff0000;">type</span><span style="color: #0000ff;">="file"</span><span style="color: #ff0000;"> name</span><span style="color: #0000ff;">="file_upload"</span><span style="color: #ff0000;"> id</span><span style="color: #0000ff;">="file_upload"</span> <span style="color: #0000ff;">/&gt;</span>
+<span style="color: #0000ff;">&lt;</span><span style="color: #800000;">script</span><span style="color: #0000ff;">&gt;</span><span style="background-color: #f5f5f5; color: #000000;">
+　$(</span><span style="background-color: #f5f5f5; color: #0000ff;">function</span><span style="background-color: #f5f5f5; color: #000000;">(){
+ 　　   $(</span><span style="background-color: #f5f5f5; color: #000000;">'</span><span style="background-color: #f5f5f5; color: #000000;">#file_upload</span><span style="background-color: #f5f5f5; color: #000000;">'</span><span style="background-color: #f5f5f5; color: #000000;">).uploadify({
+       　　 </span><span style="background-color: #f5f5f5; color: #000000;">'</span><span style="background-color: #f5f5f5; color: #000000;">swf</span><span style="background-color: #f5f5f5; color: #000000;">'</span><span style="background-color: #f5f5f5; color: #000000;">      :</span><span style="background-color: #f5f5f5; color: #000000;">'</span><span style="background-color: #f5f5f5; color: #000000;">uploadify.swf</span><span style="background-color: #f5f5f5; color: #000000;">'</span><span style="background-color: #f5f5f5; color: #000000;">,
+     　　　 </span><span style="background-color: #f5f5f5; color: #000000;">'</span><span style="background-color: #f5f5f5; color: #000000;">uploader</span><span style="background-color: #f5f5f5; color: #000000;">'</span><span style="background-color: #f5f5f5; color: #000000;">:</span><span style="background-color: #f5f5f5; color: #000000;">'</span><span style="background-color: #f5f5f5; color: #000000;">uploadify.php</span><span style="background-color: #f5f5f5; color: #000000;">'</span>
+        　　 <span style="background-color: #f5f5f5; color: #008000;">//</span><span style="background-color: #f5f5f5; color: #008000;"> Put your options here</span>
+<span style="background-color: #f5f5f5; color: #000000;">    　　　});
+　　　});
+</span><span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">script</span><span style="color: #0000ff;">&gt;</span></pre>
+</div>
+<p><span style="line-height: 1.5;">这样子就完成了一个最基础的上传组建。基本原理是改变你创建的file input生成一个DOM结构，创建一个DIV按钮，按钮样式修改在uploadify.css文件中的.uploadify-button，将swf文件定位在按钮上面，这样当你点击按钮时实际上点击的是swf</span></p>
+<p><strong><span style="color: #ff0000; font-size: 16px;">Options:</span></strong></p>
+<div class="cnblogs_code">
+<pre>$('#file_upload'<span style="color: #000000;">).uploadify({
+                auto:</span><span style="color: #0000ff;">false</span><span style="color: #000000;">, 
+                </span><span style="color: #008000;">//</span><span style="color: #008000;">接受true or false两个值，当为true时选择文件后会自动上传；为false时只会把选择的文件增加进队列但不会上传，这时只能使用upload的方法触发上传。不设置auto时默认为true</span>
+                buttonClass: "some-class"<span style="color: #000000;">, 
+                </span><span style="color: #008000;">//</span><span style="color: #008000;">设置上传按钮的class</span>
+                buttonCursor: 'hand'<span style="color: #000000;">,
+                </span><span style="color: #008000;">//</span><span style="color: #008000;">设置鼠标移到按钮上的开状，接受两个值'hand'和'arrow'(手形和箭头)</span>
+                buttonImage: 'img/browse-btn.png'<span style="color: #000000;">, 
+                </span><span style="color: #008000;">//</span><span style="color: #008000;">设置图片按钮的路径（当你的按钮是一张图片时）。如果使用默认的样式，你还可以创建一个鼠标悬停状态，但要把两种状态的图片放在一起，并且默认的放上面，悬停状态的放在下面（原文好难表达啊：you can create a hover state for the button by stacking the off state above the hover state in the image）。这只是一个比较便利的选项，最好的方法还是把图片写在CSS里面。</span>
+                buttonText: '&lt;div&gt;选择文件&lt;/div&gt;'<span style="color: #000000;">,
+                </span><span style="color: #008000;">//</span><span style="color: #008000;">设置按钮文字。值会被当作html渲染，所以也可以包含html标签</span>
+                checkExisting: '/uploadify/check-exists.php'<span style="color: #000000;">,
+                </span><span style="color: #008000;">//</span><span style="color: #008000;">接受一个文件路径。此文件检查正要上传的文件名是否已经存在目标目录中。存在时返回1，不存在时返回0(应该主要是作为后台的判断吧)，默认为false</span>
+                debug: <span style="color: #0000ff;">false</span><span style="color: #000000;">,
+                </span><span style="color: #008000;">//</span><span style="color: #008000;">开启或关闭debug模式</span>
+                fileObjName:'filedata'<span style="color: #000000;">,
+                </span><span style="color: #008000;">//</span><span style="color: #008000;">设置在后台脚本使用的文件名。举个例子，在php中，如果这个选项设置为'the_files',你可以使用$_FILES['the_files']存取这个已经上传的文件。</span>
+                fileSizeLimit:'100MB'<span style="color: #000000;">,
+                </span><span style="color: #008000;">//</span><span style="color: #008000;">设置上传文件的容量最大值。这个值可以是一个数字或者字符串。如果是字符串，接受一个单位（B,KB,MB,GB）。如果是数字则默认单位为KB。设置为0时表示不限制</span>
+                fileTypeExts: '*.*'<span style="color: #000000;">,
+                </span><span style="color: #008000;">//</span><span style="color: #008000;">设置允许上传的文件扩展名（也就是文件类型）。但手动键入文件名可以绕过这种级别的安全检查，所以你应该始终在服务端中检查文件类型。输入多个扩展名时用分号隔开('*.jpg;*.png;*.gif')</span>
+                fileTypeDesc: 'All Files'<span style="color: #000000;">,
+                </span><span style="color: #008000;">//</span><span style="color: #008000;">可选文件的描述。这个值出现在文件浏览窗口中的文件类型下拉选项中。（chrome下不支持，会显示为'自定义文件',ie and firefox下可显示描述）</span>
+<span style="color: #000000;">                formData: {
+                    timestamp: </span>'&lt;?php echo $timestamp;?&gt;'<span style="color: #000000;">,
+                    token: </span>'&lt;?php echo md5('unique_salt' . $timestamp);?&gt;'<span style="color: #000000;">
+                },
+                </span><span style="color: #008000;">//</span><span style="color: #008000;">通过get或post上传文件时，此对象提供额外的数据。如果想动态设置这些值，必须在onUploadStartg事件中使用settings的方法设置。在后台脚本中使用 $_GET or $_POST arrays (PHP)存取这些值。看官网参考写法：http://www.uploadify.com/documentation/uploadify/formdata/</span>
+                height: 30<span style="color: #000000;">,
+                </span><span style="color: #008000;">//</span><span style="color: #008000;">设置按钮的高度(单位px)，默认为30.(不要在值里写上单位，并且要求一个整数，width也一样)</span>
+                width: 120<span style="color: #000000;">,
+                </span><span style="color: #008000;">//</span><span style="color: #008000;">设置按钮宽度(单位px)，默认120</span>
+                itemTemplate:<span style="color: #0000ff;">false</span><span style="color: #000000;">,
+                </span><span style="color: #008000;">//</span><span style="color: #008000;">模板对象。给增加到上传队列中的每一项指定特殊的html模板。模板格式请看官网http://www.uploadify.com/documentation/uploadify/itemtemplate/</span>
+                method:'post'<span style="color: #000000;">,
+                </span><span style="color: #008000;">//</span><span style="color: #008000;">提交上传文件的方法，接受post或get两个值，默认为post</span>
+                multi: <span style="color: #0000ff;">false</span><span style="color: #000000;">,
+                </span><span style="color: #008000;">//</span><span style="color: #008000;">设置是否允许一次选择多个文件，true为允许，false不允许</span>
+<span style="color: #000000;">                overrideEvents: [],
+                </span><span style="color: #008000;">//</span><span style="color: #008000;">重写事件，接受事件名称的数组作为参数。所设置的事件将可以被用户重写覆盖</span>
+                preventCaching:<span style="color: #0000ff;">true</span><span style="color: #000000;">,
+                </span><span style="color: #008000;">//</span><span style="color: #008000;">是否缓存swf文件。默认为true，会给swf的url地址设置一个随机数，这样它就不会被缓存。(有些浏览器缓存了swf文件就会触发不了里面的事件--by rainweb)</span>
+                progressData: 'percentage'<span style="color: #000000;">,
+                </span><span style="color: #008000;">//</span><span style="color: #008000;">设置文件上传时显示数据，有&lsquo;percentage&rsquo; or &lsquo;speed&rsquo;两个参数(百分比和速度)</span>
+                queueID: <span style="color: #0000ff;">false</span><span style="color: #000000;">,
+                </span><span style="color: #008000;">//</span><span style="color: #008000;">设置上传队列DOM元素的ID，上传的项目会增加进这个ID的DOM中。设置为false时则会自动生成队列DOM和ID。默认为false</span>
+                queueSizeLimit: 999<span style="color: #000000;">,
+                </span><span style="color: #008000;">//</span><span style="color: #008000;">设置每一次上传队列中的文件数量。注意并不是限制总的上传文件数量（那是uploadLimit）.如果增加进队列中的文件数量超出这个值，将会触发onSelectError事件。默认值为999</span>
+                removeCompleted: <span style="color: #0000ff;">true</span><span style="color: #000000;">,
+                </span><span style="color: #008000;">//</span><span style="color: #008000;">是否移除掉队列中已经完成上传的文件。false为不移除</span>
+                removeTimeout: 3<span style="color: #000000;">,
+                </span><span style="color: #008000;">//</span><span style="color: #008000;">设置上传完成后删除掉文件的延迟时间，默认为3秒。如果removeCompleted为false的话，就没意义了</span>
+                requeueErrors: <span style="color: #0000ff;">false</span><span style="color: #000000;">,
+                </span><span style="color: #008000;">//</span><span style="color: #008000;">设置上传过程中因为出错导致上传失败的文件是否重新加入队列中上传</span>
+                successTimeout: 30<span style="color: #000000;">,
+                </span><span style="color: #008000;">//</span><span style="color: #008000;">设置文件上传后等待服务器响应的秒数，超出这个时间，将会被认为上传成功，默认为30秒</span>
+                swf: 'uploadify.swf'<span style="color: #000000;">,
+                </span><span style="color: #008000;">//</span><span style="color: #008000;">swf的相对路径，必写项</span>
+                uploader: 'uploadify.php'
+                <span style="color: #008000;">//</span><span style="color: #008000;">服务器端脚本文件路径，必写项</span>
+                uploadLimit: 999
+                <span style="color: #008000;">//</span><span style="color: #008000;">上传文件的数量。达到或超出这数量会触发onUploadError方法。默认999</span>
+            })</pre>
+</div>
+<p><span style="font-size: 16px;"><strong><span style="color: #ff0000;">&nbsp;Events:</span></strong></span></p>
+<div class="cnblogs_code">
+<pre>$('#file_upload'<span style="color: #000000;">).uploadify({    
+                onCancel: </span><span style="color: #0000ff;">function</span><span style="color: #000000;">(file){
+                        console.log(</span>'The file'+ file.name + 'was cancelled.'<span style="color: #000000;">)
+                },
+                </span><span style="color: #008000;">//</span><span style="color: #008000;">文件被移除出队列时触发,返回file参数</span>
+                onClearQueue: <span style="color: #0000ff;">function</span><span style="color: #000000;">(queueItemCount){
+                    console.log(queueItemCount</span>+'file(s) were removed frome the queue'<span style="color: #000000;">)
+                },
+                </span><span style="color: #008000;">//</span><span style="color: #008000;">当调用cancel方法且传入'*'这个参数的时候触发，其实就是移除掉整个队列里的文件时触发，上面有说cancel方法带*时取消整个上传队列</span>
+                onDestroy: <span style="color: #0000ff;">function</span><span style="color: #000000;">(){
+                    </span><span style="color: #008000;">//</span><span style="color: #008000;">调用destroy方法的时候触发</span>
+<span style="color: #000000;">                },
+                onDialogClose: </span><span style="color: #0000ff;">function</span><span style="color: #000000;">(queueData){
+                    console.log(queueData.filesSelected</span>+'\n'+queueData.filesQueued+'\r\n'+queueData.filesReplaced+'\r\n'+queueData.filesCancelled+'\r\n'+<span style="color: #000000;"> queueData.filesErrored)
+                },
+                </span><span style="color: #008000;">//</span><span style="color: #008000;">关闭掉浏览文件对话框时触发。返回queueDate参数，有以下属性：</span>
+                <span style="color: #008000;">/*</span><span style="color: #008000;">
+                    filesSelected 浏览文件对话框中选取的文件数量
+                    filesQueued 加入上传队列的文件数
+                    filesReplaced 被替换的文件个数
+                    filesCancelled 取消掉即将加入队列中的文件个数
+                    filesErrored 返回错误的文件个数
+                </span><span style="color: #008000;">*/</span><span style="color: #000000;">
+                onDialogOpen:</span><span style="color: #0000ff;">function</span><span style="color: #000000;">(){
+                    </span><span style="color: #008000;">//</span><span style="color: #008000;">打开选择文件对话框时触发</span>
+<span style="color: #000000;">                },
+                onDisable:</span><span style="color: #0000ff;">function</span><span style="color: #000000;">(){
+                    </span><span style="color: #008000;">//</span><span style="color: #008000;">禁用uploadify时触发(通过disable方法)</span>
+<span style="color: #000000;">                },
+                onEnalbe: </span><span style="color: #0000ff;">function</span><span style="color: #000000;">(){
+                    </span><span style="color: #008000;">//</span><span style="color: #008000;">启用uploadify时触发(通过disable方法)</span>
+<span style="color: #000000;">                },
+                onFallback:</span><span style="color: #0000ff;">function</span><span style="color: #000000;">(){
+                    </span><span style="color: #008000;">//</span><span style="color: #008000;">在初始化时检测不到浏览器有兼容性的flash版本时实触发</span>
+<span style="color: #000000;">                },
+                onInit: </span><span style="color: #0000ff;">function</span><span style="color: #000000;">(instance){
+                    console.log(</span>'The queue ID is'+<span style="color: #000000;"> instance.settings.queueID)
+                },
+                </span><span style="color: #008000;">//</span><span style="color: #008000;">每次初始化一个队列时触发，返回uploadify对象的实例</span>
+                onQueueComplete:<span style="color: #0000ff;">function</span><span style="color: #000000;">(queueData){
+                    console.log(queueData.uploadsSuccessful</span>+'\n'+<span style="color: #000000;">queueData.uploadsErrored)
+                },
+                </span><span style="color: #008000;">//</span><span style="color: #008000;">队列中的文件都上传完后触发，返回queueDate参数，有以下属性：</span>
+                <span style="color: #008000;">/*</span><span style="color: #008000;">
+                    uploadsSuccessful 成功上传的文件数量
+                    uploadsErrored 出现错误的文件数量
+                </span><span style="color: #008000;">*/</span><span style="color: #000000;">
+                onSelect: </span><span style="color: #0000ff;">function</span><span style="color: #000000;">(file){
+                    console.log(file.name)
+                },
+                </span><span style="color: #008000;">//</span><span style="color: #008000;">选择每个文件增加进队列时触发，返回file参数</span>
+                onSelectError: <span style="color: #0000ff;">function</span><span style="color: #000000;">(file,errorCode,errorMsg){
+                    console.log(errorCode)
+                    console.log(</span><span style="color: #0000ff;">this</span><span style="color: #000000;">.queueData.errorMsg)
+                },
+                </span><span style="color: #008000;">//</span><span style="color: #008000;">选择文件出错时触发，返回file,erroCode,errorMsg三个参数</span>
+                <span style="color: #008000;">/*</span><span style="color: #008000;">
+                    errorCode是一个包含了错误码的js对象，用来查看事件中发送的错误码，以确定错误的具体类型，可能会有以下的常量：
+                    QUEUE_LIMIT_EXCEEDED:-100 选择的文件数量超过设定的最大值；
+                    FILE_EXCEEDS_SIZE_LIMIT:-110 文件的大小超出设定
+                    INVALID_FILETYPE:-130 选择的文件类型跟设置的不匹配
+
+                    errorMsg 完整的错误信息，如果你不重写默认的事件处理器，可以使用&lsquo;this.queueData.errorMsg&rsquo; 存取完整的错误信息
+                </span><span style="color: #008000;">*/</span><span style="color: #000000;">
+                onSWFReady: </span><span style="color: #0000ff;">function</span><span style="color: #000000;">(){
+                    </span><span style="color: #008000;">//</span><span style="color: #008000;">swf动画加载完后触发，没有参数</span>
+<span style="color: #000000;">                },
+                onUploadComplete: </span><span style="color: #0000ff;">function</span><span style="color: #000000;">(file){
+                    </span><span style="color: #008000;">//</span><span style="color: #008000;">在每一个文件上传成功或失败之后触发，返回上传的文件对象或返回一个错误，如果你想知道上传是否成功，最后使用onUploadSuccess或onUploadError事件</span>
+<span style="color: #000000;">                },
+                onUploadError: </span><span style="color: #0000ff;">function</span><span style="color: #000000;">(file,errorCode,erorMsg,errorString){
+                },
+                </span><span style="color: #008000;">//</span><span style="color: #008000;">一个文件完成上传但返回错误时触发，有以下参数</span>
+                <span style="color: #008000;">/*</span><span style="color: #008000;">
+                    file 完成上传的文件对象
+                    errorCode 返回的错误代码
+                    erorMsg 返回的错误信息
+                    errorString 包含所有错误细节的可读信息
+                </span><span style="color: #008000;">*/</span><span style="color: #000000;">
+                onUploadProgress: </span><span style="color: #0000ff;">function</span><span style="color: #000000;">(file,bytesUploaded,bytesTotal,totalBytesUploaded,totalBytesTotal){
+                    $(</span>'#pregress').html('总共需要上传'+bytesTotal+'字节，'+'已上传'+totalBytesTotal+'字节'<span style="color: #000000;">)
+                },
+                </span><span style="color: #008000;">//</span><span style="color: #008000;">每更新一个文件上传进度的时候触发,返回以下参数</span>
+                <span style="color: #008000;">/*</span><span style="color: #008000;">
+                    file 正上传文件对象
+                    bytesUploaded 文件已经上传的字节数
+                    bytesTotal 文件的总字节数
+                    totalBytesUploaded 在当前上传的操作中（所有文件）已上传的总字节数
+                    totalBytesTotal 所有文件的总上传字节数
+                </span><span style="color: #008000;">*/</span><span style="color: #000000;">
+                onUploadStart: </span><span style="color: #0000ff;">function</span><span style="color: #000000;">(file){
+                    console.log(</span>'start update'<span style="color: #000000;">)
+                },
+                </span><span style="color: #008000;">//</span><span style="color: #008000;">每个文件即将上传前触发</span>
+                onUploadSuccess: <span style="color: #0000ff;">function</span><span style="color: #000000;">(file,data,respone){
+                    <span>alert( 'id: ' + file.id</span><br /><span>　                          + ' - 索引: ' + file.index</span><br /><span>　　　　　　　　　　　　　　　　+ ' - 文件名: ' + file.name</span><br /><span>　　　　　　　　　　　　　　　　+ ' - 文件大小: ' + file.size</span><br /><span>　　　　　　　　　　　　　　　　+ ' - 类型: ' + file.type</span><br /><span>　　　　　　　　　　　　　　　　+ ' - 创建日期: ' + file.creationdate</span><br /><span>　　　　　　　　　　　　　　　　+ ' - 修改日期: ' + file.modificationdate</span><br /><span>　　　　　　　　　　　　　　　　+ ' - 文件状态: ' + file.filestatus</span><br /><span>　　　　　　　　　　　　　　　　+ ' - 服务器端消息: ' + data</span><br /><span>　　　　　　　　　　　　　　　　+ ' - 是否上传成功: ' + response);</span></span><span style="color: #000000;">
+                }
+                </span><span style="color: #008000;">//</span><span style="color: #008000;">每个文件上传成功后触发              </span>
+})  </pre>
+</div>
+<p><span><span style="font-size: 16px; color: #ff0000;"><strong>Methods：</strong></span><br />Uploadify使用jquery推荐的插件模式，这意味着所有方法的调用都保持在一个命名空间里。<span>&nbsp;调用这些不同的方法，只需要把方法当成第一个参数传进uploadify里调用就行。在这些方法后面增加参数会被传进这个方法里（这两句翻译得不是很顺畅，附原文：<span>&nbsp;To use the different method calls, simply call Uploadify on the DOM element with the method call as the first argument.<span>Any additional arguments added after the method name are passed to the method.</span></span>）</span></span></p>
+<p><span><span><span style="color: #ff6600;">cancel</span>：取消第一个上传的文件，如果后面带参数"*"则是取消掉整个上传队列，如$(el).uploadify('cancel', '*')</span></span></p>
+<p><span><span><span style="color: #ff6600;">upload</span>：上传第一个上传的文件，如果后面带参数"*"则上传整个队列，跟cancel一样</span></span></p>
+<p><span><span><span style="color: #ff6600;">destroy</span>：移除掉上传组建，按html默认的方法上传</span></span></p>
+<p><span><span><span style="color: #ff6600;">disable</span>：有true or false 两个参数，表示是否禁止上传按钮，true表示禁止，false表示允许上传</span></span></p>
+<p><span><span><span style="color: #ff6600;">settings</span>：返回或者更新一个实例的方法值，接受一个方法名的参数时是返回那个方法的值，当后面再跟一个参数，则是更新那个方法的值。如</span></span></p>
+<div class="cnblogs_code">
+<pre>$(el).uploadify('settings','buttonText','BROWSE'); <span style="color: #008000;">//</span><span style="color: #008000;">设置buttonText的值为BROWSE</span>
+$(el).uploadify('settings','buttonText') <span style="color: #008000;">//</span><span style="color: #008000;">返回buttonText的值</span></pre>
+</div>
+<p><span style="color: #ff6600;">stop</span>：停止正在上传中的文件或队列</p>
+<p>&nbsp;</p>
+<p><a href="http://files.cnblogs.com/mofish/uploaddify.rar">下载demo</a></p>
+<p>翻译到中间的时候才发原来网上早已有中文API跟其它的例子，这里附带几个，也是我参考着翻译的资料</p>
+<p><a href="http://wenku.baidu.com/view/9df6ce0bde80d4d8d15a4faa.html" target="_blank">http://wenku.baidu.com/view/9df6ce0bde80d4d8d15a4faa.html</a></p>
+<p><a href="http://wenku.baidu.com/view/87df2673a417866fb84a8efd.html" target="_blank">http://wenku.baidu.com/view/87df2673a417866fb84a8efd.html</a></p>
+<p><a href="http://www.cnblogs.com/oec2003/archive/2010/01/06/1640027.html" target="_blank">http://www.cnblogs.com/oec2003/archive/2010/01/06/1640027.html</a></p>
+<p><a href="http://www.cnblogs.com/luohu/archive/2011/12/16/2290135.html">http://www.cnblogs.com/luohu/archive/2011/12/16/2290135.html</a></p></div><div id="MySignature"></div>
+<script type="text/javascript">
+var isLogined = false;
+var cb_blogId = 69103;
+var cb_entryId = 2796698;
+var cb_blogApp = currentBlogApp;
+var cb_blogUserGuid = "3edae587-4f44-df11-ba8f-001cf0cd104b";
+var cb_entryCreatedDate = '2012/11/30 18:55:00';
+var enableGoogleAd = true;
+var googletag = googletag || {};
+googletag.cmd = googletag.cmd || [];
+</script>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+<div id="blog_post_info">
+</div>
+<div class="clear"></div>
+<div id="post_next_prev"></div>
+</div>
+<script type="text/javascript">
+    //SyntaxHighlighter.config.strings.expandSource = '<span><img src="http://static.cnblogs.com/images/expand-code.gif" alt="" class="expand-code-icon"/>View Code</span>';
+    $(function () {  
+        loadViewCount(cb_entryId);
+        fixPostBodyFormat();
+        loadAdUnderPost();
+        loadBlogSignature();
+        LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+        GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate);        
+        GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);        
+    });
+</script>
+		</div>
+		<div class = "postDesc">posted @ <span id="post-date">2012-11-30 18:55</span> <a href='http://www.cnblogs.com/mofish/'>沫鱼</a> 阅读(<span id="post_view_count">...</span>) 评论(<span id="post_comment_count">...</span>)  <a href ="http://www.cnblogs.com/mofish/admin/EditPosts.aspx?postid=2796698" rel="nofollow">编辑</a> <a href="#" onclick="AddToWz(2796698);return false;">收藏</a></div>
+	</div>
+	<script src="http://counter.cnblogs.com/blog/post/2796698" type="text/javascript"></script>
+	
+</div><!--end: topics 文章、评论容器-->
+<div id="blog-comments-placeholder"></div><script type="text/javascript">var commentManager = new blogCommentManager();commentManager.renderComments(0);</script>
+<div id="comment_form" class="commentform">
+<div id="divCommentShow"></div>
+<div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" id="lnk_RefreshComments" onclick="return RefreshCommentList();">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+<div id="comment_form_container"></div>
+
+<script type="text/javascript">
+    if (typeof commentManager === 'undefined') {
+        commentManager = new blogCommentManager();
+    }
+    commentManager.loadCommentForm();   
+</script>
+
+<div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+<div id="site_nav_under"><a href="http://www.cnblogs.com/" target="_blank" title="程序员的网上家园">博客园首页</a><a href="http://q.cnblogs.com/" target="_blank" title="程序员问答社区">博问</a><a href="http://news.cnblogs.com/" target="_blank" title="IT新闻">新闻</a><a href="http://home.cnblogs.com/ing/" target="_blank">闪存</a><a href="http://job.cnblogs.com/" target="_blank">程序员招聘</a><a href="http://kb.cnblogs.com/" target="_blank">知识库</a></div>
+<div id="ad_under_post_holder"></div>
+<div id="HistoryToday" class="c_ad_block"></div>
+</div>
+
+
+
+
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+
+	<div id="sideBar">
+		<div id="sideBarMain">
+			
+<!--done-->
+<div class="newsItem">
+<h3 class="catListTitle">公告</h3>
+	<div id="blog-news"></div>
+</div>
+
+			<div id="calendar"><div id="blog-calendar" style="displya:none"></div></div>
+			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"></div>
+			</div>
+			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		
+<!--done-->
+Copyright &copy;2013 沫鱼
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+<script type="text/javascript" src="http://common.cnblogs.com/script/google-analytics.js"></script>
+</body>
+</html>

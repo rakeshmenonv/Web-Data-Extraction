@@ -1,0 +1,145 @@
+@charset "utf-8";
+
+ul,li,dl,dt,dd{ margin:0px; padding:0px; list-style:none;}
+a{text-decoration:none; color: #333; cursor: pointer;}
+a:link{}
+a:visited{}
+a:hover{text-decoration:none; color: #199372;}
+a:active{}
+img{border:0;padding:0; margin:0;}
+p{padding:0; margin:0;}
+b{
+    color: #199372; font-weight: bold;
+}
+#subbox{
+    width: auto; height: 32px; overflow: hidden;  display: none;
+}
+.btn1{
+    width: 68px; height: 22px; background: url(images/btn1.jpg) no-repeat; overflow: hidden; padding: 0px; margin: 0px; border:none;
+    color: #666; cursor: pointer; line-height: 22px;
+}
+.btn1:hover{
+    background-position: 0 -22px;
+}
+.btn2{
+    width: 78px; height: 22px; background: url(images/btn2.jpg) no-repeat; overflow: hidden; padding: 0px; margin: 0px; border:none;
+    color: #fffae7; cursor: pointer; line-height: 22px;
+}
+.btn2:hover{
+    color: #fff;
+}
+
+#control{
+    width: auto; overflow: hidden; margin: 10px 0 6px 0;
+}
+#selected{
+    width: auto; height: auto; overflow: hidden;
+}
+.selectbox{
+    width: auto; height: 20px; overflow: hidden; margin: 2px 0; padding: 3px 8px; border:1px solid #dbdbdb; background: #f8f8f8;
+}
+.selectbox span{
+    font: 12px/20px "微软雅黑", "宋体", Helvetica, Arial, Verdana; color: #199372; margin-left: 20px;
+}
+.selectbox b{
+    font: bold 12px/20px "微软雅黑", "宋体", Helvetica, Arial, Verdana; color: #199372;
+}
+.selectbox span.r{
+    font: 12px/20px "微软雅黑", "宋体", Helvetica, Arial, Verdana; color: #be0000; margin-left: 20px;
+}
+.selectbox b.r{
+    font: bold 12px/20px "微软雅黑", "宋体", Helvetica, Arial, Verdana; color: #be0000;
+}
+
+#result{
+    width: auto; height: auto; overflow: hidden;
+}
+.resultbox{
+    width: 180px; height: 70px; overflow: hidden; border:1px solid #ace; float: left; _display: inline; margin: 3px;
+}
+.imgbox{
+    width: 60px; height: 60px; overflow: hidden; border:1px solid #d6d6d6; margin: 4px; float: left; _display: inline;
+}
+.imginfo{
+    width: 110px; height: 70px; overflow: hidden; float: left;
+}
+.imgtitle{
+    width: 100px; height: 22px; overflow: hidden; margin-top: 4px; margin-left: 2px;
+    font: 12px/22px "微软雅黑", "宋体", Helvetica, Arial, Verdana; color: #333;
+}
+.imgdata{
+    width: 100px; height: 16px; overflow: hidden; border:1px solid #e6e6e6; background: #fff; padding: 1px;
+}
+.line{
+    height: 16px; overflow: hidden; background:#EF9C4A;/* background: url(images/loadbar.gif) center center repeat-x; */
+}
+.imgtxt{
+    width: 100px; height: 22px; overflow: hidden; margin-left: 2px;
+    font: 12px/22px "微软雅黑", "宋体", Helvetica, Arial, Verdana; color: #333;
+}
+
+
+
+
+.photo_outer_btns{
+    width: auto; height: 40px; overflow: hidden; line-height: 40px; vertical-align: middle;
+}
+.photo_outer{
+    width: 140px; height: 160px; overflow: hidden; border:1px solid #dbdbdb;
+    margin-left: 8px; margin-top: 8px; background: #fff; border-radius:4px;float:left;
+}
+.photo_outer .one{
+    width: 130px; float: left;
+}
+.photo_outer .photo_img{
+    width: 130px; height: 120px; overflow: hidden; border:1px solid #dbdbdb; margin: 4px; float: left; _display: inline; background: #fff;
+}
+.photo_outer .photo_img_view{
+    width: 198px; height: 120px; overflow: hidden; border:1px solid #dbdbdb; margin: 4px; float: left; _display: inline; background: #fff;
+}
+.photo_outer .photo_txt{
+    width: 220px; height: 120px; overflow: hidden; margin-top: 5px; background: #fff;
+}
+.photo_outer .photo_txt .title{
+    width: 200px; height: 24px; overflow: hidden;
+    font: 12px/20px "微软雅黑", "宋体", Helvetica, Arial, Verdana; color: #333;padding-left:4px;
+}
+.photo_outer .photo_txt .title input{
+    width: 190px; height: 22px; overflow: hidden; border:1px solid #dbdbdb; padding: 0 4px;
+    font: 12px/20px "微软雅黑", "宋体", Helvetica, Arial, Verdana; color: #333;
+}
+
+.photo_outer .photo_btn{
+    width: 70px; height: 100px; overflow: hidden; text-align: center; vertical-align: middle;align:center; 
+}
+.btn1{
+    width: 68px; height: 22px; background: url(images/btn1.jpg) no-repeat; overflow: hidden; padding: 0px;  border:none;align:center; 
+    color: #666; cursor: pointer; line-height: 22px;
+}
+.btn1:hover{
+    background-position: 0 -22px;
+}
+.photo_show{
+    width: 130px; height: 160px; overflow: hidden; border:1px solid #dbdbdb;
+    margin-left: 8px; margin-top: 8px; background: #fff; border-radius:4px;float:left;
+}
+.photo_show .one{
+    width: 130px; float: left;
+}
+.photo_show .photo_img{
+    width: 120px; height: 120px; overflow: hidden; border:1px solid #dbdbdb; margin: 4px; float: left; _display: inline; background: #fff;
+}
+.photo_show .photo_txt{
+    width: 130px; height: 120px; overflow: hidden; margin-top: 5px; background: #fff;
+}
+.photo_show .photo_txt .title{
+    width: 120px; height: 24px; overflow: hidden;text-align:center;
+    font: 12px/20px "微软雅黑", "宋体", Helvetica, Arial, Verdana; color: #333;padding-left:4px;
+}
+.photo_flow_show{
+    width: 300px; height: 300px; overflow: hidden; border:1px solid #dbdbdb;text-align: center;
+    margin-left: 8px; margin-top: 8px;margin-bottom: 4px; background: #fff; border-radius:4px;float:left;
+}
+.photo_flow_img{
+    width: 290px; height: 290px; overflow: hidden; border:1px solid #dbdbdb; margin: 4px; float: left; _display: inline; background: #fff;
+}

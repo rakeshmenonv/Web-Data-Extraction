@@ -1,4 +1,5 @@
 eclipse.preferences.version=1
+encoding//src/main/java=UTF-8
 encoding//src/main/java/dataextract/HtmlParser.java=UTF-8
 encoding//src/main/java/dataextract/NekoHelper.java=UTF-8
 encoding//src/main/java/dataextract/NodeHelper.java=UTF-8
@@ -6,3 +7,7 @@ encoding//src/main/java/dataextract/Test1.java=UTF-8
 encoding//src/main/java/org/seagatesoft/sde/AppConsole.java=UTF-8
 encoding//src/main/java/org/seagatesoft/sde/tagtreebuilder/DOMParserTagTreeBuilder.java=UTF-8
 encoding//src/main/java/org/seagatesoft/sde/tagtreebuilder/TagTreeBuilder.java=UTF-8
+encoding//src/main/resources=UTF-8
+encoding//src/test/java=UTF-8
+encoding//src/test/resources=UTF-8
+encoding/<project>=UTF-8
