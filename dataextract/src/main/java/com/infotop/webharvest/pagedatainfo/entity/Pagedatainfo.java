@@ -1,6 +1,8 @@
 package com.infotop.webharvest.pagedatainfo.entity;
 
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.infotop.common.IdEntity;
@@ -17,6 +19,9 @@ public class Pagedatainfo extends IdEntity{
 	private String type;
 	private String extractedDate;
 	
+	
+	@ManyToOne
+	@JoinColumn(name="page_url_info_id",referencedColumnName="id")
 	public Pageurlinfo getPageurlinfo() {
 		return pageurlinfo;
 	}
