@@ -2,6 +2,18 @@
 <%@ include file="/common/taglibs.jsp"%>
 <div class="easyui-accordion"
 	data-options="fit:true,iconCls:'icon-ok',border:false">
+	<div class="menuItem" title='app' data-options="iconCls:'icon-cog'"
+		style="padding: 10px;">
+		<ul>
+			<li><a data-options="plain:true" href="javascript:void(0)"
+				class="user easyui-linkbutton"
+				onclick="indexTabsAddTab('href',{title:'data',url:'${ctx}/pagedatainfo',iconCls:'icon-user_gray'})">
+					<img
+					src="${ctx}/static/js/plugins/jquery-easyui-1.3.4/themes/icons/user_gray.png" />&nbsp;data
+			</a></li>
+		</ul>
+	</div>
+
 	<div class="menuItem" title='系统设置' data-options="iconCls:'icon-cog'"
 		style="padding: 10px;">
 		<ul>
