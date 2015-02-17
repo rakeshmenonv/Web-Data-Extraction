@@ -1,385 +1,238 @@
-CREATE DATABASE  IF NOT EXISTS `webharvest` /*!40100 DEFAULT CHARACTER SET latin1 */;
-USE `webharvest`;
--- MySQL dump 10.13  Distrib 5.6.17, for Win32 (x86)
---
--- Host: localhost    Database: webharvest
--- ------------------------------------------------------
--- Server version	5.0.37-community-nt
+/*
+SQLyog Enterprise - MySQL GUI v7.02 
+MySQL - 5.5.28 : Database - webharvest
+*********************************************************************
+*/
 
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+
 /*!40101 SET NAMES utf8 */;
-/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
-/*!40103 SET TIME_ZONE='+00:00' */;
-/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+
+/*!40101 SET SQL_MODE=''*/;
+
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
---
--- Not dumping tablespaces as no INFORMATION_SCHEMA.FILES table on this server
---
+CREATE DATABASE /*!32312 IF NOT EXISTS*/`webharvest` /*!40100 DEFAULT CHARACTER SET latin1 */;
 
---
--- Table structure for table ` sys_area_city`
---
+USE `webharvest`;
+
+/*Table structure for table `page_data_info` */
+
+DROP TABLE IF EXISTS `page_data_info`;
+
+CREATE TABLE `page_data_info` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `page_url_info_id` bigint(20) NOT NULL,
+  `table_group_key` varchar(50) DEFAULT NULL,
+  `row_group_key` varchar(50) DEFAULT NULL,
+  `content` text,
+  `type` varchar(20) DEFAULT NULL,
+  `extracted_date` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=446 DEFAULT CHARSET=latin1;
+
+/*Data for the table `page_data_info` */
+
+insert  into `page_data_info`(`id`,`page_url_info_id`,`table_group_key`,`row_group_key`,`content`,`type`,`extracted_date`) values (1,2,'f3caf2fc-a873-4725-a2f6-2baa43ac88d4','04b79dd2-4d4a-44c0-9733-f6ce5bf65b25','\n        \n        Meta Stack Overflow\n    ','','2015-02-17 15:59:39'),(2,2,'f3caf2fc-a873-4725-a2f6-2baa43ac88d4','04b79dd2-4d4a-44c0-9733-f6ce5bf65b25','<a href=\"http://meta.stackoverflow.com\">Link&lt;&lt;</a>\n        Meta Stack Overflow\n    ','','2015-02-17 15:59:39'),(3,2,'f3caf2fc-a873-4725-a2f6-2baa43ac88d4','f030a9ca-df88-4b83-bbb1-b6e9c9063627','\n                        \n                        Stack Overflow Careers\n                    ','','2015-02-17 15:59:39'),(4,2,'f3caf2fc-a873-4725-a2f6-2baa43ac88d4','f030a9ca-df88-4b83-bbb1-b6e9c9063627','<a href=\"null//careers.stackoverflow.com?utm_source=stackoverflow.com&utm_medium=site-ui&utm_campaign=multicollider\">Link&lt;&lt;</a>\n                        Stack Overflow Careers\n                    ','','2015-02-17 15:59:39'),(5,2,'52ba8b50-12b8-45b9-b2bd-7f342af12bf9','09a63a06-c1b4-47a0-87ea-0fd90cf9d2a4','<a href=\"https://stackoverflow.com/users/signup?returnurl=http%3a%2f%2fstackoverflow.com%2fquestions%2f2044017%2fhow-to-extract-the-data-from-a-website-using-java\">Link&lt;&lt;</a>sign up','','2015-02-17 15:59:39'),(6,2,'52ba8b50-12b8-45b9-b2bd-7f342af12bf9','4bdc22ec-338b-4f42-8c3a-c7bb5b787ff3','<a href=\"https://stackoverflow.com/users/login?returnurl=http%3a%2f%2fstackoverflow.com%2fquestions%2f2044017%2fhow-to-extract-the-data-from-a-website-using-java\">Link&lt;&lt;</a>log in','','2015-02-17 15:59:39'),(7,2,'52ba8b50-12b8-45b9-b2bd-7f342af12bf9','ccd2ecc3-cd31-4481-b0e6-44e5b96f4def','<a href=\"null/tour\">Link&lt;&lt;</a>tour','','2015-02-17 15:59:39'),(8,2,'52ba8b50-12b8-45b9-b2bd-7f342af12bf9','fb825215-add5-45e0-85f3-cde71dc222e0','<a href=\"null#\">Link&lt;&lt;</a>\n        help\n        ','','2015-02-17 15:59:39'),(9,2,'03161595-e61b-477a-8412-f00436c80644','1c24efb6-588a-4db9-8a47-0c15b2f79dd7','\n                            Tour\n                            \n                                Start here for a quick overview of the site\n                            \n                        ','','2015-02-17 15:59:39'),(10,2,'03161595-e61b-477a-8412-f00436c80644','1c24efb6-588a-4db9-8a47-0c15b2f79dd7','<a href=\"null/tour\">Link&lt;&lt;</a>\n                            Tour\n                            ','','2015-02-17 15:59:39'),(11,2,'03161595-e61b-477a-8412-f00436c80644','1c24efb6-588a-4db9-8a47-0c15b2f79dd7','\n                                Start here for a quick overview of the site\n                            ','','2015-02-17 15:59:39'),(12,2,'03161595-e61b-477a-8412-f00436c80644','ec3f0fc2-cbc0-472a-ab64-3c03095299bf','\n                        Help Center\n                        \n                            Detailed answers to any questions you might have\n                        \n                    ','','2015-02-17 15:59:39'),(13,2,'03161595-e61b-477a-8412-f00436c80644','ec3f0fc2-cbc0-472a-ab64-3c03095299bf','<a href=\"null/help\">Link&lt;&lt;</a>\n                        Help Center\n                        ','','2015-02-17 15:59:39'),(14,2,'03161595-e61b-477a-8412-f00436c80644','ec3f0fc2-cbc0-472a-ab64-3c03095299bf','\n                            Detailed answers to any questions you might have\n                        ','','2015-02-17 15:59:39'),(15,2,'03161595-e61b-477a-8412-f00436c80644','d794ba85-0c07-4765-99a5-6f97ba10f342','\n                            Meta\n                            \n                                Discuss the workings and policies of this site\n                            \n                        ','','2015-02-17 15:59:39'),(16,2,'03161595-e61b-477a-8412-f00436c80644','d794ba85-0c07-4765-99a5-6f97ba10f342','<a href=\"null//meta.stackoverflow.com\">Link&lt;&lt;</a>\n                            Meta\n                            ','','2015-02-17 15:59:39'),(17,2,'03161595-e61b-477a-8412-f00436c80644','d794ba85-0c07-4765-99a5-6f97ba10f342','\n                                Discuss the workings and policies of this site\n                            ','','2015-02-17 15:59:39'),(18,2,'e209c603-655b-4f66-a01b-12d422563e5a','1346dcf4-a207-48ef-a86c-bb21325e7c81','Questions','','2015-02-17 15:59:39'),(19,2,'e209c603-655b-4f66-a01b-12d422563e5a','1346dcf4-a207-48ef-a86c-bb21325e7c81','<a href=\"null/questions\">Link&lt;&lt;</a>Questions','','2015-02-17 15:59:39'),(20,2,'e209c603-655b-4f66-a01b-12d422563e5a','f2cdc3ec-d551-4950-898c-dca1abf9ce8e','Tags','','2015-02-17 15:59:39'),(21,2,'e209c603-655b-4f66-a01b-12d422563e5a','f2cdc3ec-d551-4950-898c-dca1abf9ce8e','<a href=\"null/tags\">Link&lt;&lt;</a>Tags','','2015-02-17 15:59:39'),(22,2,'e209c603-655b-4f66-a01b-12d422563e5a','20802418-a836-4a5f-bcff-34b8e77e9f48','Users','','2015-02-17 15:59:39'),(23,2,'e209c603-655b-4f66-a01b-12d422563e5a','20802418-a836-4a5f-bcff-34b8e77e9f48','<a href=\"null/users\">Link&lt;&lt;</a>Users','','2015-02-17 15:59:39'),(24,2,'e209c603-655b-4f66-a01b-12d422563e5a','4b67e405-6371-4b3c-8050-bfde60b3a484','Badges','','2015-02-17 15:59:39'),(25,2,'e209c603-655b-4f66-a01b-12d422563e5a','4b67e405-6371-4b3c-8050-bfde60b3a484','<a href=\"null/help/badges\">Link&lt;&lt;</a>Badges','','2015-02-17 15:59:39'),(26,2,'e209c603-655b-4f66-a01b-12d422563e5a','f26e47ff-da2c-4bbf-a9aa-f27e5a5c6ddb','Unanswered','','2015-02-17 15:59:39'),(27,2,'e209c603-655b-4f66-a01b-12d422563e5a','f26e47ff-da2c-4bbf-a9aa-f27e5a5c6ddb','<a href=\"null/unanswered\">Link&lt;&lt;</a>Unanswered','','2015-02-17 15:59:39'),(28,2,'987dd7d4-f75a-4976-93cf-0f354a3c4a92','916160f5-5675-4624-90aa-0ad512044881','down vote','','2015-02-17 15:59:39'),(29,2,'987dd7d4-f75a-4976-93cf-0f354a3c4a92','ce8b8983-a43b-4ed5-8048-ebc742ae26dd','<a href=\"null#\">Link&lt;&lt;</a>favorite','','2015-02-17 15:59:39'),(30,2,'92c47982-db04-4535-aff1-fc902ee8adad','88ad27d2-3cb9-4e46-bda9-5d1969306992','edited Jan 11 \'10 at 19:43','','2015-02-17 15:59:39'),(31,2,'92c47982-db04-4535-aff1-fc902ee8adad','88ad27d2-3cb9-4e46-bda9-5d1969306992','<a href=\"null/posts/2044017/revisions\">Link&lt;&lt;</a>edited ','','2015-02-17 15:59:39'),(32,2,'92c47982-db04-4535-aff1-fc902ee8adad','88ad27d2-3cb9-4e46-bda9-5d1969306992','Jan 11 \'10 at 19:43','','2015-02-17 15:59:39'),(33,2,'92c47982-db04-4535-aff1-fc902ee8adad','88ad27d2-3cb9-4e46-bda9-5d1969306992','','','2015-02-17 15:59:39'),(34,2,'92c47982-db04-4535-aff1-fc902ee8adad','88ad27d2-3cb9-4e46-bda9-5d1969306992','<a href=\"null/users/85306/jherico\">Link&lt;&lt;</a>','','2015-02-17 15:59:39'),(35,2,'92c47982-db04-4535-aff1-fc902ee8adad','88ad27d2-3cb9-4e46-bda9-5d1969306992','<img src=\"https://www.gravatar.com/avatar/4283ac48d7f22118cc4e47a514b3269c?s=32&d=identicon&r=PG\" />','','2015-02-17 15:59:39'),(36,2,'92c47982-db04-4535-aff1-fc902ee8adad','88ad27d2-3cb9-4e46-bda9-5d1969306992','Jherico','','2015-02-17 15:59:39'),(37,2,'92c47982-db04-4535-aff1-fc902ee8adad','88ad27d2-3cb9-4e46-bda9-5d1969306992','<a href=\"null/users/85306/jherico\">Link&lt;&lt;</a>Jherico','','2015-02-17 15:59:39'),(38,2,'92c47982-db04-4535-aff1-fc902ee8adad','88ad27d2-3cb9-4e46-bda9-5d1969306992','14.1k','','2015-02-17 15:59:39'),(39,2,'92c47982-db04-4535-aff1-fc902ee8adad','88ad27d2-3cb9-4e46-bda9-5d1969306992','3','','2015-02-17 15:59:39'),(40,2,'92c47982-db04-4535-aff1-fc902ee8adad','88ad27d2-3cb9-4e46-bda9-5d1969306992','29','','2015-02-17 15:59:39'),(41,2,'92c47982-db04-4535-aff1-fc902ee8adad','88ad27d2-3cb9-4e46-bda9-5d1969306992','59','','2015-02-17 15:59:40'),(42,2,'92c47982-db04-4535-aff1-fc902ee8adad','e1efdac3-cbdc-4bf7-90b6-155d217884bb','\n        asked ','','2015-02-17 15:59:40'),(43,2,'92c47982-db04-4535-aff1-fc902ee8adad','e1efdac3-cbdc-4bf7-90b6-155d217884bb',NULL,'','2015-02-17 15:59:40'),(44,2,'92c47982-db04-4535-aff1-fc902ee8adad','e1efdac3-cbdc-4bf7-90b6-155d217884bb',NULL,'','2015-02-17 15:59:40'),(45,2,'92c47982-db04-4535-aff1-fc902ee8adad','e1efdac3-cbdc-4bf7-90b6-155d217884bb','','','2015-02-17 15:59:40'),(46,2,'92c47982-db04-4535-aff1-fc902ee8adad','e1efdac3-cbdc-4bf7-90b6-155d217884bb','<a href=\"null/users/240698/giri\">Link&lt;&lt;</a>','','2015-02-17 15:59:40'),(47,2,'92c47982-db04-4535-aff1-fc902ee8adad','e1efdac3-cbdc-4bf7-90b6-155d217884bb','<img src=\"https://www.gravatar.com/avatar/0d7c76b308304a1181fc45a610835a8f?s=32&d=identicon&r=PG\" />','','2015-02-17 15:59:40'),(48,2,'92c47982-db04-4535-aff1-fc902ee8adad','e1efdac3-cbdc-4bf7-90b6-155d217884bb','giri','','2015-02-17 15:59:40'),(49,2,'92c47982-db04-4535-aff1-fc902ee8adad','e1efdac3-cbdc-4bf7-90b6-155d217884bb','<a href=\"null/users/240698/giri\">Link&lt;&lt;</a>giri','','2015-02-17 15:59:40'),(50,2,'92c47982-db04-4535-aff1-fc902ee8adad','e1efdac3-cbdc-4bf7-90b6-155d217884bb','6,860','','2015-02-17 15:59:40'),(51,2,'92c47982-db04-4535-aff1-fc902ee8adad','e1efdac3-cbdc-4bf7-90b6-155d217884bb','31','','2015-02-17 15:59:40'),(52,2,'92c47982-db04-4535-aff1-fc902ee8adad','e1efdac3-cbdc-4bf7-90b6-155d217884bb','86','','2015-02-17 15:59:40'),(53,2,'92c47982-db04-4535-aff1-fc902ee8adad','e1efdac3-cbdc-4bf7-90b6-155d217884bb','137','','2015-02-17 15:59:40'),(54,2,'71ad90ca-a5dc-4390-8a43-8903e06188e3','016b7a0f-0908-42b3-8661-40297b939d49','Jherico','','2015-02-17 15:59:40'),(55,2,'71ad90ca-a5dc-4390-8a43-8903e06188e3','016b7a0f-0908-42b3-8661-40297b939d49','Dupes:  stackoverflow.com/questions/tagged/screen-scraping+java','','2015-02-17 15:59:40'),(56,2,'71ad90ca-a5dc-4390-8a43-8903e06188e3','016b7a0f-0908-42b3-8661-40297b939d49','<a href=\"http://stackoverflow.com/questions/tagged/screen-scraping+java\">Link&lt;&lt;</a>stackoverflow.com/questions/tagged/screen-scraping+java','','2015-02-17 15:59:40'),(57,2,'71ad90ca-a5dc-4390-8a43-8903e06188e3','016b7a0f-0908-42b3-8661-40297b939d49',NULL,'','2015-02-17 15:59:40'),(58,2,'71ad90ca-a5dc-4390-8a43-8903e06188e3','016b7a0f-0908-42b3-8661-40297b939d49','<a href=\"null/users/85306/jherico\">Link&lt;&lt;</a>Jherico','','2015-02-17 15:59:40'),(59,2,'71ad90ca-a5dc-4390-8a43-8903e06188e3','016b7a0f-0908-42b3-8661-40297b939d49','Jan 11 \'10 at 19:43','','2015-02-17 15:59:40'),(60,2,'71ad90ca-a5dc-4390-8a43-8903e06188e3','f9e85df1-da60-41bd-b75d-4b4a79936732','Pascal Thivent','','2015-02-17 15:59:40'),(61,2,'71ad90ca-a5dc-4390-8a43-8903e06188e3','f9e85df1-da60-41bd-b75d-4b4a79936732','Millions of dupes! stackoverflow.com/questions/26638/…stackoverflow.com/questions/238036/java-html-parsing, etc, etc, etc','','2015-02-17 15:59:40'),(62,2,'71ad90ca-a5dc-4390-8a43-8903e06188e3','f9e85df1-da60-41bd-b75d-4b4a79936732','<a href=\"http://stackoverflow.com/questions/26638/what-html-parsing-libraries-do-you-recommend-in-java\">Link&lt;&lt;</a>stackoverflow.com/questions/26638/…','','2015-02-17 15:59:40'),(63,2,'71ad90ca-a5dc-4390-8a43-8903e06188e3','f9e85df1-da60-41bd-b75d-4b4a79936732','<a href=\"http://stackoverflow.com/questions/238036/java-html-parsing\">Link&lt;&lt;</a>stackoverflow.com/questions/238036/java-html-parsing','','2015-02-17 15:59:40'),(64,2,'71ad90ca-a5dc-4390-8a43-8903e06188e3','f9e85df1-da60-41bd-b75d-4b4a79936732','<a href=\"null/users/70604/pascal-thivent\">Link&lt;&lt;</a>Pascal Thivent','','2015-02-17 15:59:40'),(65,2,'71ad90ca-a5dc-4390-8a43-8903e06188e3','f9e85df1-da60-41bd-b75d-4b4a79936732','Jan 11 \'10 at 21:34','','2015-02-17 15:59:40'),(66,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','61c17b18-5915-4887-8813-1b1f8b5ae17a','\n								4 Answers\n                                ','','2015-02-17 15:59:40'),(67,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','61c17b18-5915-4887-8813-1b1f8b5ae17a','4','','2015-02-17 15:59:40'),(68,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','61c17b18-5915-4887-8813-1b1f8b5ae17a','activeoldestvotes','','2015-02-17 15:59:40'),(69,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','61c17b18-5915-4887-8813-1b1f8b5ae17a','<a href=\"null/questions/2044017/how-to-extract-the-data-from-a-website-using-java?answertab=active#tab-top\">Link&lt;&lt;</a>active','','2015-02-17 15:59:40'),(70,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','61c17b18-5915-4887-8813-1b1f8b5ae17a','<a href=\"null/questions/2044017/how-to-extract-the-data-from-a-website-using-java?answertab=oldest#tab-top\">Link&lt;&lt;</a>oldest','','2015-02-17 15:59:40'),(71,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','61c17b18-5915-4887-8813-1b1f8b5ae17a','<a href=\"null/questions/2044017/how-to-extract-the-data-from-a-website-using-java?answertab=votes#tab-top\">Link&lt;&lt;</a>votes','','2015-02-17 15:59:40'),(72,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','61c17b18-5915-4887-8813-1b1f8b5ae17a','up votedown vote','','2015-02-17 15:59:40'),(73,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','61c17b18-5915-4887-8813-1b1f8b5ae17a','up vote','','2015-02-17 15:59:40'),(74,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','61c17b18-5915-4887-8813-1b1f8b5ae17a','7','','2015-02-17 15:59:40'),(75,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','61c17b18-5915-4887-8813-1b1f8b5ae17a','down vote','','2015-02-17 15:59:40'),(76,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','61c17b18-5915-4887-8813-1b1f8b5ae17a','accepted','','2015-02-17 15:59:40'),(77,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','61c17b18-5915-4887-8813-1b1f8b5ae17a',NULL,'','2015-02-17 15:59:40'),(78,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','61c17b18-5915-4887-8813-1b1f8b5ae17a','What you\'re referring to is commonly called \'screenscraping\'.  There are a variety of ways to do this in Java, however, I prefer HtmlUnit.  While it was designed as a way to test web functionality, you can use it to hit a remote webpage, and parse it out.  ','','2015-02-17 15:59:40'),(79,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','61c17b18-5915-4887-8813-1b1f8b5ae17a','<a href=\"http://htmlunit.sourceforge.net/\">Link&lt;&lt;</a>HtmlUnit','','2015-02-17 15:59:40'),(80,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','61c17b18-5915-4887-8813-1b1f8b5ae17a',NULL,'','2015-02-17 15:59:40'),(81,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','61c17b18-5915-4887-8813-1b1f8b5ae17a','I would recommend using a good error handling html parser like Tagsoup to extract from the HTML exactly what you\'re looking for.','','2015-02-17 15:59:40'),(82,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','61c17b18-5915-4887-8813-1b1f8b5ae17a','<a href=\"http://mercury.ccil.org/~cowan/XML/tagsoup/\">Link&lt;&lt;</a>Tagsoup','','2015-02-17 15:59:40'),(83,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','61c17b18-5915-4887-8813-1b1f8b5ae17a','shareimprove this answer','','2015-02-17 15:59:40'),(84,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','61c17b18-5915-4887-8813-1b1f8b5ae17a','<a href=\"null/a/2044047\">Link&lt;&lt;</a>share','','2015-02-17 15:59:40'),(85,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','61c17b18-5915-4887-8813-1b1f8b5ae17a','<a href=\"null/posts/2044047/edit\">Link&lt;&lt;</a>improve this answer','','2015-02-17 15:59:40'),(86,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','61c17b18-5915-4887-8813-1b1f8b5ae17a','\n        answered ','','2015-02-17 15:59:40'),(87,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','61c17b18-5915-4887-8813-1b1f8b5ae17a','Jan 11 \'10 at 18:45','','2015-02-17 15:59:40'),(88,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','61c17b18-5915-4887-8813-1b1f8b5ae17a','','','2015-02-17 15:59:40'),(89,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','61c17b18-5915-4887-8813-1b1f8b5ae17a','<a href=\"null/users/31172/lucas\">Link&lt;&lt;</a>','','2015-02-17 15:59:40'),(90,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','61c17b18-5915-4887-8813-1b1f8b5ae17a','<img src=\"http://i.stack.imgur.com/L5MC5.jpg?s=32&g=1\" />','','2015-02-17 15:59:40'),(91,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','61c17b18-5915-4887-8813-1b1f8b5ae17a','lucas','','2015-02-17 15:59:40'),(92,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','61c17b18-5915-4887-8813-1b1f8b5ae17a','<a href=\"null/users/31172/lucas\">Link&lt;&lt;</a>lucas','','2015-02-17 15:59:40'),(93,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','61c17b18-5915-4887-8813-1b1f8b5ae17a','4,624','','2015-02-17 15:59:40'),(94,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','61c17b18-5915-4887-8813-1b1f8b5ae17a','2','','2015-02-17 15:59:40'),(95,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','61c17b18-5915-4887-8813-1b1f8b5ae17a','20','','2015-02-17 15:59:40'),(96,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','61c17b18-5915-4887-8813-1b1f8b5ae17a','26','','2015-02-17 15:59:41'),(97,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','61c17b18-5915-4887-8813-1b1f8b5ae17a','bert','','2015-02-17 15:59:41'),(98,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','61c17b18-5915-4887-8813-1b1f8b5ae17a','I can second the recommendation for Tagsoup. i use it for some while now to extract data form \'real world pages\' (meaning, full of invalid html) and it works great','','2015-02-17 15:59:41'),(99,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','61c17b18-5915-4887-8813-1b1f8b5ae17a','<a href=\"null/users/132270/bert\">Link&lt;&lt;</a>bert','','2015-02-17 15:59:41'),(100,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','61c17b18-5915-4887-8813-1b1f8b5ae17a','Jan 21 \'10 at 10:28','','2015-02-17 15:59:41'),(101,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','61c17b18-5915-4887-8813-1b1f8b5ae17a','add a comment','','2015-02-17 15:59:41'),(102,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','61c17b18-5915-4887-8813-1b1f8b5ae17a','add a comment','','2015-02-17 15:59:41'),(103,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','61c17b18-5915-4887-8813-1b1f8b5ae17a','<a href=\"null#\">Link&lt;&lt;</a>','','2015-02-17 15:59:41'),(104,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','5ab8802c-ff6a-4fb9-b02f-407de3b9523d',NULL,'','2015-02-17 15:59:41'),(105,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','5ab8802c-ff6a-4fb9-b02f-407de3b9523d',NULL,'','2015-02-17 15:59:41'),(106,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','5ab8802c-ff6a-4fb9-b02f-407de3b9523d',NULL,'','2015-02-17 15:59:41'),(107,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','5ab8802c-ff6a-4fb9-b02f-407de3b9523d',NULL,'','2015-02-17 15:59:41'),(108,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','5ab8802c-ff6a-4fb9-b02f-407de3b9523d',NULL,'','2015-02-17 15:59:41'),(109,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','5ab8802c-ff6a-4fb9-b02f-407de3b9523d',NULL,'','2015-02-17 15:59:41'),(110,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','5ab8802c-ff6a-4fb9-b02f-407de3b9523d','up votedown vote','','2015-02-17 15:59:41'),(111,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','5ab8802c-ff6a-4fb9-b02f-407de3b9523d','up vote','','2015-02-17 15:59:41'),(112,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','5ab8802c-ff6a-4fb9-b02f-407de3b9523d','1','','2015-02-17 15:59:41'),(113,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','5ab8802c-ff6a-4fb9-b02f-407de3b9523d','down vote','','2015-02-17 15:59:41'),(114,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','5ab8802c-ff6a-4fb9-b02f-407de3b9523d',NULL,'','2015-02-17 15:59:41'),(115,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','5ab8802c-ff6a-4fb9-b02f-407de3b9523d',NULL,'','2015-02-17 15:59:41'),(116,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','5ab8802c-ff6a-4fb9-b02f-407de3b9523d','You definitely need a good parser like NekoHTML.','','2015-02-17 15:59:41'),(117,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','5ab8802c-ff6a-4fb9-b02f-407de3b9523d',NULL,'','2015-02-17 15:59:41'),(118,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','5ab8802c-ff6a-4fb9-b02f-407de3b9523d','Here\'s an example of using NekoHTML, albeit using Groovy (a Java-based scripting language) rather than Java itself:','','2015-02-17 15:59:41'),(119,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','5ab8802c-ff6a-4fb9-b02f-407de3b9523d','http://www.keplarllp.com/blog/2010/01/better-competitive-intelligence-through-scraping-with-groovy','','2015-02-17 15:59:41'),(120,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','5ab8802c-ff6a-4fb9-b02f-407de3b9523d','<a href=\"http://www.keplarllp.com/blog/2010/01/better-competitive-intelligence-through-scraping-with-groovy\">Link&lt;&lt;</a>http://www.keplarllp.com/blog/2010/01/better-competitive-intelligence-through-scraping-with-groovy','','2015-02-17 15:59:41'),(121,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','5ab8802c-ff6a-4fb9-b02f-407de3b9523d','shareimprove this answer','','2015-02-17 15:59:41'),(122,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','5ab8802c-ff6a-4fb9-b02f-407de3b9523d','<a href=\"null/a/2108107\">Link&lt;&lt;</a>share','','2015-02-17 15:59:41'),(123,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','5ab8802c-ff6a-4fb9-b02f-407de3b9523d','<a href=\"null/posts/2108107/edit\">Link&lt;&lt;</a>improve this answer','','2015-02-17 15:59:41'),(124,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','5ab8802c-ff6a-4fb9-b02f-407de3b9523d','\n        answered ','','2015-02-17 15:59:41'),(125,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','5ab8802c-ff6a-4fb9-b02f-407de3b9523d','Jan 21 \'10 at 9:31','','2015-02-17 15:59:41'),(126,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','5ab8802c-ff6a-4fb9-b02f-407de3b9523d','','','2015-02-17 15:59:41'),(127,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','5ab8802c-ff6a-4fb9-b02f-407de3b9523d','<a href=\"null/users/255627/alex-dean\">Link&lt;&lt;</a>','','2015-02-17 15:59:41'),(128,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','5ab8802c-ff6a-4fb9-b02f-407de3b9523d','<img src=\"https://www.gravatar.com/avatar/9653cf0f270b28e4cbf9fc6019521677?s=32&d=identicon&r=PG\" />','','2015-02-17 15:59:41'),(129,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','5ab8802c-ff6a-4fb9-b02f-407de3b9523d','Alex Dean','','2015-02-17 15:59:41'),(130,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','5ab8802c-ff6a-4fb9-b02f-407de3b9523d','<a href=\"null/users/255627/alex-dean\">Link&lt;&lt;</a>Alex Dean','','2015-02-17 15:59:41'),(131,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','5ab8802c-ff6a-4fb9-b02f-407de3b9523d','4,661','','2015-02-17 15:59:41'),(132,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','5ab8802c-ff6a-4fb9-b02f-407de3b9523d','1','','2015-02-17 15:59:41'),(133,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','5ab8802c-ff6a-4fb9-b02f-407de3b9523d','36','','2015-02-17 15:59:41'),(134,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','5ab8802c-ff6a-4fb9-b02f-407de3b9523d','57','','2015-02-17 15:59:41'),(135,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','5ab8802c-ff6a-4fb9-b02f-407de3b9523d',NULL,'','2015-02-17 15:59:41'),(136,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','5ab8802c-ff6a-4fb9-b02f-407de3b9523d',NULL,'','2015-02-17 15:59:41'),(137,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','5ab8802c-ff6a-4fb9-b02f-407de3b9523d',NULL,'','2015-02-17 15:59:41'),(138,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','5ab8802c-ff6a-4fb9-b02f-407de3b9523d',NULL,'','2015-02-17 15:59:41'),(139,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','5ab8802c-ff6a-4fb9-b02f-407de3b9523d','add a comment','','2015-02-17 15:59:41'),(140,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','5ab8802c-ff6a-4fb9-b02f-407de3b9523d','add a comment','','2015-02-17 15:59:41'),(141,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','5ab8802c-ff6a-4fb9-b02f-407de3b9523d','<a href=\"null#\">Link&lt;&lt;</a>','','2015-02-17 15:59:41'),(142,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','c485a581-a22f-432d-86c8-a4364968a80e',NULL,'','2015-02-17 15:59:41'),(143,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','c485a581-a22f-432d-86c8-a4364968a80e',NULL,'','2015-02-17 15:59:41'),(144,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','c485a581-a22f-432d-86c8-a4364968a80e',NULL,'','2015-02-17 15:59:41'),(145,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','c485a581-a22f-432d-86c8-a4364968a80e',NULL,'','2015-02-17 15:59:41'),(146,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','c485a581-a22f-432d-86c8-a4364968a80e',NULL,'','2015-02-17 15:59:41'),(147,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','c485a581-a22f-432d-86c8-a4364968a80e',NULL,'','2015-02-17 15:59:41'),(148,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','c485a581-a22f-432d-86c8-a4364968a80e','up votedown vote','','2015-02-17 15:59:41'),(149,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','c485a581-a22f-432d-86c8-a4364968a80e','up vote','','2015-02-17 15:59:41'),(150,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','c485a581-a22f-432d-86c8-a4364968a80e','1','','2015-02-17 15:59:41'),(151,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','c485a581-a22f-432d-86c8-a4364968a80e','down vote','','2015-02-17 15:59:41'),(152,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','c485a581-a22f-432d-86c8-a4364968a80e',NULL,'','2015-02-17 15:59:41'),(153,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','c485a581-a22f-432d-86c8-a4364968a80e','You can use VietSpider XML from','','2015-02-17 15:59:41'),(154,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','c485a581-a22f-432d-86c8-a4364968a80e','http://sourceforge.net/projects/binhgiang/files/','','2015-02-17 15:59:41'),(155,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','c485a581-a22f-432d-86c8-a4364968a80e','<a href=\"http://sourceforge.net/projects/binhgiang/files/\">Link&lt;&lt;</a>http://sourceforge.net/projects/binhgiang/files/','','2015-02-17 15:59:41'),(156,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','c485a581-a22f-432d-86c8-a4364968a80e','Download VietSpider3_16_XML_Windows.zip or VietSpider3_16_XML_Linux.zip','','2015-02-17 15:59:41'),(157,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','c485a581-a22f-432d-86c8-a4364968a80e','VietSpider Web Data Extractor: Software crawls the data from the websites ((Data Scraper)), format to XML standard (Text, CDATA) then store in the relational database. Product supports the various of RDBMs such as Oracle, MySQL, SQL Server, H2, HSQL, Apache Derby, Postgres â€¦VietSpider Crawler supports session (login, query by form input), multi-downloading, JavaScript handling, proxy (and multi-proxy by auto scan the proxies from website)â€¦','','2015-02-17 15:59:41'),(158,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','c485a581-a22f-432d-86c8-a4364968a80e',NULL,'','2015-02-17 15:59:41'),(159,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','c485a581-a22f-432d-86c8-a4364968a80e','shareimprove this answer','','2015-02-17 15:59:41'),(160,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','c485a581-a22f-432d-86c8-a4364968a80e','<a href=\"null/a/2870960\">Link&lt;&lt;</a>share','','2015-02-17 15:59:41'),(161,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','c485a581-a22f-432d-86c8-a4364968a80e','<a href=\"null/posts/2870960/edit\">Link&lt;&lt;</a>improve this answer','','2015-02-17 15:59:41'),(162,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','c485a581-a22f-432d-86c8-a4364968a80e','\n        answered ','','2015-02-17 15:59:41'),(163,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','c485a581-a22f-432d-86c8-a4364968a80e','May 20 \'10 at 4:10','','2015-02-17 15:59:41'),(164,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','c485a581-a22f-432d-86c8-a4364968a80e','','','2015-02-17 15:59:41'),(165,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','c485a581-a22f-432d-86c8-a4364968a80e','<a href=\"null/users/345713/vietspider\">Link&lt;&lt;</a>','','2015-02-17 15:59:41'),(166,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','c485a581-a22f-432d-86c8-a4364968a80e','<img src=\"https://www.gravatar.com/avatar/96e83a9ac5a905ae6f8959774704a25a?s=32&d=identicon&r=PG\" />','','2015-02-17 15:59:41'),(167,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','c485a581-a22f-432d-86c8-a4364968a80e','vietspider','','2015-02-17 15:59:41'),(168,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','c485a581-a22f-432d-86c8-a4364968a80e','<a href=\"null/users/345713/vietspider\">Link&lt;&lt;</a>vietspider','','2015-02-17 15:59:41'),(169,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','c485a581-a22f-432d-86c8-a4364968a80e','11','','2015-02-17 15:59:41'),(170,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','c485a581-a22f-432d-86c8-a4364968a80e','1','','2015-02-17 15:59:41'),(171,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','c485a581-a22f-432d-86c8-a4364968a80e',NULL,'','2015-02-17 15:59:41'),(172,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','c485a581-a22f-432d-86c8-a4364968a80e',NULL,'','2015-02-17 15:59:41'),(173,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','c485a581-a22f-432d-86c8-a4364968a80e',NULL,'','2015-02-17 15:59:41'),(174,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','c485a581-a22f-432d-86c8-a4364968a80e',NULL,'','2015-02-17 15:59:41'),(175,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','c485a581-a22f-432d-86c8-a4364968a80e',NULL,'','2015-02-17 15:59:41'),(176,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','c485a581-a22f-432d-86c8-a4364968a80e',NULL,'','2015-02-17 15:59:41'),(177,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','c485a581-a22f-432d-86c8-a4364968a80e','add a comment','','2015-02-17 15:59:41'),(178,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','c485a581-a22f-432d-86c8-a4364968a80e','add a comment','','2015-02-17 15:59:41'),(179,2,'5c9881f8-b4e6-4f8a-a827-826254f6f524','c485a581-a22f-432d-86c8-a4364968a80e','<a href=\"null#\">Link&lt;&lt;</a>','','2015-02-17 15:59:41'),(180,2,'8f8eead2-4f8e-46cb-831b-0ac827f87ebb','73d6ea59-b02b-4220-8148-b280fe4cf19c','Depending on what you are really trying to do, you can use many different solutions.','','2015-02-17 15:59:41'),(181,2,'8f8eead2-4f8e-46cb-831b-0ac827f87ebb','73d6ea59-b02b-4220-8148-b280fe4cf19c',NULL,'','2015-02-17 15:59:41'),(182,2,'8f8eead2-4f8e-46cb-831b-0ac827f87ebb','b77b62b0-dcd1-44f8-8f62-6269431cef2d','If you juste wanna fetch the HTML code of a web page, then URL.getContent() may be your solution. Here is a little tutorial :','','2015-02-17 15:59:41'),(183,2,'8f8eead2-4f8e-46cb-831b-0ac827f87ebb','b77b62b0-dcd1-44f8-8f62-6269431cef2d',NULL,'','2015-02-17 15:59:41'),(184,2,'8f8eead2-4f8e-46cb-831b-0ac827f87ebb','62c46619-3eee-4165-bf2d-7d251309aa3b','http://www.javacoffeebreak.com/books/extracts/javanotesv3/c10/s4.html','','2015-02-17 15:59:41'),(185,2,'8f8eead2-4f8e-46cb-831b-0ac827f87ebb','62c46619-3eee-4165-bf2d-7d251309aa3b','<a href=\"http://www.javacoffeebreak.com/books/extracts/javanotesv3/c10/s4.html\">Link&lt;&lt;</a>http://www.javacoffeebreak.com/books/extracts/javanotesv3/c10/s4.html','','2015-02-17 15:59:41'),(186,2,'8f8eead2-4f8e-46cb-831b-0ac827f87ebb','3dafc023-edbc-4f26-bcb9-a8d00d15e4d3','EDIT : didn\'t understand he was searching for a way to parse the HTML code. Some tools have been suggested above. Sorry for that.','','2015-02-17 15:59:41'),(187,2,'8f8eead2-4f8e-46cb-831b-0ac827f87ebb','3dafc023-edbc-4f26-bcb9-a8d00d15e4d3',NULL,'','2015-02-17 15:59:41'),(188,2,'ea48d09a-5a37-46ac-8327-3f4649753901','d7dab2f4-b3df-4c97-ae4a-3ce0aa61c3b1','3','','2015-02-17 15:59:41'),(189,2,'ea48d09a-5a37-46ac-8327-3f4649753901','29055523-d072-4e3b-8277-2dc0bc19113d','15','','2015-02-17 15:59:42'),(190,2,'25e10075-ee97-4a05-bca0-3a85d54bf301','cdfc44cb-1d88-4a34-909d-ee5e1f3824f3','draft saved','','2015-02-17 15:59:42'),(191,2,'25e10075-ee97-4a05-bca0-3a85d54bf301','cdfc44cb-1d88-4a34-909d-ee5e1f3824f3','draft discarded','','2015-02-17 15:59:42'),(192,2,'25e10075-ee97-4a05-bca0-3a85d54bf301','862c5068-3c3f-4865-ae82-d042b34ab56a',NULL,'','2015-02-17 15:59:42'),(193,2,'25e10075-ee97-4a05-bca0-3a85d54bf301','862c5068-3c3f-4865-ae82-d042b34ab56a',NULL,'','2015-02-17 15:59:42'),(194,2,'75bd0615-3e94-4e72-8166-b6fbe1665de0','7228d2ec-f07a-451c-8362-a37efeb21083','Sign up using Google','','2015-02-17 15:59:42'),(195,2,'75bd0615-3e94-4e72-8166-b6fbe1665de0','59c65b65-323e-48c2-89d9-373783e9a87d','Sign up using Facebook','','2015-02-17 15:59:42'),(196,2,'75bd0615-3e94-4e72-8166-b6fbe1665de0','73beb174-d627-47b7-8f6d-37d42c6db398','Sign up using Stack Exchange','','2015-02-17 15:59:42'),(197,2,'fab3da5a-2a5a-4f85-9538-fa7d6f65767c','7e314a15-7645-4dd7-a674-ae72c9d2fa83','Name','','2015-02-17 15:59:42'),(198,2,'fab3da5a-2a5a-4f85-9538-fa7d6f65767c','1fd8e586-64fa-4452-845d-67e09e8c2fad','Email','','2015-02-17 15:59:42'),(199,2,'e1492372-44ec-413e-9157-841afb56e1ca','e3e342fc-2885-4dab-8c27-4a3b9d54f479','Name','','2015-02-17 15:59:42'),(200,2,'e1492372-44ec-413e-9157-841afb56e1ca','e8c9a8f5-7caf-4354-9e9e-53e72cc33e79','Email','','2015-02-17 15:59:42'),(201,2,'3411a3d3-a598-497c-9325-252b7d9544ef','14cf4f95-1b08-4cad-8e6e-9654df247ca6','asked','','2015-02-17 15:59:42'),(202,2,'3411a3d3-a598-497c-9325-252b7d9544ef','14cf4f95-1b08-4cad-8e6e-9654df247ca6','5 years ago','','2015-02-17 15:59:42'),(203,2,'3411a3d3-a598-497c-9325-252b7d9544ef','14cf4f95-1b08-4cad-8e6e-9654df247ca6',NULL,'','2015-02-17 15:59:42'),(204,2,'3411a3d3-a598-497c-9325-252b7d9544ef','f608704c-ad12-4928-8bdd-9c4b3aa0073b','viewed','','2015-02-17 15:59:42'),(205,2,'3411a3d3-a598-497c-9325-252b7d9544ef','f608704c-ad12-4928-8bdd-9c4b3aa0073b','30217 times','','2015-02-17 15:59:42'),(206,2,'3411a3d3-a598-497c-9325-252b7d9544ef','f608704c-ad12-4928-8bdd-9c4b3aa0073b',NULL,'','2015-02-17 15:59:42'),(207,2,'3411a3d3-a598-497c-9325-252b7d9544ef','f021d272-cc86-41d2-9b94-1362cb98bd1a','active','','2015-02-17 15:59:42'),(208,2,'3411a3d3-a598-497c-9325-252b7d9544ef','f021d272-cc86-41d2-9b94-1362cb98bd1a','1 year ago','','2015-02-17 15:59:42'),(209,2,'3411a3d3-a598-497c-9325-252b7d9544ef','f021d272-cc86-41d2-9b94-1362cb98bd1a','<a href=\"null?lastactivity\">Link&lt;&lt;</a>1 year ago','','2015-02-17 15:59:42'),(210,2,'4ec23e12-27ee-4096-b37c-3ee6363cf7a2','ad680aab-7998-468e-bddc-a1e32e63ea4d','\n		47\n	Java HTML Parsing','','2015-02-17 15:59:42'),(211,2,'4ec23e12-27ee-4096-b37c-3ee6363cf7a2','ad680aab-7998-468e-bddc-a1e32e63ea4d','<a href=\"null/q/238036\">Link&lt;&lt;</a>','','2015-02-17 15:59:42'),(212,2,'4ec23e12-27ee-4096-b37c-3ee6363cf7a2','ad680aab-7998-468e-bddc-a1e32e63ea4d','47','','2015-02-17 15:59:42'),(213,2,'4ec23e12-27ee-4096-b37c-3ee6363cf7a2','ad680aab-7998-468e-bddc-a1e32e63ea4d','<a href=\"null/questions/238036/java-html-parsing\">Link&lt;&lt;</a>Java HTML Parsing','','2015-02-17 15:59:42'),(214,2,'4ec23e12-27ee-4096-b37c-3ee6363cf7a2','19b19017-fe22-460f-9f52-6a93a23d6fd7','\n		11\n	What HTML parsing libraries do you recommend in Java','','2015-02-17 15:59:42'),(215,2,'4ec23e12-27ee-4096-b37c-3ee6363cf7a2','19b19017-fe22-460f-9f52-6a93a23d6fd7','<a href=\"null/q/26638\">Link&lt;&lt;</a>','','2015-02-17 15:59:42'),(216,2,'4ec23e12-27ee-4096-b37c-3ee6363cf7a2','19b19017-fe22-460f-9f52-6a93a23d6fd7','11','','2015-02-17 15:59:42'),(217,2,'4ec23e12-27ee-4096-b37c-3ee6363cf7a2','19b19017-fe22-460f-9f52-6a93a23d6fd7','<a href=\"null/questions/26638/what-html-parsing-libraries-do-you-recommend-in-java\">Link&lt;&lt;</a>What HTML parsing libraries do you recommend in Java','','2015-02-17 15:59:42'),(218,2,'eadd8537-305e-4eb3-abd1-52dfadd5ca1f','2762a4c7-c327-4250-acdb-5af78d94051c','\n    0\n    \nWeb scraping: how to get scraper implementation from text link?','','2015-02-17 15:59:42'),(219,2,'eadd8537-305e-4eb3-abd1-52dfadd5ca1f','2762a4c7-c327-4250-acdb-5af78d94051c','<a href=\"null/q/2516915\">Link&lt;&lt;</a>','','2015-02-17 15:59:42'),(220,2,'eadd8537-305e-4eb3-abd1-52dfadd5ca1f','2762a4c7-c327-4250-acdb-5af78d94051c','0\n    ','','2015-02-17 15:59:42'),(221,2,'eadd8537-305e-4eb3-abd1-52dfadd5ca1f','2762a4c7-c327-4250-acdb-5af78d94051c','<a href=\"null/questions/2516915/web-scraping-how-to-get-scraper-implementation-from-text-link\">Link&lt;&lt;</a>Web scraping: how to get scraper implementation from text link?','','2015-02-17 15:59:42'),(222,2,'eadd8537-305e-4eb3-abd1-52dfadd5ca1f','583d7c32-2142-4549-a336-853d3abf23d1','\n    0\n    \nHow do I scrape full-sized images from a website?','','2015-02-17 15:59:42'),(223,2,'eadd8537-305e-4eb3-abd1-52dfadd5ca1f','583d7c32-2142-4549-a336-853d3abf23d1','<a href=\"null/q/9593873\">Link&lt;&lt;</a>','','2015-02-17 15:59:42'),(224,2,'eadd8537-305e-4eb3-abd1-52dfadd5ca1f','583d7c32-2142-4549-a336-853d3abf23d1','0\n    ','','2015-02-17 15:59:42'),(225,2,'eadd8537-305e-4eb3-abd1-52dfadd5ca1f','583d7c32-2142-4549-a336-853d3abf23d1','<a href=\"null/questions/9593873/how-do-i-scrape-full-sized-images-from-a-website\">Link&lt;&lt;</a>How do I scrape full-sized images from a website?','','2015-02-17 15:59:42'),(226,2,'eadd8537-305e-4eb3-abd1-52dfadd5ca1f','a63bd5b9-b4a5-45dc-877e-f027fbf53f05','\n    9689\n    \nWhy is processing a sorted array faster than an unsorted array?','','2015-02-17 15:59:42'),(227,2,'eadd8537-305e-4eb3-abd1-52dfadd5ca1f','a63bd5b9-b4a5-45dc-877e-f027fbf53f05','<a href=\"null/q/11227809\">Link&lt;&lt;</a>','','2015-02-17 15:59:42'),(228,2,'eadd8537-305e-4eb3-abd1-52dfadd5ca1f','a63bd5b9-b4a5-45dc-877e-f027fbf53f05','9689\n    ','','2015-02-17 15:59:42'),(229,2,'eadd8537-305e-4eb3-abd1-52dfadd5ca1f','a63bd5b9-b4a5-45dc-877e-f027fbf53f05','<a href=\"null/questions/11227809/why-is-processing-a-sorted-array-faster-than-an-unsorted-array\">Link&lt;&lt;</a>Why is processing a sorted array faster than an unsorted array?','','2015-02-17 15:59:42'),(230,2,'eadd8537-305e-4eb3-abd1-52dfadd5ca1f','ea48e94d-148b-408d-b282-f0de1b4a132b','\n    0\n    \nGetting data from a webpage (screenscraping)','','2015-02-17 15:59:42'),(231,2,'eadd8537-305e-4eb3-abd1-52dfadd5ca1f','ea48e94d-148b-408d-b282-f0de1b4a132b','<a href=\"null/q/13359998\">Link&lt;&lt;</a>','','2015-02-17 15:59:42'),(232,2,'eadd8537-305e-4eb3-abd1-52dfadd5ca1f','ea48e94d-148b-408d-b282-f0de1b4a132b','0\n    ','','2015-02-17 15:59:42'),(233,2,'eadd8537-305e-4eb3-abd1-52dfadd5ca1f','ea48e94d-148b-408d-b282-f0de1b4a132b','<a href=\"null/questions/13359998/getting-data-from-a-webpage-screenscraping\">Link&lt;&lt;</a>Getting data from a webpage (screenscraping)','','2015-02-17 15:59:42'),(234,2,'eadd8537-305e-4eb3-abd1-52dfadd5ca1f','58415b61-aeb5-4469-a4e9-699c3ec5340c','\n    2\n    \nExtract a specific line from a webpage using JSoup for Java','','2015-02-17 15:59:42'),(235,2,'eadd8537-305e-4eb3-abd1-52dfadd5ca1f','58415b61-aeb5-4469-a4e9-699c3ec5340c','<a href=\"null/q/14447452\">Link&lt;&lt;</a>','','2015-02-17 15:59:42'),(236,2,'eadd8537-305e-4eb3-abd1-52dfadd5ca1f','58415b61-aeb5-4469-a4e9-699c3ec5340c','2\n    ','','2015-02-17 15:59:42'),(237,2,'eadd8537-305e-4eb3-abd1-52dfadd5ca1f','58415b61-aeb5-4469-a4e9-699c3ec5340c','<a href=\"null/questions/14447452/extract-a-specific-line-from-a-webpage-using-jsoup-for-java\">Link&lt;&lt;</a>Extract a specific line from a webpage using JSoup for Java','','2015-02-17 15:59:42'),(238,2,'eadd8537-305e-4eb3-abd1-52dfadd5ca1f','745b2ae5-feae-498e-b2bd-5e012e5e79b6','\n    1\n    \nHow to fetch field names and values from another website?','','2015-02-17 15:59:42'),(239,2,'eadd8537-305e-4eb3-abd1-52dfadd5ca1f','745b2ae5-feae-498e-b2bd-5e012e5e79b6','<a href=\"null/q/14699593\">Link&lt;&lt;</a>','','2015-02-17 15:59:42'),(240,2,'eadd8537-305e-4eb3-abd1-52dfadd5ca1f','745b2ae5-feae-498e-b2bd-5e012e5e79b6','1\n    ','','2015-02-17 15:59:42'),(241,2,'eadd8537-305e-4eb3-abd1-52dfadd5ca1f','745b2ae5-feae-498e-b2bd-5e012e5e79b6','<a href=\"null/questions/14699593/how-to-fetch-field-names-and-values-from-another-website\">Link&lt;&lt;</a>How to fetch field names and values from another website?','','2015-02-17 15:59:42'),(242,2,'eadd8537-305e-4eb3-abd1-52dfadd5ca1f','7e3611a8-82e2-48b4-b432-ad2d9f8c9ff7','\n    0\n    \nJava screen scraping, how to get respone from redirect post request','','2015-02-17 15:59:42'),(243,2,'eadd8537-305e-4eb3-abd1-52dfadd5ca1f','7e3611a8-82e2-48b4-b432-ad2d9f8c9ff7','<a href=\"null/q/14899700\">Link&lt;&lt;</a>','','2015-02-17 15:59:42'),(244,2,'eadd8537-305e-4eb3-abd1-52dfadd5ca1f','7e3611a8-82e2-48b4-b432-ad2d9f8c9ff7','0\n    ','','2015-02-17 15:59:42'),(245,2,'eadd8537-305e-4eb3-abd1-52dfadd5ca1f','7e3611a8-82e2-48b4-b432-ad2d9f8c9ff7','<a href=\"null/questions/14899700/java-screen-scraping-how-to-get-respone-from-redirect-post-request\">Link&lt;&lt;</a>Java screen scraping, how to get respone from redirect post request','','2015-02-17 15:59:42'),(246,2,'eadd8537-305e-4eb3-abd1-52dfadd5ca1f','8379ba51-478f-4997-b8a9-f324a03c03f6','\n    0\n    \nScraping data from website that uses javascript','','2015-02-17 15:59:42'),(247,2,'eadd8537-305e-4eb3-abd1-52dfadd5ca1f','8379ba51-478f-4997-b8a9-f324a03c03f6','<a href=\"null/q/16762127\">Link&lt;&lt;</a>','','2015-02-17 15:59:42'),(248,2,'eadd8537-305e-4eb3-abd1-52dfadd5ca1f','8379ba51-478f-4997-b8a9-f324a03c03f6','0\n    ','','2015-02-17 15:59:42'),(249,2,'eadd8537-305e-4eb3-abd1-52dfadd5ca1f','8379ba51-478f-4997-b8a9-f324a03c03f6','<a href=\"null/questions/16762127/scraping-data-from-website-that-uses-javascript\">Link&lt;&lt;</a>Scraping data from website that uses javascript','','2015-02-17 15:59:42'),(250,2,'eadd8537-305e-4eb3-abd1-52dfadd5ca1f','dc68e412-cf3f-4059-895c-c5c2673c6134','\n    0\n    \nScreen scrapping using java without downloading web source code','','2015-02-17 15:59:42'),(251,2,'eadd8537-305e-4eb3-abd1-52dfadd5ca1f','dc68e412-cf3f-4059-895c-c5c2673c6134','<a href=\"null/q/26500181\">Link&lt;&lt;</a>','','2015-02-17 15:59:42'),(252,2,'eadd8537-305e-4eb3-abd1-52dfadd5ca1f','dc68e412-cf3f-4059-895c-c5c2673c6134','0\n    ','','2015-02-17 15:59:42'),(253,2,'eadd8537-305e-4eb3-abd1-52dfadd5ca1f','dc68e412-cf3f-4059-895c-c5c2673c6134','<a href=\"null/questions/26500181/screen-scrapping-using-java-without-downloading-web-source-code\">Link&lt;&lt;</a>Screen scrapping using java without downloading web source code','','2015-02-17 15:59:42'),(254,2,'eadd8537-305e-4eb3-abd1-52dfadd5ca1f','52fc338d-4e7d-4b11-8cf3-6bc8d2f00fea','\n    0\n    \nHow to extract HTML table data using Java from a website?','','2015-02-17 15:59:42'),(255,2,'eadd8537-305e-4eb3-abd1-52dfadd5ca1f','52fc338d-4e7d-4b11-8cf3-6bc8d2f00fea','<a href=\"null/q/27027626\">Link&lt;&lt;</a>','','2015-02-17 15:59:42'),(256,2,'eadd8537-305e-4eb3-abd1-52dfadd5ca1f','52fc338d-4e7d-4b11-8cf3-6bc8d2f00fea','0\n    ','','2015-02-17 15:59:42'),(257,2,'eadd8537-305e-4eb3-abd1-52dfadd5ca1f','52fc338d-4e7d-4b11-8cf3-6bc8d2f00fea','<a href=\"null/questions/27027626/how-to-extract-html-table-data-using-java-from-a-website\">Link&lt;&lt;</a>How to extract HTML table data using Java from a website?','','2015-02-17 15:59:42'),(258,2,'0afb9a7d-7b1b-4ebe-adc9-5ac74b3b13e8','ad6b15f4-2bd5-47c6-9d93-da44169378d1','\n                    Help needed for first time TikZ user\n                ','','2015-02-17 15:59:42'),(259,2,'0afb9a7d-7b1b-4ebe-adc9-5ac74b3b13e8','ad6b15f4-2bd5-47c6-9d93-da44169378d1','<a href=\"http://tex.stackexchange.com/questions/228249/help-needed-for-first-time-tikz-user\">Link&lt;&lt;</a>\n                    Help needed for first time TikZ user\n                ','','2015-02-17 15:59:42'),(260,2,'0afb9a7d-7b1b-4ebe-adc9-5ac74b3b13e8','f722183f-3849-4d2f-ba61-026532955751','\n                    How does TeX (LaTeX?) center images off the page?\n                ','','2015-02-17 15:59:42'),(261,2,'0afb9a7d-7b1b-4ebe-adc9-5ac74b3b13e8','f722183f-3849-4d2f-ba61-026532955751','<a href=\"http://tex.stackexchange.com/questions/228535/how-does-tex-latex-center-images-off-the-page\">Link&lt;&lt;</a>\n                    How does TeX (LaTeX?) center images off the page?\n                ','','2015-02-17 15:59:42'),(262,2,'0afb9a7d-7b1b-4ebe-adc9-5ac74b3b13e8','5b080116-9f29-440e-ba71-121c99808ee8','\n                    How do I encourage fully armored knights to carry a shield\n                ','','2015-02-17 15:59:42'),(263,2,'0afb9a7d-7b1b-4ebe-adc9-5ac74b3b13e8','5b080116-9f29-440e-ba71-121c99808ee8','<a href=\"http://worldbuilding.stackexchange.com/questions/10340/how-do-i-encourage-fully-armored-knights-to-carry-a-shield\">Link&lt;&lt;</a>\n                    How do I encourage fully armored knights to carry a shield\n                ','','2015-02-17 15:59:42'),(264,2,'0afb9a7d-7b1b-4ebe-adc9-5ac74b3b13e8','0a1ba6c7-2b66-4d5a-bd28-7c8a381bc253','\n                    Does the proof of undecidability of the Halting Problem cheat by reversing results?\n                ','','2015-02-17 15:59:42'),(265,2,'0afb9a7d-7b1b-4ebe-adc9-5ac74b3b13e8','0a1ba6c7-2b66-4d5a-bd28-7c8a381bc253','<a href=\"http://cs.stackexchange.com/questions/38475/does-the-proof-of-undecidability-of-the-halting-problem-cheat-by-reversing-resul\">Link&lt;&lt;</a>\n                    Does the proof of undecidability of the Halting Problem cheat by reversing results?\n                ','','2015-02-17 15:59:42'),(266,2,'0afb9a7d-7b1b-4ebe-adc9-5ac74b3b13e8','e28fbda1-1d58-4020-a4cf-b8e381caf08d','\n                    What\'s the DC of 200 degree room?\n                ','','2015-02-17 15:59:42'),(267,2,'0afb9a7d-7b1b-4ebe-adc9-5ac74b3b13e8','e28fbda1-1d58-4020-a4cf-b8e381caf08d','<a href=\"http://rpg.stackexchange.com/questions/56865/whats-the-dc-of-200-degree-room\">Link&lt;&lt;</a>\n                    What\'s the DC of 200 degree room?\n                ','','2015-02-17 15:59:42'),(268,2,'0afb9a7d-7b1b-4ebe-adc9-5ac74b3b13e8','f5a12cda-db43-4e03-989e-6069f7eef271','\n                    How should an graduate student with Aspergers syndrome prepare for a teaching career?\n                ','','2015-02-17 15:59:42'),(269,2,'0afb9a7d-7b1b-4ebe-adc9-5ac74b3b13e8','f5a12cda-db43-4e03-989e-6069f7eef271','<a href=\"http://academia.stackexchange.com/questions/38867/how-should-an-graduate-student-with-aspergers-syndrome-prepare-for-a-teaching-ca\">Link&lt;&lt;</a>\n                    How should an graduate student with Aspergers syndrome prepare for a teaching career?\n                ','','2015-02-17 15:59:42'),(270,2,'0afb9a7d-7b1b-4ebe-adc9-5ac74b3b13e8','ea77f57c-7c55-4af3-a9f7-6e81b7cf461b','\n                    My three children define me\n                ','','2015-02-17 15:59:42'),(271,2,'0afb9a7d-7b1b-4ebe-adc9-5ac74b3b13e8','ea77f57c-7c55-4af3-a9f7-6e81b7cf461b','<a href=\"http://puzzling.stackexchange.com/questions/9104/my-three-children-define-me\">Link&lt;&lt;</a>\n                    My three children define me\n                ','','2015-02-17 15:59:42'),(272,2,'0afb9a7d-7b1b-4ebe-adc9-5ac74b3b13e8','21249421-e8f3-4f91-b854-7d772197df9b','\n                    How do I handle an increasing lack of faith in my design abilities?\n                ','','2015-02-17 15:59:42'),(273,2,'0afb9a7d-7b1b-4ebe-adc9-5ac74b3b13e8','21249421-e8f3-4f91-b854-7d772197df9b','<a href=\"http://graphicdesign.stackexchange.com/questions/47324/how-do-i-handle-an-increasing-lack-of-faith-in-my-design-abilities\">Link&lt;&lt;</a>\n                    How do I handle an increasing lack of faith in my design abilities?\n                ','','2015-02-17 15:59:42'),(274,2,'0afb9a7d-7b1b-4ebe-adc9-5ac74b3b13e8','e4ed00c7-1605-497c-b95d-5c970ab8755c','\n                    Is it bad practice to use \"Lorem Ipsum\" example text in a text-preferences screen?\n                ','','2015-02-17 15:59:42'),(275,2,'0afb9a7d-7b1b-4ebe-adc9-5ac74b3b13e8','e4ed00c7-1605-497c-b95d-5c970ab8755c','<a href=\"http://ux.stackexchange.com/questions/73528/is-it-bad-practice-to-use-lorem-ipsum-example-text-in-a-text-preferences-scree\">Link&lt;&lt;</a>\n                    Is it bad practice to use \"Lorem Ipsum\" example text in a text-preferences screen?\n                ','','2015-02-17 15:59:42'),(276,2,'0afb9a7d-7b1b-4ebe-adc9-5ac74b3b13e8','89be65d9-2d67-4ae0-83ea-2dd4bb650292','\n                    Plausible Reasons for usage of Combat Mecha\n                ','','2015-02-17 15:59:42'),(277,2,'0afb9a7d-7b1b-4ebe-adc9-5ac74b3b13e8','89be65d9-2d67-4ae0-83ea-2dd4bb650292','<a href=\"http://worldbuilding.stackexchange.com/questions/10320/plausible-reasons-for-usage-of-combat-mecha\">Link&lt;&lt;</a>\n                    Plausible Reasons for usage of Combat Mecha\n                ','','2015-02-17 15:59:42'),(278,2,'0afb9a7d-7b1b-4ebe-adc9-5ac74b3b13e8','fb25af02-21e3-44af-89ac-8eb8a383eefc','\n                    Which power series have bounded integral coefficients and have an inverse given by a series having bounded integral coefficients\n                ','','2015-02-17 15:59:42'),(279,2,'0afb9a7d-7b1b-4ebe-adc9-5ac74b3b13e8','fb25af02-21e3-44af-89ac-8eb8a383eefc','<a href=\"http://mathoverflow.net/questions/196698/which-power-series-have-bounded-integral-coefficients-and-have-an-inverse-given\">Link&lt;&lt;</a>\n                    Which power series have bounded integral coefficients and have an inverse given by a series having bounded integral coefficients\n                ','','2015-02-17 15:59:42'),(280,2,'0afb9a7d-7b1b-4ebe-adc9-5ac74b3b13e8','64a15a6d-7d32-499b-8364-23dc82a7ebd9','\n                    Fifty shades of grey\n                ','','2015-02-17 15:59:42'),(281,2,'0afb9a7d-7b1b-4ebe-adc9-5ac74b3b13e8','64a15a6d-7d32-499b-8364-23dc82a7ebd9','<a href=\"http://codegolf.stackexchange.com/questions/45736/fifty-shades-of-grey\">Link&lt;&lt;</a>\n                    Fifty shades of grey\n                ','','2015-02-17 15:59:42'),(282,2,'0afb9a7d-7b1b-4ebe-adc9-5ac74b3b13e8','eb8fd218-bb68-4ee8-b276-919d76dff74d','\n                    Why is the UNIX system call kill named \'kill\'?\n                ','','2015-02-17 15:59:42'),(283,2,'0afb9a7d-7b1b-4ebe-adc9-5ac74b3b13e8','eb8fd218-bb68-4ee8-b276-919d76dff74d','<a href=\"http://unix.stackexchange.com/questions/185027/why-is-the-unix-system-call-kill-named-kill\">Link&lt;&lt;</a>\n                    Why is the UNIX system call kill named \'kill\'?\n                ','','2015-02-17 15:59:42'),(284,2,'0afb9a7d-7b1b-4ebe-adc9-5ac74b3b13e8','b831a664-3528-437e-aba4-4afcf0461263','\n                    Remotely Disabling Traps -- do I have to disable Disable Device to allow this?\n                ','','2015-02-17 15:59:42'),(285,2,'0afb9a7d-7b1b-4ebe-adc9-5ac74b3b13e8','b831a664-3528-437e-aba4-4afcf0461263','<a href=\"http://rpg.stackexchange.com/questions/56852/remotely-disabling-traps-do-i-have-to-disable-disable-device-to-allow-this\">Link&lt;&lt;</a>\n                    Remotely Disabling Traps -- do I have to disable Disable Device to allow this?\n                ','','2015-02-17 15:59:42'),(286,2,'0afb9a7d-7b1b-4ebe-adc9-5ac74b3b13e8','ca618167-d061-4374-8533-9de22487fe8c','\n                    Does a Jewish woman married to a non-Jew need to cover her hair?\n                ','','2015-02-17 15:59:42'),(287,2,'0afb9a7d-7b1b-4ebe-adc9-5ac74b3b13e8','ca618167-d061-4374-8533-9de22487fe8c','<a href=\"http://judaism.stackexchange.com/questions/54053/does-a-jewish-woman-married-to-a-non-jew-need-to-cover-her-hair\">Link&lt;&lt;</a>\n                    Does a Jewish woman married to a non-Jew need to cover her hair?\n                ','','2015-02-17 15:59:42'),(288,2,'0afb9a7d-7b1b-4ebe-adc9-5ac74b3b13e8','23d2d14b-3ca3-4d27-a3eb-885d08dcb588','\n                    3D surface that looks like a virus\n                ','','2015-02-17 15:59:42'),(289,2,'0afb9a7d-7b1b-4ebe-adc9-5ac74b3b13e8','23d2d14b-3ca3-4d27-a3eb-885d08dcb588','<a href=\"http://mathematica.stackexchange.com/questions/74193/3d-surface-that-looks-like-a-virus\">Link&lt;&lt;</a>\n                    3D surface that looks like a virus\n                ','','2015-02-17 15:59:42'),(290,2,'0afb9a7d-7b1b-4ebe-adc9-5ac74b3b13e8','6319e8d2-0a68-4f2e-9a99-0ad6b9acd04f','\n                    What is the difference between a flow and a checklist?\n                ','','2015-02-17 15:59:42'),(291,2,'0afb9a7d-7b1b-4ebe-adc9-5ac74b3b13e8','6319e8d2-0a68-4f2e-9a99-0ad6b9acd04f','<a href=\"http://aviation.stackexchange.com/questions/12707/what-is-the-difference-between-a-flow-and-a-checklist\">Link&lt;&lt;</a>\n                    What is the difference between a flow and a checklist?\n                ','','2015-02-17 15:59:42'),(292,2,'0afb9a7d-7b1b-4ebe-adc9-5ac74b3b13e8','cff5898c-edab-4ed8-bcbd-8b6d7c3bfa53','\n                    Is Ï€ equal to 180°?\n                ','','2015-02-17 15:59:42'),(293,2,'0afb9a7d-7b1b-4ebe-adc9-5ac74b3b13e8','cff5898c-edab-4ed8-bcbd-8b6d7c3bfa53','<a href=\"http://math.stackexchange.com/questions/1150363/is-%cf%80-equal-to-180%c2%b0\">Link&lt;&lt;</a>\n                    Is Ï€ equal to 180°?\n                ','','2015-02-17 15:59:42'),(294,2,'0afb9a7d-7b1b-4ebe-adc9-5ac74b3b13e8','6215bc09-7acd-4a61-9db4-73100138608c','\n                    Is it OK to ignore InterruptedException if nobody calls interrupt()?\n                ','','2015-02-17 15:59:42'),(295,2,'0afb9a7d-7b1b-4ebe-adc9-5ac74b3b13e8','6215bc09-7acd-4a61-9db4-73100138608c','<a href=\"http://stackoverflow.com/questions/28544867/is-it-ok-to-ignore-interruptedexception-if-nobody-calls-interrupt\">Link&lt;&lt;</a>\n                    Is it OK to ignore InterruptedException if nobody calls interrupt()?\n                ','','2015-02-17 15:59:42'),(296,2,'0afb9a7d-7b1b-4ebe-adc9-5ac74b3b13e8','3832831a-8a9d-462f-9d60-254a05f9a9fd','\n                    Which is the best lure to use on a mousetrap?\n                ','','2015-02-17 15:59:42'),(297,2,'0afb9a7d-7b1b-4ebe-adc9-5ac74b3b13e8','3832831a-8a9d-462f-9d60-254a05f9a9fd','<a href=\"http://lifehacks.stackexchange.com/questions/4371/which-is-the-best-lure-to-use-on-a-mousetrap\">Link&lt;&lt;</a>\n                    Which is the best lure to use on a mousetrap?\n                ','','2015-02-17 15:59:42'),(298,2,'0afb9a7d-7b1b-4ebe-adc9-5ac74b3b13e8','19739069-6a15-49b0-940b-7f8deca03789','\n                    Relationship between nerves and axons\n                ','','2015-02-17 15:59:42'),(299,2,'0afb9a7d-7b1b-4ebe-adc9-5ac74b3b13e8','19739069-6a15-49b0-940b-7f8deca03789','<a href=\"http://biology.stackexchange.com/questions/28618/relationship-between-nerves-and-axons\">Link&lt;&lt;</a>\n                    Relationship between nerves and axons\n                ','','2015-02-17 15:59:42'),(300,2,'0afb9a7d-7b1b-4ebe-adc9-5ac74b3b13e8','1ceab202-c3e7-4c21-a177-31c99da41664','\n                    ATTINY85 measuring internal voltage\n                ','','2015-02-17 15:59:42'),(301,2,'0afb9a7d-7b1b-4ebe-adc9-5ac74b3b13e8','1ceab202-c3e7-4c21-a177-31c99da41664','<a href=\"http://electronics.stackexchange.com/questions/154523/attiny85-measuring-internal-voltage\">Link&lt;&lt;</a>\n                    ATTINY85 measuring internal voltage\n                ','','2015-02-17 15:59:42'),(302,2,'0afb9a7d-7b1b-4ebe-adc9-5ac74b3b13e8','58f21a36-cb48-4fbb-826b-a40ef37f7ff8','\n                    Why did English become Lingua Franca of the modern world?\n                ','','2015-02-17 15:59:42'),(303,2,'0afb9a7d-7b1b-4ebe-adc9-5ac74b3b13e8','58f21a36-cb48-4fbb-826b-a40ef37f7ff8','<a href=\"http://history.stackexchange.com/questions/19413/why-did-english-become-lingua-franca-of-the-modern-world\">Link&lt;&lt;</a>\n                    Why did English become Lingua Franca of the modern world?\n                ','','2015-02-17 15:59:42'),(304,2,'0afb9a7d-7b1b-4ebe-adc9-5ac74b3b13e8','3f1569c3-89e1-4a13-9849-a669841f331d','\n                    What does Voldemort mean when he asks Wormtail to \'milk\' Nagini?\n                ','','2015-02-17 15:59:42'),(305,2,'0afb9a7d-7b1b-4ebe-adc9-5ac74b3b13e8','3f1569c3-89e1-4a13-9849-a669841f331d','<a href=\"http://scifi.stackexchange.com/questions/81668/what-does-voldemort-mean-when-he-asks-wormtail-to-milk-nagini\">Link&lt;&lt;</a>\n                    What does Voldemort mean when he asks Wormtail to \'milk\' Nagini?\n                ','','2015-02-17 15:59:42'),(306,2,'3bf2acde-52d0-43f7-90e6-c8ddb1a42490','49f7394c-8df1-4766-995a-0d31bfc52231','<a href=\"null/tour\">Link&lt;&lt;</a>tour','','2015-02-17 15:59:42'),(307,2,'3bf2acde-52d0-43f7-90e6-c8ddb1a42490','3a13a90f-8d55-4f77-a5c7-1ce3ff512818','<a href=\"null/help\">Link&lt;&lt;</a>help','','2015-02-17 15:59:42'),(308,2,'3bf2acde-52d0-43f7-90e6-c8ddb1a42490','9a85894d-dcc1-4082-b79a-5629ec557572','<a href=\"http://blog.stackoverflow.com?blb=1\">Link&lt;&lt;</a>blog','','2015-02-17 15:59:42'),(309,2,'3bf2acde-52d0-43f7-90e6-c8ddb1a42490','80a1af3d-009a-4841-aec2-c3c102d8c45a','<a href=\"http://chat.stackoverflow.com\">Link&lt;&lt;</a>chat','','2015-02-17 15:59:42'),(310,2,'3bf2acde-52d0-43f7-90e6-c8ddb1a42490','0dda866b-c226-4798-a481-72c6da087027','<a href=\"http://data.stackexchange.com\">Link&lt;&lt;</a>data','','2015-02-17 15:59:42'),(311,2,'3bf2acde-52d0-43f7-90e6-c8ddb1a42490','4291458d-8599-4f1d-8a11-d414b657a7cb','<a href=\"http://stackexchange.com/legal\">Link&lt;&lt;</a>legal','','2015-02-17 15:59:42'),(312,2,'3bf2acde-52d0-43f7-90e6-c8ddb1a42490','4990aed2-ec8d-4da6-b06b-f488643c9ead','<a href=\"http://stackexchange.com/legal/privacy-policy\">Link&lt;&lt;</a>privacy policy','','2015-02-17 15:59:42'),(313,2,'3bf2acde-52d0-43f7-90e6-c8ddb1a42490','577f7ecb-2de6-454f-aad1-0f058c879faa','<a href=\"http://stackexchange.com/work-here\">Link&lt;&lt;</a>work here','','2015-02-17 15:59:42'),(314,2,'3bf2acde-52d0-43f7-90e6-c8ddb1a42490','29e2210c-28e6-4e86-8ad1-d093a7bd089a','<a href=\"http://stackexchange.com/mediakit\">Link&lt;&lt;</a>advertising info','','2015-02-17 15:59:42'),(315,2,'3bf2acde-52d0-43f7-90e6-c8ddb1a42490','e4a2ba13-657e-4026-8c7d-8e942750efba','mobile','','2015-02-17 15:59:42'),(316,2,'f5ebacc0-9b03-456e-a560-e0858e750dfc','f2b47b92-b712-4556-9a39-f84c78469a5e','contact us','','2015-02-17 15:59:42'),(317,2,'f5ebacc0-9b03-456e-a560-e0858e750dfc','f2b47b92-b712-4556-9a39-f84c78469a5e','<a href=\"null/contact\">Link&lt;&lt;</a>contact us','','2015-02-17 15:59:42'),(318,2,'f5ebacc0-9b03-456e-a560-e0858e750dfc','8cc99419-e8a8-452e-837a-1d3203b4ec62','feedback','','2015-02-17 15:59:42'),(319,2,'f5ebacc0-9b03-456e-a560-e0858e750dfc','8cc99419-e8a8-452e-837a-1d3203b4ec62','<a href=\"http://meta.stackoverflow.com\">Link&lt;&lt;</a>feedback','','2015-02-17 15:59:42'),(320,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','47a49ae6-844c-4bbf-a244-f86d60e43561','Stack Overflow','','2015-02-17 15:59:42'),(321,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','47a49ae6-844c-4bbf-a244-f86d60e43561','<a href=\"null//stackoverflow.com\">Link&lt;&lt;</a>Stack Overflow','','2015-02-17 15:59:42'),(322,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','47a49ae6-844c-4bbf-a244-f86d60e43561','Server Fault','','2015-02-17 15:59:42'),(323,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','47a49ae6-844c-4bbf-a244-f86d60e43561','<a href=\"null//serverfault.com\">Link&lt;&lt;</a>Server Fault','','2015-02-17 15:59:42'),(324,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','47a49ae6-844c-4bbf-a244-f86d60e43561','Super User','','2015-02-17 15:59:42'),(325,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','47a49ae6-844c-4bbf-a244-f86d60e43561','<a href=\"null//superuser.com\">Link&lt;&lt;</a>Super User','','2015-02-17 15:59:42'),(326,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','47a49ae6-844c-4bbf-a244-f86d60e43561','Web Applications','','2015-02-17 15:59:43'),(327,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','47a49ae6-844c-4bbf-a244-f86d60e43561','<a href=\"null//webapps.stackexchange.com\">Link&lt;&lt;</a>Web Applications','','2015-02-17 15:59:43'),(328,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','47a49ae6-844c-4bbf-a244-f86d60e43561','Ask Ubuntu','','2015-02-17 15:59:43'),(329,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','47a49ae6-844c-4bbf-a244-f86d60e43561','<a href=\"null//askubuntu.com\">Link&lt;&lt;</a>Ask Ubuntu','','2015-02-17 15:59:43'),(330,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','47a49ae6-844c-4bbf-a244-f86d60e43561','Webmasters','','2015-02-17 15:59:43'),(331,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','47a49ae6-844c-4bbf-a244-f86d60e43561','<a href=\"null//webmasters.stackexchange.com\">Link&lt;&lt;</a>Webmasters','','2015-02-17 15:59:43'),(332,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','47a49ae6-844c-4bbf-a244-f86d60e43561','Game Development','','2015-02-17 15:59:43'),(333,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','47a49ae6-844c-4bbf-a244-f86d60e43561','<a href=\"null//gamedev.stackexchange.com\">Link&lt;&lt;</a>Game Development','','2015-02-17 15:59:43'),(334,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','47a49ae6-844c-4bbf-a244-f86d60e43561','TeX - LaTeX','','2015-02-17 15:59:43'),(335,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','47a49ae6-844c-4bbf-a244-f86d60e43561','<a href=\"null//tex.stackexchange.com\">Link&lt;&lt;</a>TeX - LaTeX','','2015-02-17 15:59:43'),(336,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','47a49ae6-844c-4bbf-a244-f86d60e43561',NULL,'','2015-02-17 15:59:43'),(337,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','47a49ae6-844c-4bbf-a244-f86d60e43561',NULL,'','2015-02-17 15:59:43'),(338,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','7795f521-f991-4465-bc7e-cb8ceb747024','Programmers','','2015-02-17 15:59:43'),(339,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','7795f521-f991-4465-bc7e-cb8ceb747024','<a href=\"null//programmers.stackexchange.com\">Link&lt;&lt;</a>Programmers','','2015-02-17 15:59:43'),(340,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','7795f521-f991-4465-bc7e-cb8ceb747024','Unix & Linux','','2015-02-17 15:59:43'),(341,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','7795f521-f991-4465-bc7e-cb8ceb747024','<a href=\"null//unix.stackexchange.com\">Link&lt;&lt;</a>Unix & Linux','','2015-02-17 15:59:43'),(342,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','7795f521-f991-4465-bc7e-cb8ceb747024','Ask Different (Apple)','','2015-02-17 15:59:43'),(343,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','7795f521-f991-4465-bc7e-cb8ceb747024','<a href=\"null//apple.stackexchange.com\">Link&lt;&lt;</a>Ask Different (Apple)','','2015-02-17 15:59:43'),(344,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','7795f521-f991-4465-bc7e-cb8ceb747024','WordPress Development','','2015-02-17 15:59:43'),(345,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','7795f521-f991-4465-bc7e-cb8ceb747024','<a href=\"null//wordpress.stackexchange.com\">Link&lt;&lt;</a>WordPress Development','','2015-02-17 15:59:43'),(346,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','7795f521-f991-4465-bc7e-cb8ceb747024','Geographic Information Systems','','2015-02-17 15:59:43'),(347,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','7795f521-f991-4465-bc7e-cb8ceb747024','<a href=\"null//gis.stackexchange.com\">Link&lt;&lt;</a>Geographic Information Systems','','2015-02-17 15:59:43'),(348,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','7795f521-f991-4465-bc7e-cb8ceb747024','Electrical Engineering','','2015-02-17 15:59:43'),(349,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','7795f521-f991-4465-bc7e-cb8ceb747024','<a href=\"null//electronics.stackexchange.com\">Link&lt;&lt;</a>Electrical Engineering','','2015-02-17 15:59:43'),(350,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','7795f521-f991-4465-bc7e-cb8ceb747024','Android Enthusiasts','','2015-02-17 15:59:43'),(351,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','7795f521-f991-4465-bc7e-cb8ceb747024','<a href=\"null//android.stackexchange.com\">Link&lt;&lt;</a>Android Enthusiasts','','2015-02-17 15:59:43'),(352,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','7795f521-f991-4465-bc7e-cb8ceb747024','Information Security','','2015-02-17 15:59:43'),(353,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','7795f521-f991-4465-bc7e-cb8ceb747024','<a href=\"null//security.stackexchange.com\">Link&lt;&lt;</a>Information Security','','2015-02-17 15:59:43'),(354,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','7795f521-f991-4465-bc7e-cb8ceb747024',NULL,'','2015-02-17 15:59:43'),(355,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','7795f521-f991-4465-bc7e-cb8ceb747024',NULL,'','2015-02-17 15:59:43'),(356,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','53a9125f-36ce-4486-ab00-8ec8b1e89e16','Database Administrators','','2015-02-17 15:59:43'),(357,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','53a9125f-36ce-4486-ab00-8ec8b1e89e16','<a href=\"null//dba.stackexchange.com\">Link&lt;&lt;</a>Database Administrators','','2015-02-17 15:59:43'),(358,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','53a9125f-36ce-4486-ab00-8ec8b1e89e16','Drupal Answers','','2015-02-17 15:59:43'),(359,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','53a9125f-36ce-4486-ab00-8ec8b1e89e16','<a href=\"null//drupal.stackexchange.com\">Link&lt;&lt;</a>Drupal Answers','','2015-02-17 15:59:43'),(360,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','53a9125f-36ce-4486-ab00-8ec8b1e89e16','SharePoint','','2015-02-17 15:59:43'),(361,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','53a9125f-36ce-4486-ab00-8ec8b1e89e16','<a href=\"null//sharepoint.stackexchange.com\">Link&lt;&lt;</a>SharePoint','','2015-02-17 15:59:43'),(362,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','53a9125f-36ce-4486-ab00-8ec8b1e89e16','User Experience','','2015-02-17 15:59:43'),(363,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','53a9125f-36ce-4486-ab00-8ec8b1e89e16','<a href=\"null//ux.stackexchange.com\">Link&lt;&lt;</a>User Experience','','2015-02-17 15:59:43'),(364,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','53a9125f-36ce-4486-ab00-8ec8b1e89e16','Mathematica','','2015-02-17 15:59:43'),(365,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','53a9125f-36ce-4486-ab00-8ec8b1e89e16','<a href=\"null//mathematica.stackexchange.com\">Link&lt;&lt;</a>Mathematica','','2015-02-17 15:59:43'),(366,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','53a9125f-36ce-4486-ab00-8ec8b1e89e16','Salesforce','','2015-02-17 15:59:43'),(367,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','53a9125f-36ce-4486-ab00-8ec8b1e89e16','<a href=\"null//salesforce.stackexchange.com\">Link&lt;&lt;</a>Salesforce','','2015-02-17 15:59:43'),(368,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','53a9125f-36ce-4486-ab00-8ec8b1e89e16','\n                                more (14)\n                            ','','2015-02-17 15:59:43'),(369,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','53a9125f-36ce-4486-ab00-8ec8b1e89e16','<a href=\"http://stackexchange.com/sites#technology\">Link&lt;&lt;</a>\n                                more (14)\n                            ','','2015-02-17 15:59:43'),(370,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','53a9125f-36ce-4486-ab00-8ec8b1e89e16',NULL,'','2015-02-17 15:59:43'),(371,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','53a9125f-36ce-4486-ab00-8ec8b1e89e16',NULL,'','2015-02-17 15:59:43'),(372,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','53a9125f-36ce-4486-ab00-8ec8b1e89e16',NULL,'','2015-02-17 15:59:43'),(373,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','53a9125f-36ce-4486-ab00-8ec8b1e89e16',NULL,'','2015-02-17 15:59:43'),(374,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','18c89ba5-c0d5-4ca9-ad69-9c774001b7a8','Photography','','2015-02-17 15:59:43'),(375,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','18c89ba5-c0d5-4ca9-ad69-9c774001b7a8','<a href=\"null//photo.stackexchange.com\">Link&lt;&lt;</a>Photography','','2015-02-17 15:59:43'),(376,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','18c89ba5-c0d5-4ca9-ad69-9c774001b7a8','Science Fiction & Fantasy','','2015-02-17 15:59:43'),(377,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','18c89ba5-c0d5-4ca9-ad69-9c774001b7a8','<a href=\"null//scifi.stackexchange.com\">Link&lt;&lt;</a>Science Fiction & Fantasy','','2015-02-17 15:59:43'),(378,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','18c89ba5-c0d5-4ca9-ad69-9c774001b7a8','Graphic Design','','2015-02-17 15:59:43'),(379,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','18c89ba5-c0d5-4ca9-ad69-9c774001b7a8','<a href=\"null//graphicdesign.stackexchange.com\">Link&lt;&lt;</a>Graphic Design','','2015-02-17 15:59:43'),(380,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','18c89ba5-c0d5-4ca9-ad69-9c774001b7a8','Seasoned Advice (cooking)','','2015-02-17 15:59:43'),(381,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','18c89ba5-c0d5-4ca9-ad69-9c774001b7a8','<a href=\"null//cooking.stackexchange.com\">Link&lt;&lt;</a>Seasoned Advice (cooking)','','2015-02-17 15:59:43'),(382,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','18c89ba5-c0d5-4ca9-ad69-9c774001b7a8','Home Improvement','','2015-02-17 15:59:43'),(383,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','18c89ba5-c0d5-4ca9-ad69-9c774001b7a8','<a href=\"null//diy.stackexchange.com\">Link&lt;&lt;</a>Home Improvement','','2015-02-17 15:59:43'),(384,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','18c89ba5-c0d5-4ca9-ad69-9c774001b7a8','Personal Finance & Money','','2015-02-17 15:59:43'),(385,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','18c89ba5-c0d5-4ca9-ad69-9c774001b7a8','<a href=\"null//money.stackexchange.com\">Link&lt;&lt;</a>Personal Finance & Money','','2015-02-17 15:59:43'),(386,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','18c89ba5-c0d5-4ca9-ad69-9c774001b7a8','Academia','','2015-02-17 15:59:43'),(387,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','18c89ba5-c0d5-4ca9-ad69-9c774001b7a8','<a href=\"null//academia.stackexchange.com\">Link&lt;&lt;</a>Academia','','2015-02-17 15:59:43'),(388,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','18c89ba5-c0d5-4ca9-ad69-9c774001b7a8','\n                                more (10)\n                            ','','2015-02-17 15:59:43'),(389,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','18c89ba5-c0d5-4ca9-ad69-9c774001b7a8','<a href=\"http://stackexchange.com/sites#lifearts\">Link&lt;&lt;</a>\n                                more (10)\n                            ','','2015-02-17 15:59:43'),(390,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','18c89ba5-c0d5-4ca9-ad69-9c774001b7a8',NULL,'','2015-02-17 15:59:43'),(391,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','18c89ba5-c0d5-4ca9-ad69-9c774001b7a8',NULL,'','2015-02-17 15:59:43'),(392,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','d4bb0719-94e5-4572-93bf-f30635633afa','English Language & Usage','','2015-02-17 15:59:43'),(393,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','d4bb0719-94e5-4572-93bf-f30635633afa','<a href=\"null//english.stackexchange.com\">Link&lt;&lt;</a>English Language & Usage','','2015-02-17 15:59:43'),(394,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','d4bb0719-94e5-4572-93bf-f30635633afa','Skeptics','','2015-02-17 15:59:43'),(395,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','d4bb0719-94e5-4572-93bf-f30635633afa','<a href=\"null//skeptics.stackexchange.com\">Link&lt;&lt;</a>Skeptics','','2015-02-17 15:59:43'),(396,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','d4bb0719-94e5-4572-93bf-f30635633afa','Mi Yodeya (Judaism)','','2015-02-17 15:59:43'),(397,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','d4bb0719-94e5-4572-93bf-f30635633afa','<a href=\"null//judaism.stackexchange.com\">Link&lt;&lt;</a>Mi Yodeya (Judaism)','','2015-02-17 15:59:43'),(398,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','d4bb0719-94e5-4572-93bf-f30635633afa','Travel','','2015-02-17 15:59:43'),(399,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','d4bb0719-94e5-4572-93bf-f30635633afa','<a href=\"null//travel.stackexchange.com\">Link&lt;&lt;</a>Travel','','2015-02-17 15:59:43'),(400,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','d4bb0719-94e5-4572-93bf-f30635633afa','Christianity','','2015-02-17 15:59:43'),(401,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','d4bb0719-94e5-4572-93bf-f30635633afa','<a href=\"null//christianity.stackexchange.com\">Link&lt;&lt;</a>Christianity','','2015-02-17 15:59:43'),(402,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','d4bb0719-94e5-4572-93bf-f30635633afa','Arqade (gaming)','','2015-02-17 15:59:43'),(403,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','d4bb0719-94e5-4572-93bf-f30635633afa','<a href=\"null//gaming.stackexchange.com\">Link&lt;&lt;</a>Arqade (gaming)','','2015-02-17 15:59:43'),(404,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','d4bb0719-94e5-4572-93bf-f30635633afa','Bicycles','','2015-02-17 15:59:43'),(405,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','d4bb0719-94e5-4572-93bf-f30635633afa','<a href=\"null//bicycles.stackexchange.com\">Link&lt;&lt;</a>Bicycles','','2015-02-17 15:59:43'),(406,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','d4bb0719-94e5-4572-93bf-f30635633afa','Role-playing Games','','2015-02-17 15:59:43'),(407,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','d4bb0719-94e5-4572-93bf-f30635633afa','<a href=\"null//rpg.stackexchange.com\">Link&lt;&lt;</a>Role-playing Games','','2015-02-17 15:59:43'),(408,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','d4bb0719-94e5-4572-93bf-f30635633afa','\n                                more (21)\n                            ','','2015-02-17 15:59:43'),(409,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','d4bb0719-94e5-4572-93bf-f30635633afa','<a href=\"http://stackexchange.com/sites#culturerecreation\">Link&lt;&lt;</a>\n                                more (21)\n                            ','','2015-02-17 15:59:43'),(410,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','3dc9dd8d-92ba-478f-b426-cbe125ec04c9','Mathematics','','2015-02-17 15:59:43'),(411,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','3dc9dd8d-92ba-478f-b426-cbe125ec04c9','<a href=\"null//math.stackexchange.com\">Link&lt;&lt;</a>Mathematics','','2015-02-17 15:59:43'),(412,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','3dc9dd8d-92ba-478f-b426-cbe125ec04c9','Cross Validated (stats)','','2015-02-17 15:59:43'),(413,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','3dc9dd8d-92ba-478f-b426-cbe125ec04c9','<a href=\"null//stats.stackexchange.com\">Link&lt;&lt;</a>Cross Validated (stats)','','2015-02-17 15:59:43'),(414,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','3dc9dd8d-92ba-478f-b426-cbe125ec04c9','Theoretical Computer Science','','2015-02-17 15:59:43'),(415,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','3dc9dd8d-92ba-478f-b426-cbe125ec04c9','<a href=\"null//cstheory.stackexchange.com\">Link&lt;&lt;</a>Theoretical Computer Science','','2015-02-17 15:59:43'),(416,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','3dc9dd8d-92ba-478f-b426-cbe125ec04c9','Physics','','2015-02-17 15:59:43'),(417,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','3dc9dd8d-92ba-478f-b426-cbe125ec04c9','<a href=\"null//physics.stackexchange.com\">Link&lt;&lt;</a>Physics','','2015-02-17 15:59:43'),(418,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','3dc9dd8d-92ba-478f-b426-cbe125ec04c9','MathOverflow','','2015-02-17 15:59:43'),(419,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','3dc9dd8d-92ba-478f-b426-cbe125ec04c9','<a href=\"null//mathoverflow.net\">Link&lt;&lt;</a>MathOverflow','','2015-02-17 15:59:43'),(420,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','3dc9dd8d-92ba-478f-b426-cbe125ec04c9','\n                                more (7)\n                            ','','2015-02-17 15:59:43'),(421,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','3dc9dd8d-92ba-478f-b426-cbe125ec04c9','<a href=\"http://stackexchange.com/sites#science\">Link&lt;&lt;</a>\n                                more (7)\n                            ','','2015-02-17 15:59:43'),(422,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','3dc9dd8d-92ba-478f-b426-cbe125ec04c9',NULL,'','2015-02-17 15:59:43'),(423,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','3dc9dd8d-92ba-478f-b426-cbe125ec04c9',NULL,'','2015-02-17 15:59:43'),(424,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','3dc9dd8d-92ba-478f-b426-cbe125ec04c9',NULL,'','2015-02-17 15:59:43'),(425,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','3dc9dd8d-92ba-478f-b426-cbe125ec04c9',NULL,'','2015-02-17 15:59:43'),(426,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','3dc9dd8d-92ba-478f-b426-cbe125ec04c9',NULL,'','2015-02-17 15:59:43'),(427,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','3dc9dd8d-92ba-478f-b426-cbe125ec04c9',NULL,'','2015-02-17 15:59:43'),(428,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','ef76876d-fa02-4371-b6f1-265aaac7c368','Stack Apps','','2015-02-17 15:59:43'),(429,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','ef76876d-fa02-4371-b6f1-265aaac7c368','<a href=\"null//stackapps.com\">Link&lt;&lt;</a>Stack Apps','','2015-02-17 15:59:43'),(430,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','ef76876d-fa02-4371-b6f1-265aaac7c368','Meta Stack Exchange','','2015-02-17 15:59:43'),(431,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','ef76876d-fa02-4371-b6f1-265aaac7c368','<a href=\"null//meta.stackexchange.com\">Link&lt;&lt;</a>Meta Stack Exchange','','2015-02-17 15:59:43'),(432,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','ef76876d-fa02-4371-b6f1-265aaac7c368','Area 51','','2015-02-17 15:59:43'),(433,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','ef76876d-fa02-4371-b6f1-265aaac7c368','<a href=\"null//area51.stackexchange.com\">Link&lt;&lt;</a>Area 51','','2015-02-17 15:59:43'),(434,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','ef76876d-fa02-4371-b6f1-265aaac7c368','Stack Overflow Careers','','2015-02-17 15:59:43'),(435,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','ef76876d-fa02-4371-b6f1-265aaac7c368','<a href=\"null//careers.stackoverflow.com\">Link&lt;&lt;</a>Stack Overflow Careers','','2015-02-17 15:59:43'),(436,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','ef76876d-fa02-4371-b6f1-265aaac7c368',NULL,'','2015-02-17 15:59:43'),(437,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','ef76876d-fa02-4371-b6f1-265aaac7c368',NULL,'','2015-02-17 15:59:43'),(438,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','ef76876d-fa02-4371-b6f1-265aaac7c368',NULL,'','2015-02-17 15:59:43'),(439,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','ef76876d-fa02-4371-b6f1-265aaac7c368',NULL,'','2015-02-17 15:59:43'),(440,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','ef76876d-fa02-4371-b6f1-265aaac7c368',NULL,'','2015-02-17 15:59:43'),(441,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','ef76876d-fa02-4371-b6f1-265aaac7c368',NULL,'','2015-02-17 15:59:43'),(442,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','ef76876d-fa02-4371-b6f1-265aaac7c368',NULL,'','2015-02-17 15:59:43'),(443,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','ef76876d-fa02-4371-b6f1-265aaac7c368',NULL,'','2015-02-17 15:59:43'),(444,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','ef76876d-fa02-4371-b6f1-265aaac7c368',NULL,'','2015-02-17 15:59:43'),(445,2,'1d12e53a-78a5-444b-bb02-1e0f1411c3e3','ef76876d-fa02-4371-b6f1-265aaac7c368',NULL,'','2015-02-17 15:59:43');
+
+/*Table structure for table `page_url_info` */
+
+DROP TABLE IF EXISTS `page_url_info`;
+
+CREATE TABLE `page_url_info` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `url` text,
+  `element` varchar(50) DEFAULT NULL,
+  `attribute` varchar(50) DEFAULT NULL,
+  `value` varchar(50) DEFAULT NULL,
+  `extracted_date` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+/*Data for the table `page_url_info` */
+
+insert  into `page_url_info`(`id`,`url`,`element`,`attribute`,`value`,`extracted_date`) values (2,'http://stackoverflow.com/questions/2044017/how-to-extract-the-data-from-a-website-using-java',NULL,NULL,NULL,NULL);
+
+/*Table structure for table `sys_area_city` */
 
 DROP TABLE IF EXISTS `sys_area_city`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+
 CREATE TABLE `sys_area_city` (
-  `id` int(11) NOT NULL auto_increment,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `city_id` varchar(4) NOT NULL,
   `city` varchar(50) NOT NULL,
   `province_id` varchar(2) NOT NULL,
-  PRIMARY KEY  (`id`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table ` sys_area_city`
---
+/*Data for the table `sys_area_city` */
 
-LOCK TABLES `sys_area_city` WRITE;
-/*!40000 ALTER TABLE ` sys_area_city` DISABLE KEYS */;
-/*!40000 ALTER TABLE ` sys_area_city` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table ` sys_area_county`
---
+/*Table structure for table `sys_area_county` */
 
 DROP TABLE IF EXISTS `sys_area_county`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+
 CREATE TABLE `sys_area_county` (
-  `id` int(11) NOT NULL auto_increment,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `county_id` varchar(6) NOT NULL,
   `county` varchar(50) NOT NULL,
   `city_id` varchar(4) NOT NULL,
-  `county_value` varchar(2) default NULL,
-  PRIMARY KEY  (`id`)
+  `county_value` varchar(2) DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table ` sys_area_county`
---
+/*Data for the table `sys_area_county` */
 
-LOCK TABLES `sys_area_county` WRITE;
-/*!40000 ALTER TABLE ` sys_area_county` DISABLE KEYS */;
-/*!40000 ALTER TABLE ` sys_area_county` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table ` sys_area_province`
---
+/*Table structure for table `sys_area_province` */
 
 DROP TABLE IF EXISTS `sys_area_province`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+
 CREATE TABLE `sys_area_province` (
-  `id` int(11) NOT NULL auto_increment,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `province_id` varchar(2) NOT NULL,
   `province` varchar(50) NOT NULL,
   `province_for_short` varchar(20) NOT NULL,
-  `province_for_bus_no` varchar(20) default NULL,
-  PRIMARY KEY  (`id`)
+  `province_for_bus_no` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table ` sys_area_province`
---
+/*Data for the table `sys_area_province` */
 
-LOCK TABLES `sys_area_province` WRITE;
-/*!40000 ALTER TABLE ` sys_area_province` DISABLE KEYS */;
-/*!40000 ALTER TABLE ` sys_area_province` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table ` sys_attachment`
---
+/*Table structure for table `sys_attachment` */
 
 DROP TABLE IF EXISTS `sys_attachment`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+
 CREATE TABLE `sys_attachment` (
-  `id` int(11) NOT NULL auto_increment,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `file_name` varchar(500) NOT NULL,
   `file_path` varchar(500) NOT NULL,
   `rid` varchar(100) NOT NULL,
-  PRIMARY KEY  (`id`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table ` sys_attachment`
---
+/*Data for the table `sys_attachment` */
 
-LOCK TABLES `sys_attachment` WRITE;
-/*!40000 ALTER TABLE ` sys_attachment` DISABLE KEYS */;
-/*!40000 ALTER TABLE ` sys_attachment` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table ` sys_organization`
---
+/*Table structure for table `sys_organization` */
 
 DROP TABLE IF EXISTS `sys_organization`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+
 CREATE TABLE `sys_organization` (
-  `id` int(11) NOT NULL auto_increment,
-  `unit_code` varchar(100) default NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `unit_code` varchar(100) DEFAULT NULL,
   `unit_name` varchar(50) NOT NULL,
-  `pid` int(11) default NULL,
-  `area` char(10) default NULL,
-  `remark` varchar(30) default NULL,
-  PRIMARY KEY  (`id`)
+  `pid` int(11) DEFAULT NULL,
+  `area` char(10) DEFAULT NULL,
+  `remark` varchar(30) DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table ` sys_organization`
---
+/*Data for the table `sys_organization` */
 
-LOCK TABLES `sys_organization` WRITE;
-/*!40000 ALTER TABLE ` sys_organization` DISABLE KEYS */;
-/*!40000 ALTER TABLE ` sys_organization` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table ` sys_parameter`
---
+/*Table structure for table `sys_parameter` */
 
 DROP TABLE IF EXISTS `sys_parameter`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+
 CREATE TABLE `sys_parameter` (
-  `id` bigint(20) NOT NULL auto_increment,
-  `uuid` varchar(255) NOT NULL default '',
-  `category` varchar(255) default NULL,
-  `subcategory` varchar(255) default NULL,
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `uuid` varchar(255) NOT NULL DEFAULT '',
+  `category` varchar(255) DEFAULT NULL,
+  `subcategory` varchar(255) DEFAULT NULL,
   `name` varchar(255) NOT NULL,
   `value` varchar(255) NOT NULL,
-  `remark` varchar(255) default NULL,
-  `short_name` varchar(255) default NULL,
-  `sort` int(11) default NULL,
-  `parent_id` int(20) default NULL,
-  PRIMARY KEY  (`id`)
+  `remark` varchar(255) DEFAULT NULL,
+  `short_name` varchar(255) DEFAULT NULL,
+  `sort` int(11) DEFAULT NULL,
+  `parent_id` int(20) DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table ` sys_parameter`
---
+/*Data for the table `sys_parameter` */
 
-LOCK TABLES `sys_parameter` WRITE;
-/*!40000 ALTER TABLE ` sys_parameter` DISABLE KEYS */;
-/*!40000 ALTER TABLE ` sys_parameter` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table ` sys_permission`
---
+/*Table structure for table `sys_permission` */
 
 DROP TABLE IF EXISTS `sys_permission`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+
 CREATE TABLE `sys_permission` (
-  `id` bigint(20) NOT NULL auto_increment,
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `pid` bigint(20) NOT NULL,
   `ckey` varchar(255) NOT NULL,
   `pkey` varchar(255) NOT NULL,
   `name` varchar(255) NOT NULL,
   `value` varchar(255) NOT NULL,
-  `permission_type` varchar(255) default NULL,
-  `sort` int(11) default '0',
-  PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+  `permission_type` varchar(255) DEFAULT NULL,
+  `sort` int(11) DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
---
--- Dumping data for table ` sys_permission`
---
+/*Data for the table `sys_permission` */
 
-LOCK TABLES `sys_permission` WRITE;
-/*!40000 ALTER TABLE ` sys_permission` DISABLE KEYS */;
-INSERT INTO `sys_permission` VALUES (1,0,'bc914d00-6837-492c-8f99-471b2176bdb4','0','ç³»ç»Ÿè®¾ç½®','menu:setting','2',0),(2,1,'d2274a49-74a6-4d0c-b7a8-0f16d125b4c0','bc914d00-6837-492c-8f99-471b2176bdb4','ç”¨æˆ·ç®¡ç†','menu:user','2',0),(3,1,'d271d733-4e57-4181-9f5f-730b53b4edc8','bc914d00-6837-492c-8f99-471b2176bdb4','è§’è‰²ç®¡ç†','menu:role','2',0),(4,1,'92c2b77c-6e77-4eaf-aa43-cfba4c3da583','bc914d00-6837-492c-8f99-471b2176bdb4','æƒé™ç®¡ç†','menu:permisson','2',0),(5,1,'c66f2469-ce0e-4e52-9d31-c9940df79ebe','bc914d00-6837-492c-8f99-471b2176bdb4','å‚æ•°ç®¡ç†','menu:parameter','2',0);
-/*!40000 ALTER TABLE ` sys_permission` ENABLE KEYS */;
-UNLOCK TABLES;
+insert  into `sys_permission`(`id`,`pid`,`ckey`,`pkey`,`name`,`value`,`permission_type`,`sort`) values (1,0,'bc914d00-6837-492c-8f99-471b2176bdb4','0','ç³»ç»Ÿè®¾ç½®','menu:setting','2',0),(2,1,'d2274a49-74a6-4d0c-b7a8-0f16d125b4c0','bc914d00-6837-492c-8f99-471b2176bdb4','ç”¨æˆ·ç®¡ç†','menu:user','2',0),(3,1,'d271d733-4e57-4181-9f5f-730b53b4edc8','bc914d00-6837-492c-8f99-471b2176bdb4','è§’è‰²ç®¡ç†','menu:role','2',0),(4,1,'92c2b77c-6e77-4eaf-aa43-cfba4c3da583','bc914d00-6837-492c-8f99-471b2176bdb4','æƒé™ç®¡ç†','menu:permisson','2',0),(5,1,'c66f2469-ce0e-4e52-9d31-c9940df79ebe','bc914d00-6837-492c-8f99-471b2176bdb4','å‚æ•°ç®¡ç†','menu:parameter','2',0);
 
---
--- Table structure for table ` sys_role`
---
+/*Table structure for table `sys_role` */
 
 DROP TABLE IF EXISTS `sys_role`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+
 CREATE TABLE `sys_role` (
-  `id` bigint(20) NOT NULL auto_increment,
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
-  `role_type` varchar(255) default NULL,
-  `pid` bigint(20) default NULL,
+  `role_type` varchar(255) DEFAULT NULL,
+  `pid` bigint(20) DEFAULT NULL,
   `remark` text,
-  PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
---
--- Dumping data for table ` sys_role`
---
+/*Data for the table `sys_role` */
 
-LOCK TABLES `sys_role` WRITE;
-/*!40000 ALTER TABLE ` sys_role` DISABLE KEYS */;
-INSERT INTO `sys_role` VALUES (1,'è¶…çº§ç®¡ç†å‘˜','cb6e6022-955e-4978-ae2c-afa392be5ebf',0,'æ‹¥æœ‰æœ€é«˜æƒé™');
-/*!40000 ALTER TABLE ` sys_role` ENABLE KEYS */;
-UNLOCK TABLES;
+insert  into `sys_role`(`id`,`name`,`role_type`,`pid`,`remark`) values (1,'è¶…çº§ç®¡ç†å‘˜','cb6e6022-955e-4978-ae2c-afa392be5ebf',0,'æ‹¥æœ‰æœ€é«˜æƒé™');
 
---
--- Table structure for table ` sys_role_permission`
---
+/*Table structure for table `sys_role_permission` */
 
 DROP TABLE IF EXISTS `sys_role_permission`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+
 CREATE TABLE `sys_role_permission` (
   `role_id` bigint(20) NOT NULL,
   `permission` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table ` sys_role_permission`
---
+/*Data for the table `sys_role_permission` */
 
-LOCK TABLES `sys_role_permission` WRITE;
-/*!40000 ALTER TABLE ` sys_role_permission` DISABLE KEYS */;
-INSERT INTO `sys_role_permission` VALUES (1,'menu:parameter'),(1,'menu:permisson'),(1,'menu:role'),(1,'menu:user'),(1,'menu:setting'),(1,'menu:setting'),(1,'menu:setting');
-/*!40000 ALTER TABLE ` sys_role_permission` ENABLE KEYS */;
-UNLOCK TABLES;
+insert  into `sys_role_permission`(`role_id`,`permission`) values (1,'menu:parameter'),(1,'menu:permisson'),(1,'menu:role'),(1,'menu:user'),(1,'menu:setting'),(1,'menu:setting'),(1,'menu:setting');
 
---
--- Table structure for table ` sys_user`
---
+/*Table structure for table `sys_user` */
 
 DROP TABLE IF EXISTS `sys_user`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+
 CREATE TABLE `sys_user` (
-  `id` bigint(20) NOT NULL auto_increment,
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `login_name` varchar(18) NOT NULL,
-  `name` varchar(200) default NULL,
-  `password` varchar(100) default NULL,
-  `salt` varchar(64) default NULL,
-  `area` varchar(10) default NULL,
+  `name` varchar(200) DEFAULT NULL,
+  `password` varchar(100) DEFAULT NULL,
+  `salt` varchar(64) DEFAULT NULL,
+  `area` varchar(10) DEFAULT NULL,
   `user_type` int(11) NOT NULL,
-  `register_date` varchar(100) default NULL,
-  `user_status` int(11) default '0',
+  `register_date` varchar(100) DEFAULT NULL,
+  `user_status` int(11) DEFAULT '0',
   `theme` varchar(100) NOT NULL,
-  PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
---
--- Dumping data for table ` sys_user`
---
+/*Data for the table `sys_user` */
 
-LOCK TABLES `sys_user` WRITE;
-/*!40000 ALTER TABLE ` sys_user` DISABLE KEYS */;
-INSERT INTO `sys_user` VALUES (1,'admin','è¶…çº§ç®¡ç†å‘˜','af27c8816506bf1b6705b50866f9cde0a67401cb','eb69619a75232f52','371401',0,'0',0,'bootstrap'),(2,'user','user','fc4b2d83355003aa9649ddcb47a38a4f957636e4','cba97144a760fd39',NULL,0,NULL,0,'bootstrap');
-/*!40000 ALTER TABLE ` sys_user` ENABLE KEYS */;
-UNLOCK TABLES;
+insert  into `sys_user`(`id`,`login_name`,`name`,`password`,`salt`,`area`,`user_type`,`register_date`,`user_status`,`theme`) values (1,'admin','è¶…çº§ç®¡ç†å‘˜','af27c8816506bf1b6705b50866f9cde0a67401cb','eb69619a75232f52','371401',0,'0',0,'bootstrap'),(2,'user','user','fc4b2d83355003aa9649ddcb47a38a4f957636e4','cba97144a760fd39',NULL,0,NULL,0,'bootstrap');
 
---
--- Table structure for table ` sys_user_role`
---
+/*Table structure for table `sys_user_role` */
 
 DROP TABLE IF EXISTS `sys_user_role`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+
 CREATE TABLE `sys_user_role` (
   `user_id` bigint(20) NOT NULL,
   `role_id` bigint(20) NOT NULL,
   KEY `user_id_index` (`user_id`),
   KEY `role_id_index` (`role_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table ` sys_user_role`
---
+/*Data for the table `sys_user_role` */
 
-LOCK TABLES `sys_user_role` WRITE;
-/*!40000 ALTER TABLE ` sys_user_role` DISABLE KEYS */;
-INSERT INTO `sys_user_role` VALUES (1,1);
-/*!40000 ALTER TABLE ` sys_user_role` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `page_data_info`
---
-
-DROP TABLE IF EXISTS `page_data_info`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `page_data_info` (
-  `id` bigint(20) NOT NULL,
-  `page_url_info_id` bigint(20) NOT NULL,
-  `table_group_key` varchar(20) default NULL,
-  `row_group_key` varchar(20) default NULL,
-  `content` text,
-  `type` varchar(20) default NULL,
-  `extracted_time` varchar(100) default NULL,
-  PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `page_data_info`
---
-
-LOCK TABLES `page_data_info` WRITE;
-/*!40000 ALTER TABLE `page_data_info` DISABLE KEYS */;
-/*!40000 ALTER TABLE `page_data_info` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `page_url_info`
---
-
-DROP TABLE IF EXISTS `page_url_info`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `page_url_info` (
-  `id` bigint(20) NOT NULL auto_increment,
-  `url` text,
-  `element` varchar(50) default NULL,
-  `attribute` varchar(50) default NULL,
-  `value` varchar(50) default NULL,
-  `extracted_time` varchar(100) default NULL,
-  PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `page_url_info`
---
-
-LOCK TABLES `page_url_info` WRITE;
-/*!40000 ALTER TABLE `page_url_info` DISABLE KEYS */;
-/*!40000 ALTER TABLE `page_url_info` ENABLE KEYS */;
-UNLOCK TABLES;
-/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+insert  into `sys_user_role`(`user_id`,`role_id`) values (1,1);
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
-
--- Dump completed on 2015-02-16 14:54:43
