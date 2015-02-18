@@ -40,6 +40,12 @@
 					<img
 					src="${ctx}/static/js/plugins/jquery-easyui-1.3.4/themes/icons/plugin.png" />&nbsp;参数管理
 			</a></li>
+			<li><a data-options="plain:true" href="javascript:void(0)"
+				class="user easyui-linkbutton"
+				onclick="indexTabsAddTab('href',{title:'参数管理',url:'${ctx}/dataharvest',iconCls:'icon-plugin'})">
+					<img
+					src="${ctx}/static/js/plugins/jquery-easyui-1.3.4/themes/icons/plugin.png" />&nbsp;search
+			</a></li>
 		</ul>
 	</div>
 </div>
