@@ -1,16 +1,52 @@
-
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/common/taglibs.jsp"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
+<script>
+$.parser.onComplete = function() {
+	parent. $ .messager.progress('close');	
+};
+var formId="dataharvest_form_inputForm";
+var showLogUrl="${ctx}/dataharvest/showlog";
+function beginExtract(){
+	var inputForm = $('#'+ formId);
+	var isValid = inputForm.form('validate');
+	if (isValid) {
+		showLog(showLogUrl);
+		//inputForm.submit();
+	}
+}
+function showLog(url,params) {
+	
+	
+	var opts = {
+		width : 600,
+		height : 400,
+		title : '信息',
+		href : url,
+		iconCls : 'icon-application_form_add',
+		buttons : [
+				{
+					text : '保存',
+					iconCls : 'icon-save',
+					id : 'formSaveBtn',
+					handler : function() {
+						
+					}
+				}, {
+					text : '取消',
+					id : 'formCancelBtn',
+					iconCls : 'icon-cross',
+					handler : function() {
+						parent.$.modalDialog.handler.dialog('close');
+					}
+				} ]
+	};
+	$.extend(opts, params);
+	parent.$.modalDialog(opts);
+}
+</script>
 
-</head>
-<body>
 <form id="dataharvest_form_inputForm" name="dataharvest_form_inputForm" >
-	<center>
-	<div style="margin:20px 0 10px 0;"></div>
-	<div class="easyui-tabs" style="width:700px;height:250px">
+	<div class="easyui-tabs" style="width:400px;height:250px;margin:50px auto;">
 		<div title="Basic Search" style="padding:10px">
 		<%-- URL:
 		<input type="text" name="URL" id="URL"  class="easyui-validatebox" data-options="missingMessage:'<spring:message code="hyperlinkinfo_linkName" />URL',required:true"   /> --%>	
@@ -53,12 +89,8 @@
 		</table>
 		</div>
 	</div>
-	<div style="text-align:center;padding:30px">
-	    	
-	    	<input type="submit"  name="submit" class="easyui-submitbutton" >
-	    	
-	    </div>
-	</center>
+	
+	<div style="text-align:center;">
+	    	<a href="#" class="easyui-linkbutton" onclick="beginExtract();" data-options="iconCls:'icon-search'" >Extract</a>
+	</div>
 	</form>
-</body>
-</html>

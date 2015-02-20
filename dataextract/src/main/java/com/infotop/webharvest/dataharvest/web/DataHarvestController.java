@@ -113,6 +113,10 @@ public class DataHarvestController extends BasicController {
 	public String list() {
 		return "dataharvest/basicsearch";
 	}
+	@RequestMapping(value = "showlog")
+	public String showlog() {
+		return "dataharvest/showlog";
+	}
 
 	
 	void basicsave(Pageurlinfo pageurlinfo){
