@@ -27,6 +27,7 @@ import org.seagatesoft.sde.treematcher.SimpleTreeMatching;
 import org.seagatesoft.sde.treematcher.TreeMatcher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -61,6 +62,25 @@ public class DataHarvestController extends BasicController {
 	int maxNodeInGeneralizedNodes = 9;
 	
 	
+	 @RequestMapping(value = "create", method = RequestMethod.GET)
+	 public String createForm(Model model) {
+	     ShiroUser su = super.getLoginUser();
+			User user = accountService.findUserByLoginName(su.getLoginName());
+			if (user != null) {
+				input="http://stackoverflow.com/questions/2044017/how-to-extract-the-data-from-a-website-using-java";
+				 Pageurlinfo entity = new Pageurlinfo(); 
+				 entity.setUrl(input);
+				 pageurlinfoService.save(entity);
+				 basicsave(entity);
+			     model.addAttribute("pagedatainfo", entity);
+			     model.addAttribute("action", "create");
+			} else {
+				logger.log(this.getClass(),Logger.ERROR_INT,"登陆帐号无效!","",null);
+				return "redirect:/login";
+			}
+	     return "pagedatainfo/pagedatainfoForm";
+	 }
+	
 	 @RequestMapping(value = "extract", method = RequestMethod.POST)
 	 @ResponseBody
 	 public Message extract(@Valid Pageurlinfo pageurlinfo, RedirectAttributes redirectAttributes) {
@@ -69,7 +89,8 @@ public class DataHarvestController extends BasicController {
 			User user = accountService.findUserByLoginName(su.getLoginName());
 			if (user != null) {
 		    	pageurlinfoService.save(pageurlinfo);
-		    	Basicsave(pageurlinfo);
+		    	pageurlinfo.setExtractedDate(DateTimeUtil.nowTimeStr());
+		    	basicsave(pageurlinfo);
 				msg.setSuccess(true);
 				msg.setMessage("信息添加成功");
 				msg.setData(pageurlinfo);
@@ -92,9 +113,13 @@ public class DataHarvestController extends BasicController {
 	public String list() {
 		return "dataharvest/basicsearch";
 	}
+	@RequestMapping(value = "showlog")
+	public String showlog() {
+		return "dataharvest/showlog";
+	}
 
 	
-	void Basicsave(Pageurlinfo pageurlinfo){
+	void basicsave(Pageurlinfo pageurlinfo){
 	
 	try
 	{

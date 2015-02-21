@@ -2,6 +2,7 @@ package com.infotop.webharvest.pageInfo.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.infotop.common.IdEntity;
 
@@ -11,7 +12,8 @@ public class pageInfo extends IdEntity {
 	
 	private String title;
 	private String url;
-	
+	@Transient
+	private String countOf;
 	
 	public String getTitle() {
 		return title;
@@ -24,6 +26,12 @@ public class pageInfo extends IdEntity {
 	}
 	public void setUrl(String url) {
 		this.url = url;
+	}
+	public String getCountOf() {
+		return countOf;
+	}
+	public void setCountOf(String countOf) {
+		this.countOf = countOf;
 	}
 	
 

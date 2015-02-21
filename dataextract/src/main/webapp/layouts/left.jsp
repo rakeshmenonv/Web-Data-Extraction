@@ -7,6 +7,12 @@
 		<ul>
 			<li><a data-options="plain:true" href="javascript:void(0)"
 				class="user easyui-linkbutton"
+				onclick="indexTabsAddTab('href',{title:'参数管理',url:'${ctx}/dataharvest/extract',iconCls:'icon-plugin'})">
+					<img
+					src="${ctx}/static/js/plugins/jquery-easyui-1.3.4/themes/icons/plugin.png" />&nbsp;search
+			</a></li>
+			<li><a data-options="plain:true" href="javascript:void(0)"
+				class="user easyui-linkbutton"
 				onclick="indexTabsAddTab('href',{title:'data',url:'${ctx}/pagedatainfo',iconCls:'icon-user_gray'})">
 					<img
 					src="${ctx}/static/js/plugins/jquery-easyui-1.3.4/themes/icons/user_gray.png" />&nbsp;data
@@ -39,14 +45,22 @@
 				onclick="indexTabsAddTab('href',{title:'参数管理',url:'${ctx}/parameter',iconCls:'icon-plugin'})">
 					<img
 					src="${ctx}/static/js/plugins/jquery-easyui-1.3.4/themes/icons/plugin.png" />&nbsp;参数管理
-			</a></li>
+			</a></li>			
+		</ul>
+		
+	</div>
+	<div class="menuItem" title='系统设置' data-options="iconCls:'icon-cog'"
+		style="padding: 10px;">
+		<ul>
 			<li><a data-options="plain:true" href="javascript:void(0)"
 				class="user easyui-linkbutton"
-				onclick="indexTabsAddTab('href',{title:'参数管理',url:'${ctx}/dataharvest',iconCls:'icon-plugin'})">
+				onclick="indexTabsAddTab('href',{title:'用户管理',url:'${ctx}/pageinfo/urlCount',iconCls:'icon-user_gray'})">
 					<img
-					src="${ctx}/static/js/plugins/jquery-easyui-1.3.4/themes/icons/plugin.png" />&nbsp;search
+					src="${ctx}/static/js/plugins/jquery-easyui-1.3.4/themes/icons/user_gray.png" />&nbsp;log
 			</a></li>
+			
 		</ul>
+		
 	</div>
 </div>
 
