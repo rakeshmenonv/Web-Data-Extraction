@@ -91,22 +91,11 @@ public class DOMParserTagTreeBuilder implements TagTreeBuilder
 	
 	public TagTree buildTagTree(String htmlDocument, boolean ignoreFormattingTags)  throws IOException, SAXException
 	{
-		HttpClient client = new HttpClient();
+		BufferedReader in = new BufferedReader(  
+                new InputStreamReader(  
+                        new URL(htmlDocument).openStream()));
         
-        client.getHttpConnectionManager().getParams().setConnectionTimeout(connectionTimeout);
-        client.getHttpConnectionManager().getParams().setSoTimeout(soTimeout);
-        GetMethod method = new GetMethod(htmlDocument);
-        method.addRequestHeader("Content-Type", "text/html; charset=utf-8");
-        try {
-            int statusCode = client.executeMethod(method);
-            if (statusCode != HttpStatus.SC_OK) {
-                throw new HttpException("HttpStatusCode : " + statusCode);
-            }
-        } catch (HttpException he) {
-            he.printStackTrace();
-        } 
-        InputStream is = method.getResponseBodyAsStream();
-		return buildTagTree(new InputSource(htmlDocument), ignoreFormattingTags);
+		return buildTagTree(new InputSource(in), ignoreFormattingTags);
 	}
 	
 	/**
@@ -146,17 +135,15 @@ public class DOMParserTagTreeBuilder implements TagTreeBuilder
 	           Therefore, in order to use the default HTML DOM implementation with NekoHTML's  
 	           DOMParser to parse XHTML documents, you must turn off namespace processing.*/  
 	           parser.setFeature("http://xml.org/sax/features/namespaces", false);  
-	           String strURL = "http://product.dangdang.com/product.aspx?product_id=9317290";  
-	           BufferedReader in = new BufferedReader(  
-	                   new InputStreamReader(  
-	                           new URL(strURL).openStream()));  
-	           parser.parse(new InputSource(in));  
-	           in.close();  
+	          // String strURL = "http://product.dangdang.com/product.aspx?product_id=9317290";  
+	            
+	           parser.parse(inputSource);  
+	            
 	          } catch (Exception e) {  
 	           e.printStackTrace();  
 	          }  
 		org.w3c.dom.Document documentNode = parser.getDocument();
-		System.out.println(documentNode.getFirstChild().getTextContent());
+		//System.out.println(documentNode.getFirstChild().getTextContent());
 		// dapatkan BaseURI+nama file dari dokumen HTML ini
 		baseURI = documentNode.getBaseURI();
 		//baseURI = documentNode.get;

@@ -113,6 +113,13 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 			 <scope>system</scope>
 			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/springside-core-4.2.1.GA.jar</systemPath>
 		</dependency> 
+		
+		<dependency>
+			<groupId>org.apache.velocity</groupId>
+			<artifactId>velocity</artifactId>
+			<version>1.7</version>
+		</dependency>
+		
 
 		<!-- PERSISTENCE begin -->
 		<!-- hibernate -->
