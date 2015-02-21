@@ -4,7 +4,10 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import java.util.Random;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import net.infotop.util.DateTimeUtil;
@@ -204,6 +207,7 @@ public class DataHarvestController extends BasicController {
 		
 		//output.format("</body></html>");
 	}
+
 	catch (SecurityException exception)
 	{
 		exception.printStackTrace();
@@ -231,4 +235,25 @@ public class DataHarvestController extends BasicController {
 	}
 	
 }
+
+
+	@RequestMapping(value = "/log", method = RequestMethod.GET)
+	@ResponseBody
+	public String sendMessage(Locale locale, HttpServletResponse response) {
+
+		 Random r = new Random();
+		 System.out.println("inside");
+         response.setContentType("text/event-stream");
+         try {
+                 Thread.sleep(10000);
+         } catch (InterruptedException e) {
+                 e.printStackTrace();
+         } 
+     
+        return "data:"+ DateTimeUtil.nowTimeStr() +": [info] : " + r.nextInt() +"\n\n";
+		
+	
+      }
+
+
 }

@@ -42,6 +42,7 @@ function showLog(url,params) {
 	};
 	$.extend(opts, params);
 	parent.$.modalDialog(opts);
+
 }
 </script>
 
