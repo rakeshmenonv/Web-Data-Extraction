@@ -391,19 +391,19 @@ public class DataHarvestController extends BasicController {
 	@RequestMapping(value = "/log", method = RequestMethod.GET)
 	@ResponseBody
 	public String sendMessage(Locale locale, HttpServletResponse response) {
-		Random r = new Random();
-		System.out.println("inside");
-		response.setContentType("text/event-stream");
-		try {
-			Thread.sleep(10000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		for (int i = 0; i <= 100; i++) {
-			return "data:arun" + i + "\n\n";
-		}
-		// return "data:Testing 1,2,3" + r.nextInt() +"\n\n";
-		return null;
 
-	}
+		 Random r = new Random();
+		 System.out.println("inside");
+         response.setContentType("text/event-stream");
+         try {
+                 Thread.sleep(10000);
+         } catch (InterruptedException e) {
+                 e.printStackTrace();
+         } 
+     
+        return "data:"+ DateTimeUtil.nowTimeStr() +": [info] : " + r.nextInt() +"\n\n";
+		
+	
+      }
+
 }
