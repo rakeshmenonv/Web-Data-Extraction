@@ -67,8 +67,6 @@ import com.infotop.webharvest.pageurlinfo.service.PageurlinfoService;
 @Controller
 @RequestMapping(value = "/dataharvest")
 public class DataHarvestController extends BasicController {
-	 @Autowired
-	    private PagedatainfoService pagedatainfoService;
 
 	@Autowired
 	private PageurlinfoService pageurlinfoService;
