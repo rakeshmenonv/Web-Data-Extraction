@@ -401,12 +401,9 @@ public class DataHarvestController extends BasicController {
          } catch (InterruptedException e) {
                  e.printStackTrace();
          } 
-         for(int i=0;i<=100;i++)
-         {
-        	 return "data:arun" + i +"\n\n";
-         }
-         //return "data:Testing 1,2,3" + r.nextInt() +"\n\n";
-		return null;
+     
+        return "data:"+ DateTimeUtil.nowTimeStr() +": [info] : " + r.nextInt() +"\n\n";
+		
 	
       }
 }
