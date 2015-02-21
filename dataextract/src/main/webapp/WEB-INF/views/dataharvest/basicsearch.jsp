@@ -11,7 +11,7 @@ function beginExtract(){
 	var isValid = inputForm.form('validate');
 	if (isValid) {
 		showLog(showLogUrl);
-		//inputForm.submit();
+		inputForm.submit();
 	}
 }
 function showLog(url,params) {
@@ -45,52 +45,59 @@ function showLog(url,params) {
 }
 </script>
 
-<form id="dataharvest_form_inputForm" name="dataharvest_form_inputForm" >
-	<div class="easyui-tabs" style="width:400px;height:250px;margin:50px auto;">
-		<div title="Basic Search" style="padding:10px">
-		<%-- URL:
-		<input type="text" name="URL" id="URL"  class="easyui-validatebox" data-options="missingMessage:'<spring:message code="hyperlinkinfo_linkName" />URL',required:true"   /> --%>	
-		<table cellpadding="5">
-		
-	    		<tr>
-	    			<td>URL:</td>
-	    			<td><input class="easyui-textbox" type="text" name="URL" data-options="required:true"></input></td>
-	    		</tr>	
-	    </table>
+<form:form id="dataharvest_form_inputForm"
+	name="dataharvest_form_inputForm" action="${ctx}/dataharvest/${action}"
+	modelAttribute="pageurlinfo" method="post" class="form-horizontal">
+	<div class="easyui-tabs"
+		style="width: 400px; height: 250px; margin: 50px auto;">
+		<div title="Basic Search" style="padding: 10px">
+			<%-- URL:
+		<input type="text" name="URL" id="URL"  class="easyui-validatebox" data-options="missingMessage:'<spring:message code="hyperlinkinfo_linkName" />URL',required:true"   /> --%>
+			<table cellpadding="5">
+
+				<tr>
+					<td>URL:</td>
+					<td><input class="easyui-textbox" type="text"  name="url" id="url"
+						data-options="required:true"></input></td>
+				</tr>
+			</table>
 		</div>
-		<div title="Pattern Search" style="padding:10px">
-		<table cellpadding="5">
-	    		<tr>
-	    			<td>ELEMENT:</td>
-	    			<td><input class="easyui-textbox" type="text" name="ELEMENT" data-options="required:true"></input></td>
-	    		</tr>
-	    		<tr>
-	    			<td>ATTRIBUTE:</td>
-	    			<td><input class="easyui-textbox" type="text" name="ATTRIBUTE" data-options="required:true"></input></td>
-	    		</tr>
-	    		<tr>
-	    			<td>VALUE:</td>
-	    			<td><input class="easyui-textbox" type="text" name="VALUE" data-options="required:true"></input></td>
-	    		</tr>	
-	    </table>
+		<div title="Pattern Search" style="padding: 10px">
+			<table cellpadding="5">
+				<tr>
+					<td>ELEMENT:</td>
+					<td><input class="easyui-textbox" type="text" name="element" id="element"
+						data-options="required:true"></input></td>
+				</tr>
+				<tr>
+					<td>ATTRIBUTE:</td>
+					<td><input class="easyui-textbox" type="text" name="attribute" id="attribute"
+						data-options="required:true"></input></td>
+				</tr>
+				<tr>
+					<td>VALUE:</td>
+					<td><input class="easyui-textbox" type="text" name="value" id="value" 
+						data-options="required:true"></input></td>
+				</tr>
+			</table>
 		</div>
-		<div title="Scheduler" style="padding:10px">
-		<table cellpadding="5">
-		<tr>
-	    			<td>INTERVAL:</td>
-	    			<td>
-	    				<select class="easyui-combobox" name="state" style="width:200px;">
-						<option value="10">10</option>
-						<option value="20">20</option>
-						<option value="30">30</option>
-						</select>
-	    			</td>
-	    		</tr>
-		</table>
+		<div title="Scheduler" style="padding: 10px">
+			<table cellpadding="5">
+				<tr>
+					<td>INTERVAL:</td>
+					<td><select class="easyui-combobox" name="state"
+						style="width: 200px;">
+							<option value="10">10</option>
+							<option value="20">20</option>
+							<option value="30">30</option>
+					</select></td>
+				</tr>
+			</table>
 		</div>
 	</div>
-	
-	<div style="text-align:center;">
-	    	<a href="#" class="easyui-linkbutton" onclick="beginExtract();" data-options="iconCls:'icon-search'" >Extract</a>
+
+	<div style="text-align: center;">
+		<a href="#" class="easyui-linkbutton" onclick="beginExtract();"
+			data-options="iconCls:'icon-search'">Extract</a>
 	</div>
-	</form>
+</form:form>
