@@ -266,6 +266,20 @@ public class pageInfoController extends BasicController {
 			}
 	       return "pageinfo/pageinfoLogList";
 	    }
+	 	@RequestMapping(value = "urlInfo/{url}")
+		public String urlInfo(Model model, ServletRequest request,@PathVariable("url") String url) {
+	    	ShiroUser su = super.getLoginUser();
+			User user = accountService.findUserByLoginName(su.getLoginName());
+			if (user != null) {
+				//TODO add some code.
+				System.out.println("url====="+url);
+				model.addAttribute("urlName", url);
+			} else {
+				logger.log(this.getClass(),Logger.ERROR_INT,"登陆帐号无效!","",null);
+				return "redirect:/login";
+			}
+	       return "pageinfo/urlView";
+	    }
 	 	 @RequestMapping(value = "findLogList")
 	 	@ResponseBody
 	 	public DataGrid findLogList(
@@ -294,6 +308,33 @@ public class pageInfoController extends BasicController {
 	 		return dataGrid;
 	 	}
 
+	 	 @RequestMapping(value = "getUrlInfo/{url}")
+		 	@ResponseBody
+		 	public DataGrid getUrlInfo(
+		 			@RequestParam(value = "sort", defaultValue = "auto") String sortType,
+		 			@RequestParam(value = "order", defaultValue = "desc") String order,
+		 			@RequestParam(value = "page", defaultValue = "1") int pageNumber,
+		 			@RequestParam(value = "rows", defaultValue = ROWS) int rows,
+		 			Model model, ServletRequest request,@PathVariable("url") String url) {
+		 		DataGrid dataGrid = new DataGrid();
+		 		try {
+		 			ShiroUser su = super.getLoginUser();
+		 			User user = accountService.findUserByLoginName(su.getLoginName());
+		 			if (user != null) {
+		 				Map<String, Object> searchParams = Servlets
+		 						.getParametersStartingWith(request, "search_");
+		 				model.addAttribute("searchParams", Servlets
+		 						.encodeParameterStringWithPrefix(searchParams, "search_"));
+		 				dataGrid = pageinfoService.dataGridForUrlInfo(searchParams, pageNumber,
+		 						rows, sortType, order,url);
+		 			} else {
+		 				logger.log(this.getClass(),Logger.ERROR_INT,"登陆帐号无效!","",null);
+		 			}
+		 		} catch (Exception ex) {
+		 			logger.log(this.getClass(),Logger.ERROR_INT,ex.getMessage(),super.getLoginUser().getLoginName(),null);
+		 		}
+		 		return dataGrid;
+		 	}
 	 
 	   @ModelAttribute("preloadpageInfo")
 	    public pageInfo getpageInfo(@RequestParam(value = "id", required = false) Long id) {

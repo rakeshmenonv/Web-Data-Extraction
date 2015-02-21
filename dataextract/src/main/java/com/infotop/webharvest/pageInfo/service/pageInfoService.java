@@ -206,6 +206,28 @@ public class pageInfoService {
 		return dataGrid;
 }
 
+    public DataGrid dataGridForUrlInfo(Map<String, Object> searchParams, int pageNumber,
+			int rows, String sortType, String order,String Url) {			
+		return getUrlInfoList(searchParams,rows,(pageNumber-1)*rows,Url);
+	} 
+    
+    public DataGrid getUrlInfoList(Map<String, Object> filterParams,int limitvalue,int offsetvalue,String Url) {		
+		DataGrid dataGrid = new DataGrid();		
+		
+		String sql="select * FROM page_url_info where url='"+Url+"'";		
+		
+		String countSql="SELECT COUNT(*) FROM page_url_info where url='"+Url+"'";		
+		
+		//String whereSql=" where 1=1 ";			
+		String	whereSql = searchQuery(filterParams);
+	//	whereSql+="order by B.name";
+		//System.out.println("count==============="+jdbcTemplate.queryForLong(countSql+whereSql));
+		dataGrid.setTotal(jdbcTemplate.queryForLong(countSql+whereSql));	
+		whereSql+=" limit "+offsetvalue+","+limitvalue;		
+		System.out.println("sql======================"+jdbcTemplate.queryForList(sql+whereSql));			
+		dataGrid.setRows(jdbcTemplate.queryForList(sql+whereSql));	
+		return dataGrid;
+}
     public Page<pageInfo> getAllpageInfo(
 			Map<String, Object> filterParams, int pageNumber, int pageSize,
 			String sortType, String order) {
