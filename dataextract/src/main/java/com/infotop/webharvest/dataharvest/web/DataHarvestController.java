@@ -7,13 +7,22 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 
+import javax.servlet.ServletRequest;
+
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import net.infotop.util.DateTimeUtil;
 import net.infotop.util.OperationNoUtil;
+import net.infotop.web.easyui.DataGrid;
 import net.infotop.web.easyui.Message;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Attribute;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.parser.Parser;
+import org.jsoup.select.Elements;
 import org.seagatesoft.sde.DataRecord;
 import org.seagatesoft.sde.DataRegion;
 import org.seagatesoft.sde.TagTree;
@@ -50,28 +59,28 @@ import com.infotop.webharvest.pageurlinfo.service.PageurlinfoService;
 @Controller
 @RequestMapping(value = "/dataharvest")
 public class DataHarvestController extends BasicController {
-	
+
 	@Autowired
 	private PageurlinfoService pageurlinfoService;
-	
+
     @Autowired
     private PagedatainfoService pagedatainfoService;
-    
+
 	String input = "";
 	String resultOutput = "MDR.html";
 	double similarityTreshold = 0.80;
 	boolean ignoreFormattingTags = false;
 	boolean useContentSimilarity = false;
 	int maxNodeInGeneralizedNodes = 9;
-	
-	
+
+
 	 @RequestMapping(value = "create", method = RequestMethod.GET)
 	 public String createForm(Model model) {
 	     ShiroUser su = super.getLoginUser();
 			User user = accountService.findUserByLoginName(su.getLoginName());
 			if (user != null) {
 				input="http://stackoverflow.com/questions/2044017/how-to-extract-the-data-from-a-website-using-java";
-				 Pageurlinfo entity = new Pageurlinfo(); 
+				 Pageurlinfo entity = new Pageurlinfo();
 				 entity.setUrl(input);
 				 pageurlinfoService.save(entity);
 				 basicsave(entity);
@@ -83,7 +92,7 @@ public class DataHarvestController extends BasicController {
 			}
 	     return "pagedatainfo/pagedatainfoForm";
 	 }
-	
+
 	 @RequestMapping(value = "extract", method = RequestMethod.POST)
 	 @ResponseBody
 	 public Message extract(@Valid Pageurlinfo pageurlinfo, RedirectAttributes redirectAttributes) {
@@ -111,6 +120,149 @@ public class DataHarvestController extends BasicController {
 		}
 		return msg;
 	}
+	  @RequestMapping(value = "saveselected")
+		@ResponseBody
+		public DataGrid findList(
+				Model model, ServletRequest request) {
+			DataGrid dataGrid = new DataGrid();
+			try {
+				ShiroUser su = super.getLoginUser();
+				User user = accountService.findUserByLoginName(su.getLoginName());
+				if (user != null) {
+					selectedsave();
+				} else {
+					logger.log(this.getClass(),Logger.ERROR_INT,"登陆帐号无效!","",null);
+				}
+			} catch (Exception ex) {
+				logger.log(this.getClass(),Logger.ERROR_INT,ex.getMessage(),super.getLoginUser().getLoginName(),null);
+			}
+			return dataGrid;
+		}
+	public void selectedsave(){
+
+		Document doc;
+		try {
+
+			// need http protocol
+			doc = Jsoup.connect("http://jd.com/").ignoreContentType(true)
+				      .parser(Parser.xmlParser()).get();
+//			Elements elements = doc.select("div[class=sc-list clearfix]");
+			String tableGroupKey ="div[class=item w-bg]";
+			Elements elements = doc.select(tableGroupKey);
+			for (Element element2 : elements) {
+				 element2.getAllElements();
+				 for (Element element:element2.getAllElements()){
+					 if(element.nodeName().equals("img")){
+							for (Attribute attribute:element.attributes() ){
+
+								if (("src".equals(attribute.getKey()))){
+									Pagedatainfo  pagedatainfo =new Pagedatainfo();
+									if (!element.ownText().isEmpty()){
+										pagedatainfo.setContent(element.ownText()+"|"+element.absUrl("src"));
+									}else{
+										pagedatainfo.setContent(element.absUrl("src"));
+									}
+
+									pagedatainfo.setType(element.nodeName());
+									pagedatainfo.setRowGroupKey(element2.nodeName()+"[class=+"+element2.className()+"]");
+									pagedatainfo.setTableGroupKey(tableGroupKey);
+									pagedatainfoService.save(pagedatainfo);
+									System.out.println(element.nodeName()+"text"+element.ownText()+"%%%%%%%%"+ element.absUrl("src"));
+								}
+								if("abs:src".equals(attribute.getKey())){
+									Pagedatainfo  pagedatainfo =new Pagedatainfo();
+									if (!element.ownText().isEmpty()){
+										pagedatainfo.setContent(element.ownText()+"|"+element.attr("abs:src"));
+									}else{
+										pagedatainfo.setContent(element.attr("abs:src"));
+									}
+									pagedatainfo.setType(element.nodeName());
+									pagedatainfo.setRowGroupKey(element2.nodeName()+"[class=+"+element2.className()+"]");
+									pagedatainfo.setTableGroupKey(tableGroupKey);
+									pagedatainfoService.save(pagedatainfo);
+									System.out.println(element.nodeName()+"text"+element.ownText()+"%%%%%%%%"+ element.attr("abs:src"));
+								}
+								if ("data-lazyload".equals(attribute.getKey())){
+									Pagedatainfo  pagedatainfo =new Pagedatainfo();
+									if (!element.ownText().isEmpty()){
+										pagedatainfo.setContent(element.ownText()+"|"+element.attr("data-lazyload"));
+									}else{
+										pagedatainfo.setContent(element.attr("data-lazyload"));
+									}
+									pagedatainfo.setType(element.nodeName());
+									pagedatainfo.setRowGroupKey(element2.nodeName()+"[class=+"+element2.className()+"]");
+									pagedatainfo.setTableGroupKey(tableGroupKey);
+									pagedatainfoService.save(pagedatainfo);
+									System.out.println(element.nodeName()+"text"+element.ownText()+"%%%%%%%%"+ element.attr("data-lazyload"));
+								}
+							}
+						}else if (element.nodeName().equals("a")){
+							Pagedatainfo  pagedatainfo =new Pagedatainfo();
+							if (!element.ownText().isEmpty()){
+								pagedatainfo.setContent(element.ownText()+"|"+element.attr("abs:href"));
+							}else{
+								pagedatainfo.setContent(element.attr("abs:href"));
+							}
+							pagedatainfo.setType(element.nodeName());
+							pagedatainfo.setRowGroupKey(element2.nodeName()+"[class=+"+element2.className()+"]");
+							pagedatainfo.setTableGroupKey(tableGroupKey);
+							pagedatainfoService.save(pagedatainfo);
+							System.out.println(element.nodeName()+"text"+element.ownText()+"$$$$$$$$"+ element.attr("abs:href"));
+						}else if (element.nodeName().equals("script")){
+							Pagedatainfo  pagedatainfo =new Pagedatainfo();
+							if (!element.ownText().isEmpty()){
+								pagedatainfo.setContent(element.ownText()+"|"+element.absUrl("src"));
+							}else{
+								pagedatainfo.setContent(element.absUrl("src"));
+							}
+							pagedatainfo.setType(element.nodeName());
+							pagedatainfo.setRowGroupKey(element2.nodeName()+"[class=+"+element2.className()+"]");
+							pagedatainfo.setTableGroupKey(tableGroupKey);
+							pagedatainfoService.save(pagedatainfo);
+							System.out.println(element.nodeName()+"text"+element.ownText()+"&&&&&&&"+ element.absUrl("src"));
+						} else	if (element.nodeName().equals("Imports")){
+							Pagedatainfo  pagedatainfo =new Pagedatainfo();
+							if (!element.ownText().isEmpty()){
+								pagedatainfo.setContent(element.ownText()+"|"+element.attr("abs:href"));
+							}else{
+								pagedatainfo.setContent(element.attr("abs:href"));
+							}
+							pagedatainfo.setType(element.nodeName());
+							pagedatainfo.setRowGroupKey(element2.nodeName()+"[class=+"+element2.className()+"]");
+							pagedatainfo.setTableGroupKey(tableGroupKey);
+							pagedatainfoService.save(pagedatainfo);
+							System.out.print(element.nodeName()+"text"+element.ownText()+"*********"+element.attr("abs:href"));
+						} else{
+
+							Pagedatainfo  pagedatainfo =new Pagedatainfo();
+							if (!element.ownText().isEmpty()){
+								pagedatainfo.setContent(element.ownText());
+							}else{
+								pagedatainfo.setContent(element.attr("abs:href"));
+							}
+							pagedatainfo.setType(element.nodeName());
+							pagedatainfo.setRowGroupKey(element2.nodeName()+"[class=+"+element2.className()+"]");
+							pagedatainfo.setTableGroupKey(tableGroupKey);
+//							pagedatainfoService.save(pagedatainfo);
+							if (!element.ownText().isEmpty()){
+								pagedatainfoService.save(pagedatainfo);
+//								System.out.println("coming"+element.ownText());
+							}else{
+//								System.out.println("not coming"+ element.ownText());
+							}
+
+						}
+				 }
+				 System.out.println("###############################");
+			}
+
+//			}
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
 
 	@RequestMapping(value = "")
 	public String list() {
@@ -121,24 +273,24 @@ public class DataHarvestController extends BasicController {
 		return "dataharvest/showlog";
 	}
 
-	
+
 	void basicsave(Pageurlinfo pageurlinfo){
-	
+
 	try
 	{
-		
-		TagTreeBuilder builder = new DOMParserTagTreeBuilder();	
-		TagTree tagTree = builder.buildTagTree(input, ignoreFormattingTags);		
+
+		TagTreeBuilder builder = new DOMParserTagTreeBuilder();
+		TagTree tagTree = builder.buildTagTree(input, ignoreFormattingTags);
 		TreeMatcher matcher = new SimpleTreeMatching();
-		DataRegionsFinder dataRegionsFinder = new MiningDataRegions( matcher );	
-		List<DataRegion> dataRegions = dataRegionsFinder.findDataRegions(tagTree.getRoot(), maxNodeInGeneralizedNodes, similarityTreshold);		
-		DataRecordsFinder dataRecordsFinder = new MiningDataRecords( matcher );		
-		DataRecord[][] dataRecords = new DataRecord[ dataRegions.size() ][];			
+		DataRegionsFinder dataRegionsFinder = new MiningDataRegions( matcher );
+		List<DataRegion> dataRegions = dataRegionsFinder.findDataRegions(tagTree.getRoot(), maxNodeInGeneralizedNodes, similarityTreshold);
+		DataRecordsFinder dataRecordsFinder = new MiningDataRecords( matcher );
+		DataRecord[][] dataRecords = new DataRecord[ dataRegions.size() ][];
 		for( int dataRecordArrayCounter = 0; dataRecordArrayCounter < dataRegions.size(); dataRecordArrayCounter++)
 		{
 			DataRegion dataRegion = dataRegions.get( dataRecordArrayCounter );
 			dataRecords[ dataRecordArrayCounter ] = dataRecordsFinder.findDataRecords(dataRegion, similarityTreshold);
-		}	
+		}
 		ColumnAligner aligner = null;
 		if ( useContentSimilarity )
 		{
@@ -148,7 +300,7 @@ public class DataHarvestController extends BasicController {
 		{
 			aligner = new PartialTreeAligner( matcher );
 		}
-		List<String[][]> dataTables = new ArrayList<String[][]>();		
+		List<String[][]> dataTables = new ArrayList<String[][]>();
 		for(int tableCounter=0; tableCounter< dataRecords.length; tableCounter++)
 		{
 			String[][] dataTable = aligner.alignDataRecords( dataRecords[tableCounter] );
@@ -157,8 +309,8 @@ public class DataHarvestController extends BasicController {
 			{
 				dataTables.add( dataTable );
 			}
-		}		
-		int recordsFound = 0;					
+		}
+		int recordsFound = 0;
 		for ( String[][] dataTable: dataTables )
 		{
 			recordsFound += dataTable.length;
@@ -204,7 +356,7 @@ public class DataHarvestController extends BasicController {
 			//output.format("</tbody>\n</table>\n");
 			//tableCounter++;
 		}
-		
+
 		//output.format("</body></html>");
 	}
 	catch (SecurityException exception)
@@ -232,8 +384,9 @@ public class DataHarvestController extends BasicController {
 		exception.printStackTrace();
 		System.exit(5);
 	}
-	
+
 }
+	
 	
 	
 	
