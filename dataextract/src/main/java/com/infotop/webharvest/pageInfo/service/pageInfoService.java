@@ -2,10 +2,10 @@ package com.infotop.webharvest.pageInfo.service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.infotop.webharvest.pageInfo.entity.pageInfo;
 import com.infotop.webharvest.pageInfo.repository.pageInfoDao;
-
 import com.google.common.collect.Maps;
 import com.infotop.common.log.BusinessLogger;
 import com.infotop.system.account.service.ShiroDbRealm.ShiroUser;
@@ -19,6 +19,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springside.modules.persistence.DynamicSpecifications;
@@ -38,6 +39,9 @@ public class pageInfoService {
 	
 	@Autowired
 	private BusinessLogger businessLogger;
+	
+	@Autowired
+	JdbcTemplate jdbcTemplate;
 	/**
 	 * 保存一个pageInfo，如果保存成功返回该对象的id，否则返回null
 	 * @param entity
@@ -155,6 +159,75 @@ public class pageInfoService {
 		return dataGrid;
 	}
     
+    public DataGrid dataGridForLog(Map<String, Object> searchParams, int pageNumber,
+			int rows, String sortType, String order) {			
+		return getUrlCountList(searchParams,rows,(pageNumber-1)*rows);
+	}
+    String searchQuery(Map<String, Object> filterParams){
+    	String Query="";
+    	Set<String> keyset=filterParams.keySet();
+    	for(String key:keyset){    	    		
+    		String[] filter=key.split("_"); 
+    		String condition="";
+    		if(filter[0].equals("EQ")){
+    			condition="='"+filterParams.get(key)+"' ";
+    		}else if(filter[0].equals("NE")){
+    			condition="<>'"+filterParams.get(key)+"' ";
+    		}else if(filter[0].equals("LIKE")){
+    			condition=" LIKE '%"+filterParams.get(key)+"%'";
+    		}else if(filter[0].equals("GTE")){
+    			condition=">='"+filterParams.get(key)+"'";
+    		}else if(filter[0].equals("LTE")){
+    			condition="<='"+filterParams.get(key)+"'";
+    		}else if(filter[0].equals("GT")){
+    			condition=">'"+filterParams.get(key)+"'";    			
+    		}else if(filter[0].equals("LT")){
+    			condition="<'"+filterParams.get(key)+"'";
+    		}		
+    		Query+=" and "+filter[1].replaceAll("(.)([A-Z])","$1_$2")+condition;
+    	}    	
+		return Query;    	
+    }
+    public DataGrid getUrlCountList(Map<String, Object> filterParams,int limitvalue,int offsetvalue) {		
+		DataGrid dataGrid = new DataGrid();		
+		
+		String sql="select id,url, COUNT(*) AS CountOf FROM page_url_info GROUP BY url";		
+		
+		String countSql="SELECT COUNT(DISTINCT url) FROM page_url_info ";		
+		
+		//String whereSql=" where 1=1 ";			
+		String	whereSql = searchQuery(filterParams);
+	//	whereSql+="order by B.name";
+		//System.out.println("count==============="+jdbcTemplate.queryForLong(countSql+whereSql));
+		dataGrid.setTotal(jdbcTemplate.queryForLong(countSql+whereSql));	
+		whereSql+=" limit "+offsetvalue+","+limitvalue;		
+		System.out.println("sql======================"+jdbcTemplate.queryForList(sql+whereSql));			
+		dataGrid.setRows(jdbcTemplate.queryForList(sql+whereSql));	
+		return dataGrid;
+}
+
+    public DataGrid dataGridForUrlInfo(Map<String, Object> searchParams, int pageNumber,
+			int rows, String sortType, String order,String Url) {			
+		return getUrlInfoList(searchParams,rows,(pageNumber-1)*rows,Url);
+	} 
+    
+    public DataGrid getUrlInfoList(Map<String, Object> filterParams,int limitvalue,int offsetvalue,String Url) {		
+		DataGrid dataGrid = new DataGrid();		
+		
+		String sql="select * FROM page_url_info where url='"+Url+"'";		
+		
+		String countSql="SELECT COUNT(*) FROM page_url_info where url='"+Url+"'";		
+		
+		//String whereSql=" where 1=1 ";			
+		String	whereSql = searchQuery(filterParams);
+	//	whereSql+="order by B.name";
+		//System.out.println("count==============="+jdbcTemplate.queryForLong(countSql+whereSql));
+		dataGrid.setTotal(jdbcTemplate.queryForLong(countSql+whereSql));	
+		whereSql+=" limit "+offsetvalue+","+limitvalue;		
+		System.out.println("sql======================"+jdbcTemplate.queryForList(sql+whereSql));			
+		dataGrid.setRows(jdbcTemplate.queryForList(sql+whereSql));	
+		return dataGrid;
+}
     public Page<pageInfo> getAllpageInfo(
 			Map<String, Object> filterParams, int pageNumber, int pageSize,
 			String sortType, String order) {

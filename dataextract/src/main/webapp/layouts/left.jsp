@@ -47,6 +47,20 @@
 					src="${ctx}/static/js/plugins/jquery-easyui-1.3.4/themes/icons/plugin.png" />&nbsp;参数管理
 			</a></li>			
 		</ul>
+		
+	</div>
+	<div class="menuItem" title='系统设置' data-options="iconCls:'icon-cog'"
+		style="padding: 10px;">
+		<ul>
+			<li><a data-options="plain:true" href="javascript:void(0)"
+				class="user easyui-linkbutton"
+				onclick="indexTabsAddTab('href',{title:'用户管理',url:'${ctx}/pageinfo/urlCount',iconCls:'icon-user_gray'})">
+					<img
+					src="${ctx}/static/js/plugins/jquery-easyui-1.3.4/themes/icons/user_gray.png" />&nbsp;log
+			</a></li>
+			
+		</ul>
+		
 	</div>
 </div>
 
