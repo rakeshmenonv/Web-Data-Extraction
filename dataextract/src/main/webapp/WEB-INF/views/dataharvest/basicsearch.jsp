@@ -41,7 +41,7 @@
 		<div title="Scheduler" style="padding:10px">
 		<table cellpadding="5">
 		<tr>
-	    			<td>INTERVAL:</td>
+	    			<td>INTERVAL:</td> 
 	    			<td>
 	    				<select class="easyui-combobox" name="state" style="width:200px;">
 						<option value="10">10</option>
@@ -55,8 +55,8 @@
 	</div>
 	<div style="text-align:center;padding:30px">
 	    	
-	    	<input type="submit"  name="submit" class="easyui-submitbutton" >
-	    	
+	    	<input class="loginin" type="submit"  name="submit"   >
+	   	
 	    </div>
 	</center>
 	</form>
