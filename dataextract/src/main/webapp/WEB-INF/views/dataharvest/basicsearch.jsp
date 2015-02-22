@@ -109,10 +109,10 @@ function showLog(url,params) {
 		<tr>
 	    			<td>INTERVAL:</td> 
 	    			<td>
-	    				<select class="easyui-combobox" name="state" style="width:200px;">
-						<option value="10">10</option>
-						<option value="20">20</option>
-						<option value="30">30</option>
+	    				<select name="state" id="state" style="width:200px;">
+							<c:forEach items="${schedulerList}" var="par">
+							<option value="${par.name}">${par.name}</option>
+							</c:forEach>
 						</select>
 	    			</td>
 	    		</tr>

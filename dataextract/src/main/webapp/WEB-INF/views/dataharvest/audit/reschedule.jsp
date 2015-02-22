@@ -51,10 +51,15 @@ $ .parser.onComplete = function() {
 		</tr>
 	  		<tr>
 			<td class="biao_bt3">Schedule By</td>
-			<td style="width:10%;"><input type="radio" name="jobon" id="jobon" value="day" <c:if test='${pageurlinfo.jobon == "day"}'>checked="true"</c:if> />Day &nbsp 
-			<input type="radio" name="jobon" id="jobon" value="month"<c:if test='${pageurlinfo.jobon == "month"}'>checked="true"</c:if> />Month &nbsp
-			<input type="radio" name="jobon" id="jobon" value="year"<c:if test='${pageurlinfo.jobon == "year"}'>checked="true"</c:if> />Year</td>
-		</tr>
+			<td style="width:10%;">
+			<select name="jobon" id="jobon">
+			<c:forEach items="${schedulerList}" var="par">
+			<option value="${par.name}"
+			<c:if test="${ pageurlinfo.jobon == par.name }"> selected="selected"</c:if>>${par.name}</option>
+			</c:forEach>
+			</select>
+			</td>
+			</tr>
 	   	</table>
 </form:form>
 	

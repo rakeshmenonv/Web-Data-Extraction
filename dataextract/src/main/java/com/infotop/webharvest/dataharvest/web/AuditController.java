@@ -1,6 +1,7 @@
 package com.infotop.webharvest.dataharvest.web;
 
 
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletRequest;
@@ -9,8 +10,12 @@ import javax.servlet.ServletRequest;
 
 
 
+
+
 import net.infotop.web.easyui.DataGrid;
 import net.infotop.web.easyui.Message;
+
+
 
 
 
@@ -35,6 +40,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.infotop.common.BasicController;
 import com.infotop.system.account.entity.User;
 import com.infotop.system.account.service.ShiroDbRealm.ShiroUser;
+import com.infotop.system.parameter.entity.Parameter;
 import com.infotop.webharvest.dataharvest.service.AuditService;
 import com.infotop.webharvest.dataharvest.service.DataHarvestService;
 import com.infotop.webharvest.pagedatainfo.service.PagedatainfoService;
@@ -172,6 +178,9 @@ public class AuditController extends  BasicController{
 			User user = accountService.findUserByLoginName(su.getLoginName());
 			if (user != null) {
 				Pageurlinfo entity = pageurlinfoService.get(id); 
+				List<Parameter> schedulerList = parameterService.getParameterByCategory("scheduler");
+				//List<Parameter> schedulerList = parameterService.getParameterByCategoryAndSubcategory("scheduler", "schedulerType");
+				model.addAttribute("schedulerList", schedulerList);
 		        model.addAttribute("pageurlinfo", entity);
 		        model.addAttribute("action", "update");
 			} else {
