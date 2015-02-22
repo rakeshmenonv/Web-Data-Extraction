@@ -68,9 +68,9 @@
 		str += formatString(
 				'<img onclick="view(\'{0}\',\'{1}\');" src="${ctx}/static/js/plugins/jquery-easyui-1.3.4/themes/icons/view.png" title="查看"/>',
 				urlinfo_list_view_url + row.id);
-		console.info(row.jobon);
+		
 		if(row.jobon!=null || row.jobon!=""){
-			alert("row.jobon "+row.jobon);
+			
 			str += formatString(
 					'<img onclick="schedulerEvent(\'{0}\',\'{1}\');" src="{2}" title="stop"/>',
 					row.id, user_list_stop_url,
