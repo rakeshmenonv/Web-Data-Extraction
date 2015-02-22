@@ -39,6 +39,7 @@ import org.seagatesoft.sde.treematcher.TreeMatcher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -65,7 +66,6 @@ public class DataHarvestController extends BasicController {
 	@Autowired
 	private PagedatainfoService pagedatainfoService;
 
-	String resultOutput = "MDR.html";
 	double similarityTreshold = 0.80;
 	boolean ignoreFormattingTags = false;
 	boolean useContentSimilarity = false;
@@ -119,6 +119,22 @@ public class DataHarvestController extends BasicController {
 			msg.setData("");
 		}
 		return msg;
+	}
+	
+	@RequestMapping(value = "showdata/{id}", method = RequestMethod.GET)
+	public String updateForm(@PathVariable("id") Long id, Model model) {
+	        ShiroUser su = super.getLoginUser();
+			User user = accountService.findUserByLoginName(su.getLoginName());
+			if (user != null) {
+				Pageurlinfo entity = pageurlinfoService.get(id); 			
+				List<Pagedatainfo> pagedatainfoList=pagedatainfoService.getAlldatainfo(entity);				
+		        model.addAttribute("pagedatainfoList", pagedatainfoList);
+		        model.addAttribute("action", "update");
+			} else {
+				logger.log(this.getClass(),Logger.ERROR_INT,"ç™»é™†å¸?å?·æ— æ•ˆ!","",null);
+				return "redirect:/login";
+			}
+	        return "dataharvest/showdata";
 	}
 
 	public void selectedsave(Pageurlinfo pageurlinfo) {
@@ -344,20 +360,20 @@ public class DataHarvestController extends BasicController {
 					// output.format("<tr>\n<td>%s</td>", rowCounter);
 					// int columnCounter = 1;
 					for (String item : row) {
+						String itemText = item;
+						if (itemText == null) {
+							itemText = "";
+						}
 						Pagedatainfo pagedatainfo = new Pagedatainfo();
-						pagedatainfo.setContent(item);
+						pagedatainfo.setContent(itemText.trim().replace("\"", "'"));
 						pagedatainfo.setPageurlinfo(pageurlinfo);
 						pagedatainfo.setTableGroupKey(tableGroupKey);
 						pagedatainfo.setRowGroupKey(rowGroupKey);
 						pagedatainfo
 								.setExtractedDate(DateTimeUtil.nowTimeStr());
 						pagedatainfo.setType("");
-						pagedatainfoService.save(pagedatainfo);
-						String itemText = item;
-						if (itemText == null) {
-							itemText = "";
-						}
-						System.out.println(itemText);
+						pagedatainfoService.save(pagedatainfo);						
+						//System.out.println(itemText);
 						// output.format("<td>%s</td>\n", itemText);
 						// columnCounter++;
 					}
