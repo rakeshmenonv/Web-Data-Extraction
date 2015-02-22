@@ -1,20 +1,15 @@
 package com.infotop.webharvest.dataharvest.web;
 
-import java.text.ParseException;
+
 import java.util.Map;
 
 import javax.servlet.ServletRequest;
-import javax.validation.Valid;
+
 
 import net.infotop.web.easyui.DataGrid;
 import net.infotop.web.easyui.Message;
 
-import org.quartz.CronTrigger;
-import org.quartz.JobDetail;
-import org.quartz.Scheduler;
-import org.quartz.SchedulerException;
-import org.quartz.SchedulerFactory;
-import org.quartz.impl.StdSchedulerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,7 +25,7 @@ import org.springside.modules.web.Servlets;
 import ch.qos.logback.classic.Logger;
 
 import com.infotop.common.BasicController;
-import com.infotop.common.RunMeTask;
+
 import com.infotop.system.account.entity.User;
 import com.infotop.system.account.service.ShiroDbRealm.ShiroUser;
 import com.infotop.webharvest.dataharvest.service.AuditService;
