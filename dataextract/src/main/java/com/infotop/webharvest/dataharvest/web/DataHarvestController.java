@@ -142,11 +142,8 @@ public class DataHarvestController extends BasicController {
 		Document doc;
 		try {
 
-			// need http protocol
 			doc = Jsoup.connect(pageurlinfo.getUrl()).ignoreContentType(true)
 					.parser(Parser.xmlParser()).get();
-			// Elements elements = doc.select("div[class=sc-list clearfix]");
-
 			String selectedelement = pageurlinfo.getElement() + "["
 					+ pageurlinfo.getAttribute() + "=" + pageurlinfo.getValue()
 					+ "]";
@@ -168,15 +165,13 @@ public class DataHarvestController extends BasicController {
 									pagedatainfo.setContent(element
 											.absUrl("src"));
 								}
-
 								pagedatainfo.setType(element.nodeName());
+								pagedatainfo.setExtractedDate(DateTimeUtil
+										.nowTimeStr());
 								pagedatainfo.setRowGroupKey(rowGroupKey);
 								pagedatainfo.setTableGroupKey(tableGroupKey);
 								pagedatainfo.setPageurlinfo(pageurlinfo);
-								pagedatainfoService.save(pagedatainfo);
-								System.out.println(element.nodeName() + "text"
-										+ element.ownText() + "%%%%%%%%"
-										+ element.absUrl("src"));
+								pageDataInfoSave(pagedatainfo);
 							}
 							if ("abs:src".equals(attribute.getKey())) {
 								Pagedatainfo pagedatainfo = new Pagedatainfo();
@@ -188,13 +183,12 @@ public class DataHarvestController extends BasicController {
 											.attr("abs:src"));
 								}
 								pagedatainfo.setType(element.nodeName());
+								pagedatainfo.setExtractedDate(DateTimeUtil
+										.nowTimeStr());
 								pagedatainfo.setRowGroupKey(rowGroupKey);
 								pagedatainfo.setTableGroupKey(tableGroupKey);
 								pagedatainfo.setPageurlinfo(pageurlinfo);
-								pagedatainfoService.save(pagedatainfo);
-								System.out.println(element.nodeName() + "text"
-										+ element.ownText() + "%%%%%%%%"
-										+ element.attr("abs:src"));
+								pageDataInfoSave(pagedatainfo);
 							}
 							if ("data-lazyload".equals(attribute.getKey())) {
 								Pagedatainfo pagedatainfo = new Pagedatainfo();
@@ -207,13 +201,12 @@ public class DataHarvestController extends BasicController {
 											.attr("data-lazyload"));
 								}
 								pagedatainfo.setPageurlinfo(pageurlinfo);
+								pagedatainfo.setExtractedDate(DateTimeUtil
+										.nowTimeStr());
 								pagedatainfo.setType(element.nodeName());
 								pagedatainfo.setRowGroupKey(rowGroupKey);
 								pagedatainfo.setTableGroupKey(tableGroupKey);
-								pagedatainfoService.save(pagedatainfo);
-								System.out.println(element.nodeName() + "text"
-										+ element.ownText() + "%%%%%%%%"
-										+ element.attr("data-lazyload"));
+								pageDataInfoSave(pagedatainfo);
 							}
 						}
 					} else if (element.nodeName().equals("a")) {
@@ -225,77 +218,54 @@ public class DataHarvestController extends BasicController {
 							pagedatainfo.setContent(element.attr("abs:href"));
 						}
 						pagedatainfo.setType(element.nodeName());
+						pagedatainfo
+								.setExtractedDate(DateTimeUtil.nowTimeStr());
 						pagedatainfo.setRowGroupKey(rowGroupKey);
 						pagedatainfo.setPageurlinfo(pageurlinfo);
 						pagedatainfo.setTableGroupKey(tableGroupKey);
-						pagedatainfoService.save(pagedatainfo);
-						System.out.println(element.nodeName() + "text"
-								+ element.ownText() + "$$$$$$$$"
-								+ element.attr("abs:href"));
+						pageDataInfoSave(pagedatainfo);
 					} else if (element.nodeName().equals("script")) {
-						Pagedatainfo pagedatainfo = new Pagedatainfo();
-						if (!element.ownText().isEmpty()) {
-							pagedatainfo.setContent(element.ownText() + "|"
-									+ element.absUrl("src"));
-						} else {
-							pagedatainfo.setContent(element.absUrl("src"));
-						}
-						pagedatainfo.setType(element.nodeName());
-						pagedatainfo.setRowGroupKey(rowGroupKey);
-						pagedatainfo.setPageurlinfo(pageurlinfo);
-						pagedatainfo.setTableGroupKey(tableGroupKey);
-						pagedatainfoService.save(pagedatainfo);
-						System.out.println(element.nodeName() + "text"
-								+ element.ownText() + "&&&&&&&"
-								+ element.absUrl("src"));
 					} else if (element.nodeName().equals("Imports")) {
-						Pagedatainfo pagedatainfo = new Pagedatainfo();
-						if (!element.ownText().isEmpty()) {
-							pagedatainfo.setContent(element.ownText() + "|"
-									+ element.attr("abs:href"));
-						} else {
-							pagedatainfo.setContent(element.attr("abs:href"));
-						}
-						pagedatainfo.setType(element.nodeName());
-						pagedatainfo.setRowGroupKey(rowGroupKey);
-						pagedatainfo.setPageurlinfo(pageurlinfo);
-						pagedatainfo.setTableGroupKey(tableGroupKey);
-						pagedatainfoService.save(pagedatainfo);
-						System.out.print(element.nodeName() + "text"
-								+ element.ownText() + "*********"
-								+ element.attr("abs:href"));
 					} else {
 
 						Pagedatainfo pagedatainfo = new Pagedatainfo();
 						if (!element.ownText().isEmpty()) {
-							pagedatainfo.setContent(element.ownText());
+
+							pagedatainfo.setContent(element.ownText()
+									.replaceAll("  ", " ").trim());
 						} else {
 							pagedatainfo.setContent(element.attr("abs:href"));
 						}
 						pagedatainfo.setType(element.nodeName());
+						pagedatainfo
+								.setExtractedDate(DateTimeUtil.nowTimeStr());
 						pagedatainfo.setRowGroupKey(rowGroupKey);
 						pagedatainfo.setTableGroupKey(tableGroupKey);
 						pagedatainfo.setPageurlinfo(pageurlinfo);
-						// pagedatainfoService.save(pagedatainfo);
 						if (!element.ownText().isEmpty()) {
-							pagedatainfoService.save(pagedatainfo);
-							// System.out.println("coming"+element.ownText());
+							if (!element.ownText().equals("  ")) {
+								pageDataInfoSave(pagedatainfo);
+							}
+
 						} else {
-							// System.out.println("not coming"+
-							// element.ownText());
 						}
 
 					}
 				}
-				System.out.println("###############################");
 			}
-
-			// }
 
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
+	}
+
+	private void pageDataInfoSave(Pagedatainfo pagedatainfo) {
+		try{
+		pagedatainfoService.save(pagedatainfo);
+		}catch(Exception e){
+			e.printStackTrace();	
+		}
 	}
 
 	@RequestMapping(value = "showlog")
