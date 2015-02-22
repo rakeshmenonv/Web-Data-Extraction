@@ -41,11 +41,11 @@
 	//列表toolbar ID
 	var pageinfoLog_list_toolbar_id = 'pageinfoLog_list_toolbar';
 	//操作链接
-	var pageinfoLog_list_create_url =  '${ctx}/pageinfo/create';
-	var pageinfoLog_list_update_url =  '${ctx}/pageinfo/update/';
-	var pageinfoLog_list_delete_url =  '${ctx}/pageinfo/delete';
-	var pageinfoLog_list_view_url =  '${ctx}/pageinfo/view/';
-	var pageinfoLog_list_datagrid_load_url = '${ctx}/pageinfo/findLogList';
+	var pageinfoLog_list_create_url =  '${ctx}/audit/create';
+	var pageinfoLog_list_update_url =  '${ctx}/audit/update/';
+	var pageinfoLog_list_delete_url =  '${ctx}/audit/delete';
+	var pageinfoLog_list_view_url =  '${ctx}/audit/view/';
+	var pageinfoLog_list_datagrid_load_url = '${ctx}/audit/findLogList';
 	
 	//定义相关的操作按钮
 	function pageinfoLog_list_actionFormatter(value,row,index){
@@ -68,9 +68,9 @@
 	//DataGrid字段设置
 	var pageinfoLog_list_datagrid_columns = [ [
 	                    		{field : 'id',title : '编号',width : 150,checkbox : true,align:'center'},
-	    	          					{field : 'url',title : '<spring:message code="pageinfo_url" />',width : 150,align:'center'},
-			          					{field : 'CountOf',title : 'count',width : 150,align:'center'},
-			          	                    	{field : 'action',title : '操作',width : 80,align : 'center',formatter : pageinfoLog_list_actionFormatter} 
+	    	          			{field : 'url',title : '<spring:message code="pageinfo_url" />',width : 150,align:'center'},
+			          			{field : 'CountOf',title : 'count',width : 150,align:'center'},
+			          	        {field : 'action',title : '操作',width : 80,align : 'center',formatter : pageinfoLog_list_actionFormatter} 
 	                    		] ];
 	/** 初始化DataGrid,加载数据 **/		
 	function pageinfoLog_list_loadDataGrid(){		 

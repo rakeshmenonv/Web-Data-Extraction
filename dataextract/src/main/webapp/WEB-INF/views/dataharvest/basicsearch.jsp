@@ -96,7 +96,7 @@ function showLog(url,params) {
 	    			</td>
 	    		</tr>
 		</table>
-
+		</div>
 		
 	</div>
 

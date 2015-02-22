@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springside.modules.web.Servlets;
@@ -36,7 +37,7 @@ public class AuditController extends  BasicController{
 	@Autowired
 	private AuditService auditService;
 	
-	@RequestMapping(value = "urlCount")
+	@RequestMapping(value = "urlCount", method = RequestMethod.GET)
 	public String urlCount(Model model, ServletRequest request) {
     	ShiroUser su = super.getLoginUser();
 		User user = accountService.findUserByLoginName(su.getLoginName());
@@ -48,7 +49,7 @@ public class AuditController extends  BasicController{
 		}
        return "dataharvest/audit/urlinfoLogList";
     }
- 	@RequestMapping(value = "urlInfo/{url}")
+ 	@RequestMapping(value = "urlInfo/{url}", method = RequestMethod.GET)
 	public String urlInfo(Model model, ServletRequest request,@PathVariable("url") String url) {
     	ShiroUser su = super.getLoginUser();
 		User user = accountService.findUserByLoginName(su.getLoginName());
@@ -61,7 +62,7 @@ public class AuditController extends  BasicController{
 		}
        return "dataharvest/audit/urlinfoView";
     }
- 	 @RequestMapping(value = "findLogList")
+ 	 @RequestMapping(value = "findLogList", method = RequestMethod.POST )
  	@ResponseBody
  	public DataGrid findLogList(
  			@RequestParam(value = "sort", defaultValue = "auto") String sortType,
@@ -89,7 +90,7 @@ public class AuditController extends  BasicController{
  		return dataGrid;
  	}
 
- 	    @RequestMapping(value = "getUrlInfo")
+ 	    @RequestMapping(value = "getUrlInfo", method = RequestMethod.GET)
 	 	@ResponseBody
 	 	public DataGrid getUrlInfo(
 	 			@RequestParam(value = "sort", defaultValue = "auto") String sortType,
