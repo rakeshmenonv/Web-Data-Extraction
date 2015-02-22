@@ -70,7 +70,7 @@
 	var urlinfo_list_datagrid_columns = [ [
 	                    		{field : 'id',title : '编号',width : 150,checkbox : true,align:'center'},
 	    	          					{field : 'url',title : '<spring:message code="pageinfo_url" />',width : 150,align:'center'},
-			          					{field : 'date',title : 'date',width : 150,align:'center'},
+			          					{field : 'extracted_date',title : 'extractedDate',width : 150,align:'center'},
 			          	                    	{field : 'action',title : '操作',width : 80,align : 'center',formatter : urlinfo_list_actionFormatter} 
 	                    		] ];
 	/** 初始化DataGrid,加载数据 **/		
