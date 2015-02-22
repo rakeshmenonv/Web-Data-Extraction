@@ -23,6 +23,7 @@ import com.infotop.system.account.entity.User;
 import com.infotop.system.account.service.ShiroDbRealm.ShiroUser;
 import com.infotop.webharvest.dataharvest.service.AuditService;
 import com.infotop.webharvest.pagedatainfo.service.PagedatainfoService;
+import com.infotop.webharvest.pageurlinfo.entity.Pageurlinfo;
 import com.infotop.webharvest.pageurlinfo.service.PageurlinfoService;
 
 @Controller
@@ -49,13 +50,13 @@ public class AuditController extends  BasicController{
 		}
        return "dataharvest/audit/urlinfoLogList";
     }
- 	@RequestMapping(value = "urlInfo/{url}", method = RequestMethod.GET)
-	public String urlInfo(Model model, ServletRequest request,@PathVariable("url") String url) {
+ 	@RequestMapping(value = "urlInfo/{id}", method = RequestMethod.GET)
+	public String urlInfo(Model model, ServletRequest request,@PathVariable("id") String id) {
     	ShiroUser su = super.getLoginUser();
 		User user = accountService.findUserByLoginName(su.getLoginName());
 		if (user != null) {
 			//TODO add some code.
-			model.addAttribute("urlName", url);
+			model.addAttribute("id", id);
 		} else {
 			logger.log(this.getClass(),Logger.ERROR_INT,"登陆帐号无效!","",null);
 			return "redirect:/login";
@@ -97,7 +98,7 @@ public class AuditController extends  BasicController{
 	 			@RequestParam(value = "order", defaultValue = "desc") String order,
 	 			@RequestParam(value = "page", defaultValue = "1") int pageNumber,
 	 			@RequestParam(value = "rows", defaultValue = ROWS) int rows,
-	 			@RequestParam(value = "urlName") String url,
+	 			@RequestParam(value = "id") Long id,
 	 			Model model, ServletRequest request) {
 	 		DataGrid dataGrid = new DataGrid();
 	 		try {
@@ -108,8 +109,9 @@ public class AuditController extends  BasicController{
 	 						.getParametersStartingWith(request, "search_");
 	 				model.addAttribute("searchParams", Servlets
 	 						.encodeParameterStringWithPrefix(searchParams, "search_"));
+	 				Pageurlinfo pageurlinfo=pageurlinfoService.get(id);
 	 				dataGrid = auditService.dataGridForUrlInfo(searchParams, pageNumber,
-	 						rows, sortType, order,url);
+	 						rows, sortType, order,pageurlinfo.getUrl());
 	 			} else {
 	 				logger.log(this.getClass(),Logger.ERROR_INT,"登陆帐号无效!","",null);
 	 			}

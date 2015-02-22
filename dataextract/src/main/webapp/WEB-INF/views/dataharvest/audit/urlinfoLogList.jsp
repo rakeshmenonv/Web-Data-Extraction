@@ -29,7 +29,7 @@
 	var pageinfoLog_list_create_url =  '${ctx}/audit/create';
 	var pageinfoLog_list_update_url =  '${ctx}/audit/update/';
 	var pageinfoLog_list_delete_url =  '${ctx}/audit/delete';
-	var pageinfoLog_list_view_url =  '${ctx}/audit/view/';
+	var pageinfoLog_list_view_url =  '${ctx}/audit/urlInfo/';
 	var pageinfoLog_list_datagrid_load_url = '${ctx}/audit/findLogList';
 	
 	//定义相关的操作按钮
@@ -44,8 +44,8 @@
 		                    row.id,pageinfoLog_list_delete_url,'${ctx}/static/js/plugins/jquery-easyui-1.3.4/themes/icons/application_form_delete.png');
 		str += '&nbsp;';*/
 		str += formatString(
-				'<img onclick="view(\'{0}\',\'{1}\');" src="${ctx}/static/js/plugins/jquery-easyui-1.3.4/themes/icons/view.png" title="查看"/>',
-				pageinfoLog_list_view_url + row.id);
+				'<img onclick="indexTabsAddTab(\'href\',{title:\'{0}\',url:\'{1}\',iconCls:\'icon-plugin\'})"  src="${ctx}/static/js/plugins/jquery-easyui-1.3.4/themes/icons/view.png" title="查看"/>',
+				row.url,pageinfoLog_list_view_url + row.id);
 		str += '&nbsp;';
 		return str; 
 	}

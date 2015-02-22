@@ -45,7 +45,7 @@
 	var pageinfoLog_list_update_url =  '${ctx}/pageinfo/update/';
 	var pageinfoLog_list_delete_url =  '${ctx}/pageinfo/delete';
 	var pageinfoLog_list_view_url =  '${ctx}/pageinfo/view/'; */
-	var urlinfo_list_datagrid_load_url = '${ctx}/pageinfo/getUrlInfo/'+urlName;
+	var urlinfo_list_datagrid_load_url = '${ctx}/audit/getUrlInfo/?id=${id}';
 	
 	//定义相关的操作按钮
 	function urlinfo_list_actionFormatter(value,row,index){
