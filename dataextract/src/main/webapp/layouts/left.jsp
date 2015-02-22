@@ -60,7 +60,7 @@
 		<ul>
 			<li><a data-options="plain:true" href="javascript:void(0)"
 				class="user easyui-linkbutton"
-				onclick="indexTabsAddTab('href',{title:'用户管理',url:'${ctx}/pageinfo/urlCount',iconCls:'icon-user_gray'})">
+				onclick="indexTabsAddTab('href',{title:'用户管理',url:'${ctx}/audit/urlCount',iconCls:'icon-user_gray'})">
 					<img
 					src="${ctx}/static/js/plugins/jquery-easyui-1.3.4/themes/icons/user_gray.png" />&nbsp;log
 			</a></li>

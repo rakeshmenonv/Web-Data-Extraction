@@ -82,23 +82,32 @@ function showLog(url,params) {
 				</tr>
 			</table>
 		</div>
-		<div title="Scheduler" style="padding: 10px">
-			<table cellpadding="5">
-				<tr>
-					<td>INTERVAL:</td>
-					<td><select class="easyui-combobox" name="state"
-						style="width: 200px;">
-							<option value="10">10</option>
-							<option value="20">20</option>
-							<option value="30">30</option>
-					</select></td>
-				</tr>
-			</table>
-		</div>
+
+		<div title="Scheduler" style="padding:10px">
+		<table cellpadding="5">
+		<tr>
+	    			<td>INTERVAL:</td> 
+	    			<td>
+	    				<select class="easyui-combobox" name="state" style="width:200px;">
+						<option value="10">10</option>
+						<option value="20">20</option>
+						<option value="30">30</option>
+						</select>
+	    			</td>
+	    		</tr>
+		</table>
+
+		
 	</div>
 
-	<div style="text-align: center;">
-		<a href="#" class="easyui-linkbutton" onclick="beginExtract();"
-			data-options="iconCls:'icon-search'">Extract</a>
+
+	
+
+	
+	<div style="text-align:center;">
+	    	<a href="#" class="easyui-linkbutton" onclick="beginExtract();" data-options="iconCls:'icon-search'" >Extract</a>
+
 	</div>
+
 </form:form>
+

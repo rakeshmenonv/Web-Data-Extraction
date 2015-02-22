@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 import java.util.Random;
 
 import javax.servlet.ServletRequest;
@@ -40,12 +39,10 @@ import org.seagatesoft.sde.treematcher.TreeMatcher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springside.modules.web.Servlets;
 import org.xml.sax.SAXException;
 
 import ch.qos.logback.classic.Logger;
@@ -122,24 +119,7 @@ public class DataHarvestController extends BasicController {
 			msg.setData("");
 		}
 		return msg;
-	}	
-
-	@RequestMapping(value = "showdata/{id}", method = RequestMethod.GET)
-	  public String updateForm(@PathVariable("id") Long id, Model model) {
-	        ShiroUser su = super.getLoginUser();
-			User user = accountService.findUserByLoginName(su.getLoginName());
-			if (user != null) {
-				Pageurlinfo entity = pageurlinfoService.get(id); 			
-				List<Pagedatainfo> pagedatainfoList=pagedatainfoService.getAlldatainfo(entity);				
-		        model.addAttribute("pagedatainfoList", pagedatainfoList);
-		        model.addAttribute("action", "update");
-			} else {
-				logger.log(this.getClass(),Logger.ERROR_INT,"登陆帐号无效!","",null);
-				return "redirect:/login";
-			}
-	        return "dataharvest/showdata";
 	}
-	 
 
 	public void selectedsave(Pageurlinfo pageurlinfo) {
 
@@ -364,12 +344,8 @@ public class DataHarvestController extends BasicController {
 					// output.format("<tr>\n<td>%s</td>", rowCounter);
 					// int columnCounter = 1;
 					for (String item : row) {
-						String itemText = item;
-						if (itemText == null) {
-							itemText = "";
-						}
 						Pagedatainfo pagedatainfo = new Pagedatainfo();
-						pagedatainfo.setContent(itemText.trim().replace("\"", "'"));
+						pagedatainfo.setContent(item);
 						pagedatainfo.setPageurlinfo(pageurlinfo);
 						pagedatainfo.setTableGroupKey(tableGroupKey);
 						pagedatainfo.setRowGroupKey(rowGroupKey);
@@ -377,7 +353,10 @@ public class DataHarvestController extends BasicController {
 								.setExtractedDate(DateTimeUtil.nowTimeStr());
 						pagedatainfo.setType("");
 						pagedatainfoService.save(pagedatainfo);
-						
+						String itemText = item;
+						if (itemText == null) {
+							itemText = "";
+						}
 						System.out.println(itemText);
 						// output.format("<td>%s</td>\n", itemText);
 						// columnCounter++;
@@ -407,14 +386,6 @@ public class DataHarvestController extends BasicController {
 			System.exit(5);
 		}
 
-	}
-	public static String trim(final String s) {
-	    final StringBuilder sb = new StringBuilder(s);
-	    while (sb.length() > 0 && Character.isWhitespace(sb.charAt(0)))
-	        sb.deleteCharAt(0); // delete from the beginning
-	    while (sb.length() > 0 && Character.isWhitespace(sb.charAt(sb.length() - 1)))
-	        sb.deleteCharAt(sb.length() - 1); // delete from the end
-	    return sb.toString();
 	}
 
 	@RequestMapping(value = "/log", method = RequestMethod.GET)
