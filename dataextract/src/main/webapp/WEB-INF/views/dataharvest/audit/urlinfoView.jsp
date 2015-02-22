@@ -51,7 +51,7 @@
 	var pageinfoLog_list_delete_url =  '${ctx}/pageinfo/delete';
 	var pageinfoLog_list_view_url =  '${ctx}/pageinfo/view/'; */
 	var urlinfo_list_datagrid_load_url = '${ctx}/audit/getUrlInfo/?id=${id}';
-	
+	var urlinfo_list_view_url =  '${ctx}/dataharvest/showdata/'; 
 	//定义相关的操作按钮
 	function urlinfo_list_actionFormatter(value,row,index){
 		 var str = '';	
@@ -65,7 +65,7 @@
 		str += '&nbsp;'; */
 		str += formatString(
 				'<img onclick="view(\'{0}\',\'{1}\');" src="${ctx}/static/js/plugins/jquery-easyui-1.3.4/themes/icons/view.png" title="查看"/>',
-				urlinfo_list_datagrid_load_url + row.id);
+				urlinfo_list_view_url + row.id);
 		
 		
 		return str; 
