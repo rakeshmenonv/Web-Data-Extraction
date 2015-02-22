@@ -46,26 +46,22 @@
 	//列表toolbar ID
 	var urlinfo_list_toolbar_id = 'urlinfo_list_toolbar';
 	//操作链接
-	/* var pageinfoLog_list_create_url =  '${ctx}/pageinfo/create';
-	var pageinfoLog_list_update_url =  '${ctx}/pageinfo/update/';
-	var pageinfoLog_list_delete_url =  '${ctx}/pageinfo/delete';
-	var pageinfoLog_list_view_url =  '${ctx}/pageinfo/view/'; */
 	var urlinfo_list_datagrid_load_url = '${ctx}/audit/getUrlInfo/?id=${id}';
-	
+	var urlinfo_list_view_url =  '${ctx}/dataharvest/showdata/'; 
 	//定义相关的操作按钮
 	function urlinfo_list_actionFormatter(value,row,index){
 		 var str = '';	
-		 /*str += formatString(
+		 /* str += formatString(
 				'<img onclick="updateForm(\'{0}\',\'pageinfo_form_inputForm\',pageinfo_list_datagrid,{title:\'编辑信息\'});" src="{1}" title="编辑"/>',
 				pageinfoLog_list_update_url + row.id,
 				'${ctx}/static/js/plugins/jquery-easyui-1.3.4/themes/icons/application_form_edit.png');
 		str += '&nbsp;';
 		str += formatString('<img onclick="deleteOne(\'{0}\',\'{1}\',pageinfoLog_list_datagrid);" src="{2}" title="删除"/>',
 		                    row.id,pageinfoLog_list_delete_url,'${ctx}/static/js/plugins/jquery-easyui-1.3.4/themes/icons/application_form_delete.png');
-		str += '&nbsp;';
+		str += '&nbsp;'; */
 		str += formatString(
-				'<img onclick="indexTabsAddTab(\'href\',{title:\'${row.url}\',url:\'${ctx}/parameter\',iconCls:\'icon-plugin\'});" src="${ctx}/static/js/plugins/jquery-easyui-1.3.4/themes/icons/view.png"/>');
-		str += '&nbsp;';*/
+				'<img onclick="view(\'{0}\',\'{1}\');" src="${ctx}/static/js/plugins/jquery-easyui-1.3.4/themes/icons/view.png" title="查看"/>',
+				urlinfo_list_view_url + row.id);
 		
 		
 		return str; 
