@@ -45,7 +45,7 @@
 		str += '&nbsp;';*/
 		str += formatString(
 				'<img onclick="indexTabsAddTab(\'href\',{title:\'{0}\',url:\'{1}\',iconCls:\'icon-plugin\'})"  src="${ctx}/static/js/plugins/jquery-easyui-1.3.4/themes/icons/view.png" title="查看"/>',
-				row.url,pageinfoLog_list_view_url + row.id);
+				'audit-'+row.id,pageinfoLog_list_view_url + row.id);
 		str += '&nbsp;';
 		return str; 
 	}
