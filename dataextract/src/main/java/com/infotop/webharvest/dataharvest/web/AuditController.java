@@ -1,24 +1,36 @@
 package com.infotop.webharvest.dataharvest.web;
 
+import java.text.ParseException;
 import java.util.Map;
 
 import javax.servlet.ServletRequest;
+import javax.validation.Valid;
 
 import net.infotop.web.easyui.DataGrid;
+import net.infotop.web.easyui.Message;
 
+import org.quartz.CronTrigger;
+import org.quartz.JobDetail;
+import org.quartz.Scheduler;
+import org.quartz.SchedulerException;
+import org.quartz.SchedulerFactory;
+import org.quartz.impl.StdSchedulerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springside.modules.web.Servlets;
 
 import ch.qos.logback.classic.Logger;
 
 import com.infotop.common.BasicController;
+import com.infotop.common.RunMeTask;
 import com.infotop.system.account.entity.User;
 import com.infotop.system.account.service.ShiroDbRealm.ShiroUser;
 import com.infotop.webharvest.dataharvest.service.AuditService;
@@ -120,6 +132,41 @@ public class AuditController extends  BasicController{
 	 		}
 	 		return dataGrid;
 	 	}
+ 	   
+ 	   @RequestMapping(value = "stopScheduler")
+ 		@ResponseBody
+ 		public Message stopScheduler(@RequestParam("id") Long id) {
+ 			try {
+ 				Pageurlinfo pageurlinfo = pageurlinfoService.get(id);
+ 				pageurlinfo.setJobon("");
+ 				pageurlinfoService.save(pageurlinfo);
+ 				msg.setSuccess(true);
+ 				msg.setMessage("scheduler stoped");
+ 				msg.setData("");
+ 			}catch (Exception e) {
+ 				// TODO Auto-generated catch block
+ 				e.printStackTrace();
+ 			} 
+ 			
+ 			return msg;
+ 		}
+ 	   
+ 	  @RequestMapping(value = "reschedule/{id}", method = RequestMethod.GET)
+	    public String updateForm(@PathVariable("id") Long id, Model model) {
+	        ShiroUser su = super.getLoginUser();
+			User user = accountService.findUserByLoginName(su.getLoginName());
+			if (user != null) {
+				Pageurlinfo entity = pageurlinfoService.get(id); 
+		        model.addAttribute("pageurlinfo", entity);
+		        model.addAttribute("action", "update");
+			} else {
+				logger.log(this.getClass(),Logger.ERROR_INT,"登陆帐号无效!","",null);
+				return "redirect:/login";
+			}
+	        return "dataharvest/audit/reschedule";
+	    }
+	 
+ 	
 }
 
 

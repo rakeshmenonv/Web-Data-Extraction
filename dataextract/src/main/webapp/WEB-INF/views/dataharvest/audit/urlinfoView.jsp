@@ -52,6 +52,8 @@
 	var pageinfoLog_list_view_url =  '${ctx}/pageinfo/view/'; */
 	var urlinfo_list_datagrid_load_url = '${ctx}/audit/getUrlInfo/?id=${id}';
 	var urlinfo_list_view_url =  '${ctx}/dataharvest/showdata/'; 
+	var user_list_stop_url = '${ctx}/audit/stopScheduler/';
+	var reschedule_url =  '${ctx}/audit/reschedule/';
 	//定义相关的操作按钮
 	function urlinfo_list_actionFormatter(value,row,index){
 		 var str = '';	
@@ -66,8 +68,20 @@
 		str += formatString(
 				'<img onclick="view(\'{0}\',\'{1}\');" src="${ctx}/static/js/plugins/jquery-easyui-1.3.4/themes/icons/view.png" title="查看"/>',
 				urlinfo_list_view_url + row.id);
-		
-		
+		console.info(row.jobon);
+		if(row.jobon!=null || row.jobon!=""){
+			alert("row.jobon "+row.jobon);
+			str += formatString(
+					'<img onclick="schedulerEvent(\'{0}\',\'{1}\');" src="{2}" title="stop"/>',
+					row.id, user_list_stop_url,
+					'${ctx}/static/js/plugins/jquery-easyui-1.3.4/themes/icons/stop.png');
+			str += '&nbsp;';
+		}
+		str += formatString(
+				'<img onclick="updateForm(\'{0}\',\'reschedule_form_inputForm\',urlinfo_list_datagrid,{title:\'编辑信息\'});" src="{1}" title="redo"/>',
+				reschedule_url + row.id,
+				'${ctx}/static/js/plugins/jquery-easyui-1.3.4/themes/icons/redo.png');
+		str += '&nbsp;';
 		return str; 
 	}
 	
@@ -100,6 +114,25 @@
 				$('#'+urlinfo_list_datagrid_id).show();
 				$('#'+urlinfo_list_toolbar_id).show();
 				parent. $ .messager.progress('close');
+			}
+		});
+	}
+	function schedulerEvent(id, ACTIONURL) {
+		parent.$.messager.confirm('Click Yes', 'If you want to stop', function(r) {
+			if (r) {
+				$.post(ACTIONURL, {
+					id : id
+				}, function(result) {
+					if (result.success) {
+						urlinfo_list_datagrid.datagrid('reload'); // reload the user data;
+						$.messager.show({ // show error message
+							title : '提示',
+							msg : result.message
+						});
+					} else {
+						$.messager.alert('错误', data.message, 'error');
+					}
+				}, 'JSON');
 			}
 		});
 	}
