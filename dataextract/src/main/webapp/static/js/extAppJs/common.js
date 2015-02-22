@@ -69,8 +69,8 @@ function updateForm(url, formId, listDatagrid, params) {
  */
 function view(url, params) {
 	var opts = {
-		width : 600,
-		height : 400,
+		width : 800,
+		height : 600,
 		title : '详细信息',
 		href : url,
 		iconCls : 'icon-application_form_magnify',

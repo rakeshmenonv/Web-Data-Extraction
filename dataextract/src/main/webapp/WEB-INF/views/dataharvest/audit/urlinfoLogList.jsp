@@ -2,27 +2,12 @@
 <%@ include file="/common/taglibs.jsp"%>
 <div data-options="fit:true" class="easyui-panel" style="height:200px;">
 	<div class="easyui-layout" data-options="fit:true">
-		<%-- <div
-			data-options="region:'north',border:false,title:'查询条件',iconCls:'icon-find'"
-			style="height: 65px;overflow: hidden;">
-			<form id="pageinfoLog_list_searchForm" method="post"
-				style="width:100%;overflow:hidden;">
-				<table class="search_table" style="width: 100%;">
-					<tr>
-						    						<th><spring:message code="pageinfo_url" /></th>
-						<td><input type="text" name="search_EQ_url"
-							value="${ param.search_EQ_url}"
-							id="search_EQ_url" /></td>   						<th><spring:message code="pageinfo_id" /></th>
-						<td><input type="text" name="search_EQ_id"
-							value="${ param.search_EQ_id}"
-							id="search_EQ_id" /></td>  						<th style="width:20%;">&nbsp;<a href="javascript:void(0);"
-							id="pageinfo_list_searchBtn">查询</a>&nbsp;<a
-							href="javascript:void(0);" id="pageinfo_list_clearBtn">清空</a></th>
-					</tr>
-				</table>
-			</form>
-		</div> --%>
-		<div data-options="region:'center',border:false">
+		<div
+			data-options="region:'west',split:true,border:true,title:'查询条件',iconCls:'icon-find'"
+			style="width: 500px;overflow: hidden;">
+			
+		</div>
+		<div data-options="region:'center',border:true">
 			<table id="pageinfoLog_list_dg" style="display: none;"></table>
 		</div>
 		<!-- <div id="pageinfoLog_list_toolbar" style="display: none;">
@@ -41,11 +26,11 @@
 	//列表toolbar ID
 	var pageinfoLog_list_toolbar_id = 'pageinfoLog_list_toolbar';
 	//操作链接
-	var pageinfoLog_list_create_url =  '${ctx}/pageinfo/create';
-	var pageinfoLog_list_update_url =  '${ctx}/pageinfo/update/';
-	var pageinfoLog_list_delete_url =  '${ctx}/pageinfo/delete';
-	var pageinfoLog_list_view_url =  '${ctx}/pageinfo/view/';
-	var pageinfoLog_list_datagrid_load_url = '${ctx}/pageinfo/findLogList';
+	var pageinfoLog_list_create_url =  '${ctx}/audit/create';
+	var pageinfoLog_list_update_url =  '${ctx}/audit/update/';
+	var pageinfoLog_list_delete_url =  '${ctx}/audit/delete';
+	var pageinfoLog_list_view_url =  '${ctx}/audit/urlInfo/';
+	var pageinfoLog_list_datagrid_load_url = '${ctx}/audit/findLogList';
 	
 	//定义相关的操作按钮
 	function pageinfoLog_list_actionFormatter(value,row,index){
@@ -59,8 +44,8 @@
 		                    row.id,pageinfoLog_list_delete_url,'${ctx}/static/js/plugins/jquery-easyui-1.3.4/themes/icons/application_form_delete.png');
 		str += '&nbsp;';*/
 		str += formatString(
-				'<img onclick="view(\'{0}\',\'{1}\');" src="${ctx}/static/js/plugins/jquery-easyui-1.3.4/themes/icons/view.png" title="查看"/>',
-				pageinfoLog_list_view_url + row.id);
+				'<img onclick="indexTabsAddTab(\'href\',{title:\'{0}\',url:\'{1}\',iconCls:\'icon-plugin\'})"  src="${ctx}/static/js/plugins/jquery-easyui-1.3.4/themes/icons/view.png" title="查看"/>',
+				'Audit'+row.id,pageinfoLog_list_view_url + row.id);
 		str += '&nbsp;';
 		return str; 
 	}
@@ -68,9 +53,9 @@
 	//DataGrid字段设置
 	var pageinfoLog_list_datagrid_columns = [ [
 	                    		{field : 'id',title : '编号',width : 150,checkbox : true,align:'center'},
-	    	          					{field : 'url',title : '<spring:message code="pageinfo_url" />',width : 150,align:'center'},
-			          					{field : 'CountOf',title : 'count',width : 150,align:'center'},
-			          	                    	{field : 'action',title : '操作',width : 80,align : 'center',formatter : pageinfoLog_list_actionFormatter} 
+	    	          			{field : 'url',title : '<spring:message code="pageinfo_url" />',width : 150,align:'center'},
+			          			{field : 'CountOf',title : 'count',width : 150,align:'center'},
+			          	        {field : 'action',title : '操作',width : 80,align : 'center',formatter : pageinfoLog_list_actionFormatter} 
 	                    		] ];
 	/** 初始化DataGrid,加载数据 **/		
 	function pageinfoLog_list_loadDataGrid(){		 

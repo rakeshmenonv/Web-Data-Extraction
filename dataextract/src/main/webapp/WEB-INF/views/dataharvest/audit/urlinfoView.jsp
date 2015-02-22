@@ -22,7 +22,12 @@
 				</table>
 			</form>
 		</div> --%>
-		<div data-options="region:'center',border:false">
+		<div
+			data-options="region:'west',split:true,border:true,title:'查询条件',iconCls:'icon-find'"
+			style="width: 500px;overflow: hidden;">
+			
+		</div>
+		<div data-options="region:'center',border:true">
 			<table id="urlinfo_list_dg" style="display: none;"></table>
 		</div>
 		<!-- <div id="pageinfoLog_list_toolbar" style="display: none;">
@@ -45,22 +50,22 @@
 	var pageinfoLog_list_update_url =  '${ctx}/pageinfo/update/';
 	var pageinfoLog_list_delete_url =  '${ctx}/pageinfo/delete';
 	var pageinfoLog_list_view_url =  '${ctx}/pageinfo/view/'; */
-	var urlinfo_list_datagrid_load_url = '${ctx}/pageinfo/getUrlInfo/'+urlName;
+	var urlinfo_list_datagrid_load_url = '${ctx}/audit/getUrlInfo/?id=${id}';
 	
 	//定义相关的操作按钮
 	function urlinfo_list_actionFormatter(value,row,index){
 		 var str = '';	
-		 /*str += formatString(
+		 /* str += formatString(
 				'<img onclick="updateForm(\'{0}\',\'pageinfo_form_inputForm\',pageinfo_list_datagrid,{title:\'编辑信息\'});" src="{1}" title="编辑"/>',
 				pageinfoLog_list_update_url + row.id,
 				'${ctx}/static/js/plugins/jquery-easyui-1.3.4/themes/icons/application_form_edit.png');
 		str += '&nbsp;';
 		str += formatString('<img onclick="deleteOne(\'{0}\',\'{1}\',pageinfoLog_list_datagrid);" src="{2}" title="删除"/>',
 		                    row.id,pageinfoLog_list_delete_url,'${ctx}/static/js/plugins/jquery-easyui-1.3.4/themes/icons/application_form_delete.png');
-		str += '&nbsp;';
+		str += '&nbsp;'; */
 		str += formatString(
-				'<img onclick="indexTabsAddTab(\'href\',{title:\'${row.url}\',url:\'${ctx}/parameter\',iconCls:\'icon-plugin\'});" src="${ctx}/static/js/plugins/jquery-easyui-1.3.4/themes/icons/view.png"/>');
-		str += '&nbsp;';*/
+				'<img onclick="view(\'{0}\',\'{1}\');" src="${ctx}/static/js/plugins/jquery-easyui-1.3.4/themes/icons/view.png" title="查看"/>',
+				urlinfo_list_datagrid_load_url + row.id);
 		
 		
 		return str; 
@@ -70,7 +75,7 @@
 	var urlinfo_list_datagrid_columns = [ [
 	                    		{field : 'id',title : '编号',width : 150,checkbox : true,align:'center'},
 	    	          					{field : 'url',title : '<spring:message code="pageinfo_url" />',width : 150,align:'center'},
-			          					{field : 'date',title : 'date',width : 150,align:'center'},
+			          					{field : 'extracted_date',title : 'extractedDate',width : 150,align:'center'},
 			          	                    	{field : 'action',title : '操作',width : 80,align : 'center',formatter : urlinfo_list_actionFormatter} 
 	                    		] ];
 	/** 初始化DataGrid,加载数据 **/		
