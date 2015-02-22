@@ -91,7 +91,7 @@ public class AuditController extends  BasicController{
  		return dataGrid;
  	}
 
- 	    @RequestMapping(value = "getUrlInfo", method = RequestMethod.GET)
+ 	    @RequestMapping(value = "getUrlInfo", method = RequestMethod.POST)
 	 	@ResponseBody
 	 	public DataGrid getUrlInfo(
 	 			@RequestParam(value = "sort", defaultValue = "auto") String sortType,
