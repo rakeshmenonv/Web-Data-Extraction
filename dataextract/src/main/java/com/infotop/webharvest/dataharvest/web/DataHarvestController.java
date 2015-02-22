@@ -39,6 +39,7 @@ import org.seagatesoft.sde.treematcher.TreeMatcher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -65,7 +66,6 @@ public class DataHarvestController extends BasicController {
 	@Autowired
 	private PagedatainfoService pagedatainfoService;
 
-	String resultOutput = "MDR.html";
 	double similarityTreshold = 0.80;
 	boolean ignoreFormattingTags = false;
 	boolean useContentSimilarity = false;
@@ -119,6 +119,22 @@ public class DataHarvestController extends BasicController {
 			msg.setData("");
 		}
 		return msg;
+	}
+	
+	@RequestMapping(value = "showdata/{id}", method = RequestMethod.GET)
+	public String updateForm(@PathVariable("id") Long id, Model model) {
+	        ShiroUser su = super.getLoginUser();
+			User user = accountService.findUserByLoginName(su.getLoginName());
+			if (user != null) {
+				Pageurlinfo entity = pageurlinfoService.get(id); 			
+				List<Pagedatainfo> pagedatainfoList=pagedatainfoService.getAlldatainfo(entity);				
+		        model.addAttribute("pagedatainfoList", pagedatainfoList);
+		        model.addAttribute("action", "update");
+			} else {
+				logger.log(this.getClass(),Logger.ERROR_INT,"登陆帐号无效!","",null);
+				return "redirect:/login";
+			}
+	        return "dataharvest/showdata";
 	}
 
 	public void selectedsave(Pageurlinfo pageurlinfo) {
@@ -314,20 +330,20 @@ public class DataHarvestController extends BasicController {
 					// output.format("<tr>\n<td>%s</td>", rowCounter);
 					// int columnCounter = 1;
 					for (String item : row) {
+						String itemText = item;
+						if (itemText == null) {
+							itemText = "";
+						}
 						Pagedatainfo pagedatainfo = new Pagedatainfo();
-						pagedatainfo.setContent(item);
+						pagedatainfo.setContent(itemText.trim().replace("\"", "'"));
 						pagedatainfo.setPageurlinfo(pageurlinfo);
 						pagedatainfo.setTableGroupKey(tableGroupKey);
 						pagedatainfo.setRowGroupKey(rowGroupKey);
 						pagedatainfo
 								.setExtractedDate(DateTimeUtil.nowTimeStr());
 						pagedatainfo.setType("");
-						pageDataInfoSave(pagedatainfo);
-						String itemText = item;
-						if (itemText == null) {
-							itemText = "";
-						}
-						System.out.println(itemText);
+						pagedatainfoService.save(pagedatainfo);						
+						//System.out.println(itemText);
 						// output.format("<td>%s</td>\n", itemText);
 						// columnCounter++;
 					}
@@ -361,19 +377,19 @@ public class DataHarvestController extends BasicController {
 	@RequestMapping(value = "/log", method = RequestMethod.GET)
 	@ResponseBody
 	public String sendMessage(Locale locale, HttpServletResponse response) {
-		Random r = new Random();
-		System.out.println("inside");
-		response.setContentType("text/event-stream");
-		try {
-			Thread.sleep(10000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		for (int i = 0; i <= 100; i++) {
-			return "data:arun" + i + "\n\n";
-		}
-		// return "data:Testing 1,2,3" + r.nextInt() +"\n\n";
-		return null;
 
-	}
+		 Random r = new Random();
+		 System.out.println("inside");
+         response.setContentType("text/event-stream");
+         try {
+                 Thread.sleep(10000);
+         } catch (InterruptedException e) {
+                 e.printStackTrace();
+         } 
+     
+        return "data:"+ DateTimeUtil.nowTimeStr() +": [info] : " + r.nextInt() +"\n\n";
+		
+	
+      }
+
 }
