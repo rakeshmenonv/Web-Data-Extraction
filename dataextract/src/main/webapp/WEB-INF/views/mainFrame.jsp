@@ -28,8 +28,13 @@
 				<div id="index_calendar" style="height: 180px; overflow: hidden;"></div>
 			</div>
 		</div>
-
-
+		<div data-options="iconCls:'icon-logo',region:'center'"
+			title="拓普网络-引领科技现代生活！" style="overflow: hidden;">
+			<div id="index_tabs" style="overflow: hidden;">
+			<div title="拓普" data-options="href:'${ctx }/home/coverpage',iconCls:'icon-house'"></div></div>
+		</div>
+		
+		
 		<div data-options="iconCls:'icon-logo',region:'center'"
 			title="拓普网络-引领科技现代生活！" style="overflow: hidden;">
 			<div id="index_tabs" style="overflow: hidden;"></div>
