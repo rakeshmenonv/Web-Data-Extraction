@@ -2,27 +2,12 @@
 <%@ include file="/common/taglibs.jsp"%>
 <div data-options="fit:true" class="easyui-panel" style="height:200px;">
 	<div class="easyui-layout" data-options="fit:true">
-		<%-- <div
-			data-options="region:'north',border:false,title:'查询条件',iconCls:'icon-find'"
-			style="height: 65px;overflow: hidden;">
-			<form id="pageinfoLog_list_searchForm" method="post"
-				style="width:100%;overflow:hidden;">
-				<table class="search_table" style="width: 100%;">
-					<tr>
-						    						<th><spring:message code="pageinfo_url" /></th>
-						<td><input type="text" name="search_EQ_url"
-							value="${ param.search_EQ_url}"
-							id="search_EQ_url" /></td>   						<th><spring:message code="pageinfo_id" /></th>
-						<td><input type="text" name="search_EQ_id"
-							value="${ param.search_EQ_id}"
-							id="search_EQ_id" /></td>  						<th style="width:20%;">&nbsp;<a href="javascript:void(0);"
-							id="pageinfo_list_searchBtn">查询</a>&nbsp;<a
-							href="javascript:void(0);" id="pageinfo_list_clearBtn">清空</a></th>
-					</tr>
-				</table>
-			</form>
-		</div> --%>
-		<div data-options="region:'center',border:false">
+		<div
+			data-options="region:'west',split:true,border:true,title:'查询条件',iconCls:'icon-find'"
+			style="width: 500px;overflow: hidden;">
+			
+		</div>
+		<div data-options="region:'center',border:true">
 			<table id="pageinfoLog_list_dg" style="display: none;"></table>
 		</div>
 		<!-- <div id="pageinfoLog_list_toolbar" style="display: none;">
