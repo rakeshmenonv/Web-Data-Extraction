@@ -131,7 +131,7 @@ public class DataHarvestController extends BasicController {
 		        model.addAttribute("pagedatainfoList", pagedatainfoList);
 		        model.addAttribute("action", "update");
 			} else {
-				logger.log(this.getClass(),Logger.ERROR_INT,"ç™»é™†å¸?å?·æ— æ•ˆ!","",null);
+				logger.log(this.getClass(),Logger.ERROR_INT,"登陆帐号无效!","",null);
 				return "redirect:/login";
 			}
 	        return "dataharvest/showdata";
