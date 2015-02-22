@@ -2,6 +2,8 @@ package dataextract;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -27,7 +29,8 @@ public class Test {
 	}*/
 	public static void main(String[] args) {
 	    try {
-	        Document doc = Jsoup.connect("http://en.wikipedia.org/wiki/List_of_blogs").get();
+	    	
+	    	Document doc = Jsoup.connect("http://en.wikipedia.org/wiki/List_of_blogs").get();
 	        Elements trs = doc.select("table.wikitable tr");
 
 	        //remove header row
