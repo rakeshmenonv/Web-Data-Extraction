@@ -16,6 +16,9 @@ import net.infotop.util.OperationNoUtil;
 import net.infotop.web.easyui.DataGrid;
 import net.infotop.web.easyui.Message;
 
+
+
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Attribute;
 import org.jsoup.nodes.Document;
@@ -47,7 +50,8 @@ import org.xml.sax.SAXException;
 
 import ch.qos.logback.classic.Logger;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
+
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.infotop.common.BasicController;
 import com.infotop.system.account.entity.User;
@@ -71,9 +75,7 @@ public class DataHarvestController extends BasicController {
 	@Autowired
 	private DataHarvestService dataHarvestService;
 	
-    Pagedatainfo listPagedatainfo; 
-	
-	Message logmsg  = new Message();
+    
 	double similarityTreshold = 0.80;
 	boolean ignoreFormattingTags = false;
 	boolean useContentSimilarity = false;
@@ -99,15 +101,16 @@ public class DataHarvestController extends BasicController {
 	public Message extract(@Valid Pageurlinfo pageurlinfo,
 			RedirectAttributes redirectAttributes) {
 		try {
+			
 			ShiroUser su = super.getLoginUser();
 			User user = accountService.findUserByLoginName(su.getLoginName());
 			if (user != null) {
 				pageurlinfo.setExtractedDate(DateTimeUtil.nowTimeStr());
 				pageurlinfoService.save(pageurlinfo);
 				if (pageurlinfo.getElement().isEmpty()) {
-					dataHarvestService.basicsave(pageurlinfo,listPagedatainfo,logmsg);
+					dataHarvestService.basicsave(pageurlinfo);
 				} else {
-				dataHarvestService.selectedsave(pageurlinfo,listPagedatainfo,logmsg);
+				dataHarvestService.selectedsave(pageurlinfo);
 				}
 				msg.setSuccess(true);
 				msg.setMessage("信息添加成功");
@@ -140,20 +143,9 @@ public class DataHarvestController extends BasicController {
 
     @RequestMapping(value = "/log", method = RequestMethod.GET)
 	@ResponseBody
-	public String sendMessage(Locale locale, HttpServletResponse response) throws JsonProcessingException {
-
-		 String event;
-		 response.setContentType("text/event-stream");
-         try {
-                 Thread.sleep(100);
-         } catch (InterruptedException e) {
-                 e.printStackTrace();
-         } 
-        ObjectMapper mapper = new ObjectMapper();
-        logmsg.setData(mapper.writeValueAsString(listPagedatainfo));
-        event = "data:"+mapper.writeValueAsString(logmsg)+"\n\n";
+	public String sendMessage(Locale locale, HttpServletResponse response) throws JsonMappingException, IOException {
+        String event = dataHarvestService.logProgress(response);
 		return event;
-	
       }
 
 }

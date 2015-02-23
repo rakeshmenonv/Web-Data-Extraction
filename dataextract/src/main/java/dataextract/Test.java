@@ -34,15 +34,15 @@ public class Test {
 	        trs.remove(0);
 
 	        for (Element tr : trs) {
-	            Elements tds = tr.getElementsByTag("th");
+	            Elements tds = tr.getElementsByTag("td");
 	            Element td = tds.first();
-	            System.out.println("1)Blog: " + td.text());
+	            System.out.println("Blog: " + td.text());
 	        }
 	        
 	        
 	        Document doc1 = Jsoup.connect("http://en.wikipedia.org/wiki/List_of_blogs").get();
 	        for (Element table : doc1.select("table")) {
-	        	System.out.println("2)table\n\n\n\n");
+	        	System.out.println("table\n\n\n\n");
 	        	/*for (Element row : table.select("tr")) {
 	        		System.out.print(row.text()+"              ");
 	        	}*/

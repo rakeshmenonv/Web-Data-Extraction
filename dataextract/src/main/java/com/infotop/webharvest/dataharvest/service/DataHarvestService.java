@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+
 import net.infotop.util.DateTimeUtil;
 import net.infotop.util.OperationNoUtil;
 import net.infotop.web.easyui.Message;
@@ -35,6 +37,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.xml.sax.SAXException;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.infotop.webharvest.pagedatainfo.entity.Pagedatainfo;
 import com.infotop.webharvest.pagedatainfo.service.PagedatainfoService;
 import com.infotop.webharvest.pageurlinfo.entity.Pageurlinfo;
@@ -56,6 +60,9 @@ public class DataHarvestService {
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 	
+	Pagedatainfo listPagedatainfo; 
+	Message logmsg  = new Message();
+	
 	public List getPiechartData()
 	{
 		String sqlStr = "select count(url)  as value, url as name from page_url_info group by url order by  value desc limit 10";
@@ -68,11 +75,10 @@ public class DataHarvestService {
 		String sqlStr = "select  count(url)as value, date_format(extracted_date,'%d-%m-%Y') as name  from webharvest.page_url_info where url='"+url+"' group by name";
 		return jdbcTemplate.queryForList(sqlStr);
 	}
-	public void selectedsave(Pageurlinfo pageurlinfo,Pagedatainfo listPagedatainfo,Message logmsg ) {
-
+	public void selectedsave(Pageurlinfo pageurlinfo) {
+		logmsg.setSuccess(true);
 		Document doc;
 		try {
-			logmsg.setSuccess(true);
 			doc = Jsoup.connect(pageurlinfo.getUrl()).ignoreContentType(true)
 					.parser(Parser.xmlParser()).get();
 			String selectedelement = pageurlinfo.getElement() + "["
@@ -229,10 +235,10 @@ public class DataHarvestService {
 			e.printStackTrace();	
 		}
 	}
-	public void basicsave(Pageurlinfo pageurlinfo,Pagedatainfo listPagedatainfo,Message logmsg ) {
-
+	public void basicsave(Pageurlinfo pageurlinfo) {
+		    logmsg.setSuccess(true);
 		try {
-			logmsg.setSuccess(true);
+			
 			TagTreeBuilder builder = new DOMParserTagTreeBuilder();
 			TagTree tagTree = builder.buildTagTree(pageurlinfo.getUrl(),
 					ignoreFormattingTags);
@@ -312,11 +318,13 @@ public class DataHarvestService {
 					// output.format("</tr>\n");
 					// rowCounter++;
 				}
-				logmsg.setSuccess(false);
-				listPagedatainfo = new Pagedatainfo();
+				
 				// output.format("</tbody>\n</table>\n");
 				// tableCounter++;
 			}
+			
+			logmsg.setSuccess(false);
+			listPagedatainfo = new Pagedatainfo();
 
 			// output.format("</body></html>");
 		} catch (SecurityException exception) {
@@ -339,6 +347,19 @@ public class DataHarvestService {
 	}
 
 	
-	
+	public String logProgress(HttpServletResponse response) throws JsonProcessingException{
+		
+	   String event;	
+	   response.setContentType("text/event-stream");
+       try {
+               Thread.sleep(1000);
+       } catch (InterruptedException e) {
+               e.printStackTrace();
+       } 
+      ObjectMapper mapper = new ObjectMapper();
+      logmsg.setData(mapper.writeValueAsString(listPagedatainfo));
+      return event = "data:"+mapper.writeValueAsString(logmsg)+"\n\n";
+		
+	}
 	
 }
