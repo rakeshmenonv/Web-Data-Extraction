@@ -1,85 +1,38 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/common/taglibs.jsp"%>
-<%-- <%@ include file="/common/easyui_inc.jsp"%> --%>
-<%-- 
-<head>
-<script type="text/javascript" src="${ctx}/static/js/plugins/jquery-easyui-1.3.4/jquery.min.js"></script>
-<script type="text/javascript" src="${ctx}/static/js/plugins/jquery-easyui-1.3.4/jquery.easyui.min.js"></script>
-</head> --%>
 <script>
 $.parser.onComplete = function() {
-	parent. $ .messager.progress('close');	
+	parent. $ .messager.progress('close');
+	setValidation();
 };
 var formId="dataharvest_form_inputForm";
 var showLogUrl="${ctx}/dataharvest/showlog";
 function beginExtract(){
+	setValidation();
 	var inputForm = $('#'+ formId);
-	var a = $('#element').val();
-	
-	 var b = $('#attribute').val();
-	 var c = $('#value').val();
-	 
-	/*  if(a==''){
-		 $("#spanid1").text("enter element value");
-		
-	 }
-	 if(b==''){
-		 $("#spanid2").text("enter b value");
-	 }
-	 if(c=='')
-		 {
-		 $("#spanid3").text("enter c value");
-		 } */
 	var isValid = inputForm.form('validate');
 	if (isValid) {
 		showLog(showLogUrl);
 		inputForm.submit();
 	}
-	if(a == '' && b == '' && c == ''){
-		$("#spanid1").hide();
-		$("#spanid2").hide();
-		$("#spanid3").hide();
-		 }
-	else if(a !='' && b == '' && c == ''){
-		
-		$("#spanid2").text("enter attribute value").show();
-		$("#spanid3").text("enter value").show();
-		$("#spanid1").hide();
-		 }
-	else if(a == '' && b != '' && c == ''){
-		$("#spanid1").text("enter element value").show();
-		$("#spanid3").text("enter value").show();
-		$("#spanid2").hide();
-		 }else if(a == '' && b == '' && c !=''){
-			 $("#spanid1").text("enter element value").show();
-			 $("#spanid2").text("enter attribute value").show();
-			 $("#spanid3").hide();
-		 }
-		 else if(a != '' && b!= '' && c ==''){
-			 $("#spanid3").text("enter value").show();
-			 $("#spanid1").hide();
-			 $("#spanid2").hide();
-			 
-		 }
-		 else if(a != '' && b== '' && c!==''){
-			
-			 $("#spanid2").text("enter attribute value").show();
-			  $("#spanid1").hide();
-			 $("#spanid3").hide(); 
-		 }
-	else
-		{
-		$("#spanid1").text("enter element value").show();
-		$("#spanid2").hide();
-		$("#spanid3").hide();
-		
-		} 
+	
+}
+function setValidation(){
+	var a = $('#element');
+	var b = $('#attribute');
+	var c = $('#value');
+	if($(a).val()||$(b).val()||$(c).val()){
+		$(a).validatebox('enableValidation');
+		$(b).validatebox('enableValidation');
+		$(c).validatebox('enableValidation');
+	}else{
+		$(a).validatebox('disableValidation');
+		$(b).validatebox('disableValidation');
+		$(c).validatebox('disableValidation');
+	}
 }
 
-
 function showLog(url,params) {
-	
-	
 	var opts = {
 		width : 600,
 		height : 400,
@@ -106,15 +59,13 @@ function showLog(url,params) {
 	$.extend(opts, params);
 	parent.$.modalDialog(opts);
 }
-
-
 </script>
 
 <form:form id="dataharvest_form_inputForm"
 	name="dataharvest_form_inputForm" action="${ctx}/dataharvest/${action}"
 	modelAttribute="pageurlinfo" method="post" class="form-horizontal">
 	<div class="easyui-tabs"
-		style="width: 400px; height: 250px; margin: 50px auto;">
+		style="width: 400px; height: 250px; margin: 20px auto;">
 		<div title="Basic Search" style="padding: 10px">
 		
 			<%-- URL:
@@ -124,8 +75,8 @@ function showLog(url,params) {
 
 				<tr>
 					<td>URL:</td>
-					<td><input class="easyui-validatebox" type="text"  name="url" id="url"
-						data-options="required:true,validType:'url'" style="width: 267px;"></input></td>
+					<td><input class="easyui-validatebox textbox" type="text"  name="url" id="url"
+						data-options="required:true,validType:'url'"  style="width: 267px;"></input></td>
 				</tr>
 				
 				
@@ -136,18 +87,18 @@ function showLog(url,params) {
 				<tr>
 					<td>ELEMENT:</td>
 					<td><input class="easyui-validatebox textbox" type="text" name="element" id="element"
-						data-options="validate:true"></input><span id="spanid1" style="color:red"></span></td>
+						data-options="required:true" onkeyup="setValidation()"></input></td>
 						
 				</tr>
 				<tr>
 					<td>ATTRIBUTE:</td>
 					<td><input class="easyui-validatebox textbox" type="text" name="attribute" id="attribute"
-						data-options="validate:true"></input><span id="spanid2" style="color:red"></span></td>
+						data-options="required:true" onkeyup="setValidation()"></input></td>
 				</tr>
 				<tr>
 					<td>VALUE:</td>
 					<td><input class="easyui-validatebox textbox" type="text" name="value" id="value" 
-						data-options="validate:true"></input><span id="spanid3" style="color:red"></span></td>
+						data-options="required:true" onkeyup="setValidation()"></input></td>
 				</tr>
 			</table>
 		</div>
