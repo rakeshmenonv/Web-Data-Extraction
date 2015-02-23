@@ -130,7 +130,7 @@ function showLog(url,params) {
 		<div title="Scheduler" style="padding:10px" data-options="iconCls:'icon-hourglass'">
 		<table cellpadding="5">
 		<tr>
-	    			<td><spring:message code="webharvest_url" />:</td> 
+	    			<td><spring:message code="webharvest_interval" />:</td> 
 	    			<td>
 	    				<select name="state" id="state" style="width:200px;">
 							<c:forEach items="${schedulerList}" var="par">
