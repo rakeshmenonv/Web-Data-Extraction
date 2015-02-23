@@ -56,7 +56,7 @@
 	
 	//DataGrid字段设置
 	var pageinfoLog_list_datagrid_columns = [ [
-	                    		{field : 'id',title : '编号',width : 150,checkbox : true,align:'center'},
+	                    		{field : 'id',title : '编号',width : 150,checkbox : false,hidden:true,align:'center'},
 	    	          			{field : 'url',title : '<spring:message code="pageinfo_url" />',width : 150,align:'center'},
 			          			{field : 'CountOf',title : 'count',width : 150,align:'center'},
 			          	        {field : 'action',title : '操作',width : 80,align : 'center',formatter : pageinfoLog_list_actionFormatter} 
@@ -68,7 +68,7 @@
 			fit : true,
 			border : false,
 			fitColumns : true,
-			singleSelect : false,
+			singleSelect : true,
 			striped : true,
 			pagination : true,
 			rownumbers : true,

@@ -5,8 +5,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+
 import net.infotop.util.DateTimeUtil;
 import net.infotop.util.OperationNoUtil;
+import net.infotop.web.easyui.Message;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Attribute;
@@ -34,6 +37,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.xml.sax.SAXException;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.infotop.webharvest.pagedatainfo.entity.Pagedatainfo;
 import com.infotop.webharvest.pagedatainfo.service.PagedatainfoService;
 import com.infotop.webharvest.pageurlinfo.entity.Pageurlinfo;
@@ -55,6 +60,9 @@ public class DataHarvestService {
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 	
+	Pagedatainfo listPagedatainfo; 
+	Message logmsg  = new Message();
+	
 	public List getPiechartData()
 	{
 		String sqlStr = "select count(url)  as value, url as name from page_url_info group by url order by  value desc limit 10";
@@ -68,10 +76,9 @@ public class DataHarvestService {
 		return jdbcTemplate.queryForList(sqlStr);
 	}
 	public void selectedsave(Pageurlinfo pageurlinfo) {
-
+		logmsg.setSuccess(true);
 		Document doc;
 		try {
-
 			doc = Jsoup.connect(pageurlinfo.getUrl()).ignoreContentType(true)
 					.parser(Parser.xmlParser()).get();
 			String selectedelement = pageurlinfo.getElement() + "["
@@ -102,6 +109,13 @@ public class DataHarvestService {
 								pagedatainfo.setTableGroupKey(tableGroupKey);
 								pagedatainfo.setPageurlinfo(pageurlinfo);
 								pageDataInfoSave(pagedatainfo);
+								
+								listPagedatainfo = pagedatainfo;
+								listPagedatainfo.setContent(pagedatainfo.getContent());
+								listPagedatainfo.setPageurlinfo(pageurlinfo);
+								listPagedatainfo.setExtractedDate(DateTimeUtil.nowTimeStr());
+								logmsg.setSuccess(true);
+								
 							}
 							if ("abs:src".equals(attribute.getKey())) {
 								Pagedatainfo pagedatainfo = new Pagedatainfo();
@@ -119,6 +133,12 @@ public class DataHarvestService {
 								pagedatainfo.setTableGroupKey(tableGroupKey);
 								pagedatainfo.setPageurlinfo(pageurlinfo);
 								pageDataInfoSave(pagedatainfo);
+								
+								listPagedatainfo = pagedatainfo;
+								listPagedatainfo.setContent(pagedatainfo.getContent());
+								listPagedatainfo.setPageurlinfo(pageurlinfo);
+								listPagedatainfo.setExtractedDate(DateTimeUtil.nowTimeStr());
+								logmsg.setSuccess(true);
 							}
 							if ("data-lazyload".equals(attribute.getKey())) {
 								Pagedatainfo pagedatainfo = new Pagedatainfo();
@@ -137,6 +157,12 @@ public class DataHarvestService {
 								pagedatainfo.setRowGroupKey(rowGroupKey);
 								pagedatainfo.setTableGroupKey(tableGroupKey);
 								pageDataInfoSave(pagedatainfo);
+								
+								listPagedatainfo = pagedatainfo;
+								listPagedatainfo.setContent(pagedatainfo.getContent());
+								listPagedatainfo.setPageurlinfo(pageurlinfo);
+								listPagedatainfo.setExtractedDate(DateTimeUtil.nowTimeStr());
+								logmsg.setSuccess(true);
 							}
 						}
 					} else if (element.nodeName().equals("a")) {
@@ -154,6 +180,12 @@ public class DataHarvestService {
 						pagedatainfo.setPageurlinfo(pageurlinfo);
 						pagedatainfo.setTableGroupKey(tableGroupKey);
 						pageDataInfoSave(pagedatainfo);
+						
+						listPagedatainfo = pagedatainfo;
+						listPagedatainfo.setContent(pagedatainfo.getContent());
+						listPagedatainfo.setPageurlinfo(pageurlinfo);
+						listPagedatainfo.setExtractedDate(DateTimeUtil.nowTimeStr());
+						logmsg.setSuccess(true);
 					} else if (element.nodeName().equals("script")) {
 					} else if (element.nodeName().equals("Imports")) {
 					} else {
@@ -175,6 +207,11 @@ public class DataHarvestService {
 						if (!element.ownText().isEmpty()) {
 							if (!element.ownText().equals("  ")) {
 								pageDataInfoSave(pagedatainfo);
+								listPagedatainfo = pagedatainfo;
+								listPagedatainfo.setContent(pagedatainfo.getContent());
+								listPagedatainfo.setPageurlinfo(pageurlinfo);
+								listPagedatainfo.setExtractedDate(DateTimeUtil.nowTimeStr());
+								logmsg.setSuccess(true);
 							}
 
 						} else {
@@ -183,6 +220,8 @@ public class DataHarvestService {
 					}
 				}
 			}
+			logmsg.setSuccess(false);
+			listPagedatainfo = new Pagedatainfo();
 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -197,9 +236,9 @@ public class DataHarvestService {
 		}
 	}
 	public void basicsave(Pageurlinfo pageurlinfo) {
-
+		    logmsg.setSuccess(true);
 		try {
-
+			
 			TagTreeBuilder builder = new DOMParserTagTreeBuilder();
 			TagTree tagTree = builder.buildTagTree(pageurlinfo.getUrl(),
 					ignoreFormattingTags);
@@ -264,8 +303,19 @@ public class DataHarvestService {
 						pagedatainfo.setRowGroupKey(rowGroupKey);
 						pagedatainfo
 								.setExtractedDate(DateTimeUtil.nowTimeStr());
+
+						pagedatainfo.setType("");
+						pagedatainfoService.save(pagedatainfo);		
+						
+						listPagedatainfo = pagedatainfo;
+						listPagedatainfo.setContent(item);
+						listPagedatainfo.setPageurlinfo(pageurlinfo);
+						listPagedatainfo.setExtractedDate(DateTimeUtil.nowTimeStr());
+						logmsg.setSuccess(true);
+
 						pagedatainfo.setType(getTagType(itemText.trim()));
 						pagedatainfoService.save(pagedatainfo);						
+                        //github.com/rakeshmenonv/Web-Data-Extraction.git
 						//System.out.println(itemText);
 						// output.format("<td>%s</td>\n", itemText);
 						// columnCounter++;
@@ -273,9 +323,13 @@ public class DataHarvestService {
 					// output.format("</tr>\n");
 					// rowCounter++;
 				}
+				
 				// output.format("</tbody>\n</table>\n");
 				// tableCounter++;
 			}
+			
+			logmsg.setSuccess(false);
+			listPagedatainfo = new Pagedatainfo();
 
 			// output.format("</body></html>");
 		} catch (SecurityException exception) {
@@ -297,6 +351,21 @@ public class DataHarvestService {
 
 	}
 
+	public String logProgress(HttpServletResponse response) throws JsonProcessingException{
+		
+	   String event;	
+	   response.setContentType("text/event-stream");
+       try {
+               Thread.sleep(1000);
+       } catch (InterruptedException e) {
+               e.printStackTrace();
+       } 
+      ObjectMapper mapper = new ObjectMapper();
+      logmsg.setData(mapper.writeValueAsString(listPagedatainfo));
+      return event = "data:"+mapper.writeValueAsString(logmsg)+"\n\n";
+		
+	}
+
 	public String getTagType(String data){
 		if(data.contains("<a href")){
 			return "Link";
@@ -305,6 +374,5 @@ public class DataHarvestService {
 		}
 		return "Text";		
 	}
-	
 	
 }

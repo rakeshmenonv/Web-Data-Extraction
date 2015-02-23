@@ -16,6 +16,9 @@ import net.infotop.util.OperationNoUtil;
 import net.infotop.web.easyui.DataGrid;
 import net.infotop.web.easyui.Message;
 
+
+
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Attribute;
 import org.jsoup.nodes.Document;
@@ -39,7 +42,6 @@ import org.seagatesoft.sde.treematcher.TreeMatcher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -48,6 +50,9 @@ import org.xml.sax.SAXException;
 
 import ch.qos.logback.classic.Logger;
 
+
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.infotop.common.BasicController;
 import com.infotop.system.account.entity.User;
 import com.infotop.system.account.service.ShiroDbRealm.ShiroUser;
@@ -67,8 +72,11 @@ public class DataHarvestController extends BasicController {
 
 	@Autowired
 	private PagedatainfoService pagedatainfoService;
+
 	@Autowired
 	private DataHarvestService dataHarvestService;
+	
+    
 	double similarityTreshold = 0.80;
 	boolean ignoreFormattingTags = false;
 	boolean useContentSimilarity = false;
@@ -96,6 +104,7 @@ public class DataHarvestController extends BasicController {
 	public Message extract(@Valid Pageurlinfo pageurlinfo,
 			RedirectAttributes redirectAttributes) {
 		try {
+			
 			ShiroUser su = super.getLoginUser();
 			User user = accountService.findUserByLoginName(su.getLoginName());
 			if (user != null) {
@@ -125,22 +134,6 @@ public class DataHarvestController extends BasicController {
 		}
 		return msg;
 	}
-	
-	@RequestMapping(value = "showdata/{id}", method = RequestMethod.GET)
-	public String updateForm(@PathVariable("id") Long id, Model model) {
-	        ShiroUser su = super.getLoginUser();
-			User user = accountService.findUserByLoginName(su.getLoginName());
-			if (user != null) {
-				Pageurlinfo entity = pageurlinfoService.get(id); 			
-				List<Pagedatainfo> pagedatainfoList=pagedatainfoService.getAlldatainfo(entity);				
-		        model.addAttribute("pagedatainfoList", pagedatainfoList);
-		        model.addAttribute("action", "update");
-			} else {
-				logger.log(this.getClass(),Logger.ERROR_INT,"登陆帐号无效!","",null);
-				return "redirect:/login";
-			}
-	        return "dataharvest/showdata";
-	}
 
 	
 
@@ -149,24 +142,16 @@ public class DataHarvestController extends BasicController {
 		return "dataharvest/showlog";
 	}
 
-	
 
-	@RequestMapping(value = "/log", method = RequestMethod.GET)
+
+    @RequestMapping(value = "/log", method = RequestMethod.GET)
 	@ResponseBody
-	public String sendMessage(Locale locale, HttpServletResponse response) {
-
-		 Random r = new Random();
-		 System.out.println("inside");
-         response.setContentType("text/event-stream");
-         try {
-                 Thread.sleep(10000);
-         } catch (InterruptedException e) {
-                 e.printStackTrace();
-         } 
-     
-        return "data:"+ DateTimeUtil.nowTimeStr() +": [info] : " + r.nextInt() +"\n\n";
-		
-	
+	public String sendMessage(Locale locale, HttpServletResponse response) throws JsonMappingException, IOException {
+        String event = dataHarvestService.logProgress(response);
+		return event;
       }
 
 }
+
+
+

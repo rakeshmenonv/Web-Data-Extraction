@@ -7,12 +7,14 @@ import java.util.Date;
 import java.util.List;
 
 import net.infotop.util.DateTimeUtil;
+import net.infotop.web.easyui.Message;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.infotop.webharvest.dataharvest.service.DataHarvestService;
+import com.infotop.webharvest.pagedatainfo.entity.Pagedatainfo;
 import com.infotop.webharvest.pageurlinfo.entity.Pageurlinfo;
 import com.infotop.webharvest.pageurlinfo.service.PageurlinfoService;
 
@@ -28,6 +30,7 @@ public class SyncWorker implements Worker {
 	protected static Logger logger = Logger.getLogger("service");
 	@Autowired
 	private DataHarvestService dataHarvestService;
+	
 	public void work() {
 		String threadName = Thread.currentThread().getName();
 		logger.debug("   " + threadName + " has began working.");
@@ -61,7 +64,7 @@ public class SyncWorker implements Worker {
 				if (pageurlinfo.getElement().isEmpty()) {
 					dataHarvestService.basicsave(pageurlinfo);
 				} else {
-					dataHarvestService.selectedsave(pageurlinfo);
+				dataHarvestService.selectedsave(pageurlinfo);
 				}
 			}
 			logger.debug("working...");

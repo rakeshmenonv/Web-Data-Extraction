@@ -69,28 +69,28 @@
 		                    row.id,pageinfoLog_list_delete_url,'${ctx}/static/js/plugins/jquery-easyui-1.3.4/themes/icons/application_form_delete.png');
 		str += '&nbsp;'; */
 		str += formatString(
-				'<img onclick="view(\'{0}\',\'{1}\');" src="${ctx}/static/js/plugins/jquery-easyui-1.3.4/themes/icons/view.png" title="查看"/>',
+				'<img onclick="view(\'{0}\',\'{1}\');" src="${ctx}/static/js/plugins/jquery-easyui-1.3.4/themes/icons/zoom.png" title="查看"/>',
 				urlinfo_list_view_url + row.id);
-		
+		str += '&nbsp;';
 		if(row.jobon){
 			
 			str += formatString(
-					'<img onclick="schedulerEvent(\'{0}\',\'{1}\');" src="{2}" title="stop"/>',
+					'<img onclick="schedulerEvent(\'{0}\',\'{1}\');" src="{2}" title="stop scheduler"/>',
 					row.id, user_list_stop_url,
-					'${ctx}/static/js/plugins/jquery-easyui-1.3.4/themes/icons/stop.png');
+					'${ctx}/static/js/plugins/jquery-easyui-1.3.4/themes/icons/hourglass_delete.png');
 			str += '&nbsp;';
 		}
 		str += formatString(
-				'<img onclick="updateForm(\'{0}\',\'reschedule_form_inputForm\',urlinfo_list_datagrid,{title:\'编辑信息\'});" src="{1}" title="redo"/>',
+				'<img onclick="updateForm(\'{0}\',\'reschedule_form_inputForm\',urlinfo_list_datagrid,{title:\'编辑信息\'});" src="{1}" title="reschedule"/>',
 				reschedule_url + row.id,
-				'${ctx}/static/js/plugins/jquery-easyui-1.3.4/themes/icons/redo.png');
+				'${ctx}/static/js/plugins/jquery-easyui-1.3.4/themes/icons/hourglass_add.png');
 		str += '&nbsp;';
 		return str; 
 	}
 	
 	//DataGrid字段设置
 	var urlinfo_list_datagrid_columns = [ [
-	                    		{field : 'id',title : '编号',width : 150,checkbox : true,align:'center'},
+	                    		{field : 'id',title : '编号',width : 150,checkbox : false,hidden:true,align:'center'},
 	    	          					{field : 'url',title : '<spring:message code="pageinfo_url" />',width : 150,align:'center'},
 			          					{field : 'extracted_date',title : 'extractedDate',width : 150,align:'center'},
 			          	                    	{field : 'action',title : '操作',width : 80,align : 'center',formatter : urlinfo_list_actionFormatter} 
@@ -102,7 +102,7 @@
 			fit : true,
 			border : false,
 			fitColumns : true,
-			singleSelect : false,
+			singleSelect : true,
 			striped : true,
 			pagination : true,
 			rownumbers : true,
