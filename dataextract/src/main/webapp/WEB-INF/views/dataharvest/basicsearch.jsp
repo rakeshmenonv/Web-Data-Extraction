@@ -98,7 +98,7 @@ function showLog(url,params) {
 			<table cellpadding="5">
 
 				<tr>
-					<td>URL:</td>
+					<td><spring:message code="webharvest_url" />:</td>
 					<td><input class="easyui-validatebox textbox" type="text"  name="url" id="url"
 						data-options="required:true,validType:'url'"  style="width: 267px;"></input></td>
 				</tr>
@@ -109,18 +109,18 @@ function showLog(url,params) {
 		<div title="PatternSearch" style="padding: 10px" data-options="iconCls:'icon-page_white_star'">
 			<table cellpadding="5">
 				<tr>
-					<td>ELEMENT:</td>
+					<td><spring:message code="webharvest_element" />:</td>
 					<td><input class="easyui-validatebox textbox" type="text" name="element" id="element"
 						data-options="required:true" onkeyup="setValidation()"></input></td>
 						
 				</tr>
 				<tr>
-					<td>ATTRIBUTE:</td>
+					<td><spring:message code="webharvest_attribute" />:</td>
 					<td><input class="easyui-validatebox textbox" type="text" name="attribute" id="attribute"
 						data-options="required:true" onkeyup="setValidation()"></input></td>
 				</tr>
 				<tr>
-					<td>VALUE:</td>
+					<td><spring:message code="webharvest_value" />:</td>
 					<td><input class="easyui-validatebox textbox" type="text" name="value" id="value" 
 						data-options="required:true" onkeyup="setValidation()"></input></td>
 				</tr>
@@ -130,7 +130,7 @@ function showLog(url,params) {
 		<div title="Scheduler" style="padding:10px" data-options="iconCls:'icon-hourglass'">
 		<table cellpadding="5">
 		<tr>
-	    			<td>INTERVAL:</td> 
+	    			<td><spring:message code="webharvest_url" />:</td> 
 	    			<td>
 	    				<select name="state" id="state" style="width:200px;">
 							<c:forEach items="${schedulerList}" var="par">
@@ -146,7 +146,7 @@ function showLog(url,params) {
 
 	<div style="text-align: center;">
 		<a href="#" class="easyui-linkbutton" onclick="beginExtract();"
-			data-options="iconCls:'icon-search'">Extract</a>
+			data-options="iconCls:'icon-search'"><spring:message code="webharvest_extract" /></a>
 	</div>
 
 </form:form>
