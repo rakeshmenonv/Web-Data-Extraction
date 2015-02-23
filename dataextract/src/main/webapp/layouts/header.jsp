@@ -6,7 +6,7 @@
 %>
 <div class="top">
 	<div class="topleft">
-		<img src="${ctx}/static/images/head.jpg" width="800" height="60" />
+		<img src="${ctx}/static/images/head.jpg" width="800" height="100" />
 	</div>
 	<div class="topright">
 		<span style="color:#FFF;">欢迎您，<a

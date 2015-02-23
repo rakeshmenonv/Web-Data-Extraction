@@ -11,7 +11,7 @@ img {
 	<div class="easyui-layout" data-options="fit:true">
 		<div
 			data-options="region:'north',title:'查询条件',border:false,iconCls : 'icon-find'"
-			style="height: 60%;">
+			style="height: 13%;">
 			<form id="user_list_searchForm" method="post" style="display: none;">
 				<table class="search_table" style="width: 100%;">
 					<tr>
