@@ -44,29 +44,29 @@ if (!!window.EventSource) {
 	<center>
 	<div style="margin:20px 0 10px 0;"></div>
 	<div class="easyui-tabs" style="width:700px;height:250px">
-		<div title="Basic Search" style="padding:10px">
+		<div title="<spring:message code="webharvest_basicSearch" />" style="padding:10px">
 		<%-- URL:
 		<input type="text" name="URL" id="URL"  class="easyui-validatebox" data-options="missingMessage:'<spring:message code="hyperlinkinfo_linkName" />URL',required:true"   /> --%>	
 		<table cellpadding="5">
 		
 	    		<tr>
-	    			<td>URL:</td>
+	    			<td><spring:message code="webharvest_url" />:</td>
 	    			<td><input class="easyui-textbox" type="text" name="URL" data-options="required:true"></input></td>
 	    		</tr>	
 	    </table>
 		</div>
-		<div title="Pattern Search" style="padding:10px">
+		<div title="<spring:message code="webharvest_patternSearch" />" style="padding:10px">
 		<table cellpadding="5">
 	    		<tr>
-	    			<td>ELEMENT:</td>
+	    			<td><spring:message code="webharvest_element" />:</td>
 	    			<td><input class="easyui-textbox" type="text" name="ELEMENT" data-options="required:true"></input></td>
 	    		</tr>
 	    		<tr>
-	    			<td>ATTRIBUTE:</td>
+	    			<td><spring:message code="webharvest_attribute" />:</td>
 	    			<td><input class="easyui-textbox" type="text" name="ATTRIBUTE" data-options="required:true"></input></td>
 	    		</tr>
 	    		<tr>
-	    			<td>VALUE:</td>
+	    			<td><spring:message code="webharvest_value" />:</td>
 	    			<td><input class="easyui-textbox" type="text" name="VALUE" data-options="required:true"></input></td>
 	    		</tr>	
 	    </table>
@@ -74,7 +74,7 @@ if (!!window.EventSource) {
 		<div title="Scheduler" style="padding:10px">
 		<table cellpadding="5">
 		<tr>
-	    			<td>INTERVAL:</td>
+	    			<td><spring:message code="webharvest_interval" />:</td>
 	    			<td>
 	    				<select class="easyui-combobox" name="state" style="width:200px;">
 						<option value="10">10</option>
