@@ -7,7 +7,9 @@ import com.infotop.common.log.BusinessLogger;
 import com.infotop.system.account.service.ShiroDbRealm.ShiroUser;
 import com.infotop.webharvest.pagedatainfo.entity.Pagedatainfo;
 import com.infotop.webharvest.pagedatainfo.repository.PagedatainfoDao;
+import com.infotop.webharvest.pageurlinfo.entity.Pageurlinfo;
 import com.google.common.collect.Maps;
+
 
 
 
@@ -167,6 +169,9 @@ public class PagedatainfoService {
 		return pagedatainfoDao.findAll(spec, pageRequest);
 	}
     
+    public List<Pagedatainfo> getAlldatainfo(Pageurlinfo pageurlinfo) {
+		return pagedatainfoDao.getPagedatainfoBypageurlinfo(pageurlinfo);
+	}
     /**
 	 * 取出Shiro中的当前用户LoginName.
 	 */

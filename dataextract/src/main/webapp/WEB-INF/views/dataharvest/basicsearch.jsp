@@ -1,40 +1,17 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/common/taglibs.jsp"%>
 <script>
-var formId="dataharvest_form_inputForm";
-var showLogUrl="${ctx}/dataharvest/showlog";
 $.parser.onComplete = function() {
 	parent. $ .messager.progress('close');	
-	
-	$('#'+formId).form(
-			{
-				onSubmit : function() {
-					console.info("ddddd");
-				
-					var isValid = $(this).form('validate');
-					if (!isValid) {
-						parent. $ .messager.progress('close');
-					}
-					return isValid;
-				},
-				success : function(result) {
-					console.info("fineshed");
-					var result = $ .parseJSON(result);
-					console.info("value :"+result.success);
-					var id = result.data.id;
-					$('#formSaveBtn').linkbutton({disabled : false});
-					//parent.$.modalDialog.handler.dialog('close');
-				}
-			});
 };
-
+var formId="dataharvest_form_inputForm";
+var showLogUrl="${ctx}/dataharvest/showlog";
 function beginExtract(){
 	var inputForm = $('#'+ formId);
 	var isValid = inputForm.form('validate');
 	if (isValid) {
-		inputForm.submit();
 		showLog(showLogUrl);
-		
+		inputForm.submit();
 	}
 }
 function showLog(url,params) {
@@ -48,21 +25,25 @@ function showLog(url,params) {
 		iconCls : 'icon-application_form_add',
 		buttons : [
 				{
-					text : 'Next',
-					iconCls : 'icon-next',
-					disabled : true,
+					text : '保存',
+					iconCls : 'icon-save',
 					id : 'formSaveBtn',
 					handler : function() {
 						
 					}
-				}]
+				}, {
+					text : '取消',
+					id : 'formCancelBtn',
+					iconCls : 'icon-cross',
+					handler : function() {
+						parent.$.modalDialog.handler.dialog('close');
+					}
+				} ]
 	};
 	$.extend(opts, params);
 	parent.$.modalDialog(opts);
 
 }
-
-
 </script>
 
 <form:form id="dataharvest_form_inputForm"

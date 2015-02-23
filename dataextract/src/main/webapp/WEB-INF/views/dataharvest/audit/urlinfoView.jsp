@@ -22,8 +22,13 @@
 				</table>
 			</form>
 		</div> --%>
-		<div data-options="region:'center',border:false">
-			<table id="pageinfoLog_list_dg" style="display: none;"></table>
+		<div
+			data-options="region:'west',split:true,border:true,title:'查询条件',iconCls:'icon-find'"
+			style="width: 500px;overflow: hidden;">
+			
+		</div>
+		<div data-options="region:'center',border:true">
+			<table id="urlinfo_list_dg" style="display: none;"></table>
 		</div>
 		<!-- <div id="pageinfoLog_list_toolbar" style="display: none;">
 				<a href="javascript:updateForm(pageinfoLog_list_create_url,'pageinfoLog_form_inputForm',pageinfoLog_list_datagrid,{title:'新增信息'});" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:false">添加</a> 			
@@ -33,49 +38,64 @@
 </div>
 <script type="text/javascript">
 	//列表DataGrid
-	var pageinfoLog_list_datagrid;
+	var urlinfo_list_datagrid;
 	//列表DataGrid ID
-	var pageinfoLog_list_datagrid_id = 'pageinfoLog_list_dg';
+	var urlinfo_list_datagrid_id = 'urlinfo_list_dg';
 	//列表查询表单ID
-	var pageinfoLog_list_searchform_id = 'pageinfoLog_list_searchForm';
+	var urlinfo_list_searchform_id = 'urlinfo_list_searchForm';
 	//列表toolbar ID
-	var pageinfoLog_list_toolbar_id = 'pageinfoLog_list_toolbar';
+	var urlinfo_list_toolbar_id = 'urlinfo_list_toolbar';
 	//操作链接
-	var pageinfoLog_list_create_url =  '${ctx}/pageinfo/create';
+	/* var pageinfoLog_list_create_url =  '${ctx}/pageinfo/create';
 	var pageinfoLog_list_update_url =  '${ctx}/pageinfo/update/';
 	var pageinfoLog_list_delete_url =  '${ctx}/pageinfo/delete';
-	var pageinfoLog_list_view_url =  '${ctx}/pageinfo/view/';
-	var pageinfoLog_list_datagrid_load_url = '${ctx}/pageinfo/findLogList';
-	
+	var pageinfoLog_list_view_url =  '${ctx}/pageinfo/view/'; */
+	var urlinfo_list_datagrid_load_url = '${ctx}/audit/getUrlInfo/?id=${id}';
+	var urlinfo_list_view_url =  '${ctx}/dataharvest/showdata/'; 
+	var user_list_stop_url = '${ctx}/audit/stopScheduler/';
+	var reschedule_url =  '${ctx}/audit/reschedule/';
 	//定义相关的操作按钮
-	function pageinfoLog_list_actionFormatter(value,row,index){
+	function urlinfo_list_actionFormatter(value,row,index){
 		 var str = '';	
-		 /*str += formatString(
+		 /* str += formatString(
 				'<img onclick="updateForm(\'{0}\',\'pageinfo_form_inputForm\',pageinfo_list_datagrid,{title:\'编辑信息\'});" src="{1}" title="编辑"/>',
 				pageinfoLog_list_update_url + row.id,
 				'${ctx}/static/js/plugins/jquery-easyui-1.3.4/themes/icons/application_form_edit.png');
 		str += '&nbsp;';
 		str += formatString('<img onclick="deleteOne(\'{0}\',\'{1}\',pageinfoLog_list_datagrid);" src="{2}" title="删除"/>',
 		                    row.id,pageinfoLog_list_delete_url,'${ctx}/static/js/plugins/jquery-easyui-1.3.4/themes/icons/application_form_delete.png');
-		str += '&nbsp;';*/
+		str += '&nbsp;'; */
 		str += formatString(
 				'<img onclick="view(\'{0}\',\'{1}\');" src="${ctx}/static/js/plugins/jquery-easyui-1.3.4/themes/icons/view.png" title="查看"/>',
-				pageinfoLog_list_view_url + row.id);
+				urlinfo_list_view_url + row.id);
+		
+		if(row.jobon){
+			
+			str += formatString(
+					'<img onclick="schedulerEvent(\'{0}\',\'{1}\');" src="{2}" title="stop"/>',
+					row.id, user_list_stop_url,
+					'${ctx}/static/js/plugins/jquery-easyui-1.3.4/themes/icons/stop.png');
+			str += '&nbsp;';
+		}
+		str += formatString(
+				'<img onclick="updateForm(\'{0}\',\'reschedule_form_inputForm\',urlinfo_list_datagrid,{title:\'编辑信息\'});" src="{1}" title="redo"/>',
+				reschedule_url + row.id,
+				'${ctx}/static/js/plugins/jquery-easyui-1.3.4/themes/icons/redo.png');
 		str += '&nbsp;';
 		return str; 
 	}
 	
 	//DataGrid字段设置
-	var pageinfoLog_list_datagrid_columns = [ [
+	var urlinfo_list_datagrid_columns = [ [
 	                    		{field : 'id',title : '编号',width : 150,checkbox : true,align:'center'},
 	    	          					{field : 'url',title : '<spring:message code="pageinfo_url" />',width : 150,align:'center'},
-			          					{field : 'CountOf',title : 'count',width : 150,align:'center'},
-			          	                    	{field : 'action',title : '操作',width : 80,align : 'center',formatter : pageinfoLog_list_actionFormatter} 
+			          					{field : 'extracted_date',title : 'extractedDate',width : 150,align:'center'},
+			          	                    	{field : 'action',title : '操作',width : 80,align : 'center',formatter : urlinfo_list_actionFormatter} 
 	                    		] ];
 	/** 初始化DataGrid,加载数据 **/		
-	function pageinfoLog_list_loadDataGrid(){		 
-		pageinfoLog_list_datagrid = $('#'+pageinfoLog_list_datagrid_id).datagrid({
-			url : pageinfoLog_list_datagrid_load_url,
+	function urlinfo_list_loadDataGrid(){		 
+		urlinfo_list_datagrid = $('#'+urlinfo_list_datagrid_id).datagrid({
+			url : urlinfo_list_datagrid_load_url,
 			fit : true,
 			border : false,
 			fitColumns : true,
@@ -86,22 +106,41 @@
 			idField : 'id',
 			pageSize : 15,
 			pageList : [ 5, 10,15, 20, 30, 40, 50 ],
-			columns : pageinfoLog_list_datagrid_columns,
-			toolbar:'#'+pageinfoLog_list_toolbar_id,
+			columns : urlinfo_list_datagrid_columns,
+			toolbar:'#'+urlinfo_list_toolbar_id,
 			onLoadSuccess : function() {	
 				$(this).datagrid('tooltip');
-				$('#'+pageinfoLog_list_searchform_id+' table').show();
-				$('#'+pageinfoLog_list_datagrid_id).show();
-				$('#'+pageinfoLog_list_toolbar_id).show();
+				$('#'+urlinfo_list_searchform_id+' table').show();
+				$('#'+urlinfo_list_datagrid_id).show();
+				$('#'+urlinfo_list_toolbar_id).show();
 				parent. $ .messager.progress('close');
+			}
+		});
+	}
+	function schedulerEvent(id, ACTIONURL) {
+		parent.$.messager.confirm('Click Yes', 'If you want to stop', function(r) {
+			if (r) {
+				$.post(ACTIONURL, {
+					id : id
+				}, function(result) {
+					if (result.success) {
+						urlinfo_list_datagrid.datagrid('reload'); // reload the user data;
+						$.messager.show({ // show error message
+							title : '提示',
+							msg : result.message
+						});
+					} else {
+						$.messager.alert('错误', data.message, 'error');
+					}
+				}, 'JSON');
 			}
 		});
 	}
 	$ .parser.onComplete = function() {
 		//加载DataGrid数据
-		pageinfoLog_list_loadDataGrid();	
+		urlinfo_list_loadDataGrid();	
 		//绑定按钮事件
-		bindSearchBtn('pageinfoLog_list_searchBtn','pageinfoLog_list_clearBtn','pageinfo_list_searchForm',pageinfoLog_list_datagrid);
+		bindSearchBtn('urlinfo_list_searchBtn','urlinfo_list_clearBtn','pageinfo_list_searchForm',urlinfo_list_datagrid);
 	};
 </script>
 

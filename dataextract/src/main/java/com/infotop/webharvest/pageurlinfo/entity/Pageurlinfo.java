@@ -14,6 +14,7 @@ public class Pageurlinfo extends IdEntity{
 	private String attribute;
 	private String value;
 	private String extractedDate;
+	public String jobon;
 	public String getUrl() {
 		return url;
 	}
@@ -43,6 +44,12 @@ public class Pageurlinfo extends IdEntity{
 	}
 	public void setExtractedDate(String extractedDate) {
 		this.extractedDate = extractedDate;
+	}
+	public String getJobon() {
+		return jobon;
+	}
+	public void setJobon(String jobon) {
+		this.jobon = jobon;
 	}
 	
 
