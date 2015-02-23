@@ -27,7 +27,7 @@
 			style="width: 500px;overflow: hidden;">
 			<div id="ny_bt3" class="ny_bt" style="width:95%; height:400px;" >
 			<center><div style="color:red">${url }</div></center>
-			<div id="piechart" style="width:100%; height:400px;"></div>
+			<div id="piechartloglist" style="width:100%; height:400px;"></div>
 			</div>
 		</div>
 		<div data-options="region:'center',border:true">
@@ -164,7 +164,7 @@
 			 function(ec)
 			 {
 				
-				var mychart1 = ec.init(document.getElementById('piechart'));
+				var mychart1 = ec.init(document.getElementById('piechartloglist'));
 				mychart1.setOption({
 					tooltip : {
 				        trigger: 'item',
