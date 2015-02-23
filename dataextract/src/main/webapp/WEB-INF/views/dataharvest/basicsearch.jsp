@@ -67,7 +67,7 @@ function showLog(url,params) {
 	modelAttribute="pageurlinfo" method="post" class="form-horizontal">
 	<div class="easyui-tabs"
 		style="width: 400px; height: 250px; margin: 20px auto;">
-		<div title="Basic Search" style="padding: 10px">
+		<div title="&nbsp;Basic Search" style="padding: 10px" data-options="iconCls:'icon-page_white_magnify'">
 		
 			<%-- URL:
 			
@@ -83,7 +83,7 @@ function showLog(url,params) {
 				
 			</table>
 		</div>
-		<div title="PatternSearch" style="padding: 10px">
+		<div title="&nbsp;PatternSearch" style="padding: 10px" data-options="iconCls:'icon-page_white_star'">
 			<table cellpadding="5">
 				<tr>
 					<td>ELEMENT:</td>
@@ -104,7 +104,7 @@ function showLog(url,params) {
 			</table>
 		</div>
 
-		<div title="Scheduler" style="padding:10px">
+		<div title="&nbsp;Scheduler" style="padding:10px" data-options="iconCls:'icon-hourglass'">
 		<table cellpadding="5">
 		<tr>
 	    			<td>INTERVAL:</td> 
