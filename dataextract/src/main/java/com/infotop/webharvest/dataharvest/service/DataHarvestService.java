@@ -264,7 +264,7 @@ public class DataHarvestService {
 						pagedatainfo.setRowGroupKey(rowGroupKey);
 						pagedatainfo
 								.setExtractedDate(DateTimeUtil.nowTimeStr());
-						pagedatainfo.setType("");
+						pagedatainfo.setType(getTagType(itemText.trim()));
 						pagedatainfoService.save(pagedatainfo);						
 						//System.out.println(itemText);
 						// output.format("<td>%s</td>\n", itemText);
@@ -297,7 +297,14 @@ public class DataHarvestService {
 
 	}
 
-	
+	public String getTagType(String data){
+		if(data.contains("<a href")){
+			return "Link";
+		}else if(data.contains("<img src")){
+			return "Image";
+		}
+		return "Text";		
+	}
 	
 	
 }
