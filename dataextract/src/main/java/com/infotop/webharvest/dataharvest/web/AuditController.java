@@ -6,8 +6,14 @@ import java.util.Map;
 import javax.servlet.ServletRequest;
 
 
+
+
+
 import net.infotop.web.easyui.DataGrid;
 import net.infotop.web.easyui.Message;
+
+
+
 
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,11 +30,13 @@ import org.springside.modules.web.Servlets;
 
 import ch.qos.logback.classic.Logger;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.infotop.common.BasicController;
-
 import com.infotop.system.account.entity.User;
 import com.infotop.system.account.service.ShiroDbRealm.ShiroUser;
 import com.infotop.webharvest.dataharvest.service.AuditService;
+import com.infotop.webharvest.dataharvest.service.DataHarvestService;
 import com.infotop.webharvest.pagedatainfo.service.PagedatainfoService;
 import com.infotop.webharvest.pageurlinfo.entity.Pageurlinfo;
 import com.infotop.webharvest.pageurlinfo.service.PageurlinfoService;
@@ -45,12 +53,18 @@ public class AuditController extends  BasicController{
 	@Autowired
 	private AuditService auditService;
 	
+	@Autowired
+	private DataHarvestService dataHarvestService;
+	
 	@RequestMapping(value = "urlCount", method = RequestMethod.GET)
-	public String urlCount(Model model, ServletRequest request) {
+	public String urlCount(Model model, ServletRequest request) throws JsonProcessingException {
     	ShiroUser su = super.getLoginUser();
 		User user = accountService.findUserByLoginName(su.getLoginName());
 		if (user != null) {
 			//TODO add some code.
+			ObjectMapper mapper = new ObjectMapper();
+ 			String piechart = mapper.writeValueAsString(dataHarvestService.getPiechartData());
+ 			model.addAttribute("piechart",piechart);
 		} else {
 			logger.log(this.getClass(),Logger.ERROR_INT,"登陆帐号无效!","",null);
 			return "redirect:/login";
@@ -58,11 +72,17 @@ public class AuditController extends  BasicController{
        return "dataharvest/audit/urlinfoLogList";
     }
  	@RequestMapping(value = "urlInfo/{id}", method = RequestMethod.GET)
-	public String urlInfo(Model model, ServletRequest request,@PathVariable("id") String id) {
+	public String urlInfo(Model model, ServletRequest request,@PathVariable("id") String id) throws JsonProcessingException {
     	ShiroUser su = super.getLoginUser();
 		User user = accountService.findUserByLoginName(su.getLoginName());
 		if (user != null) {
 			//TODO add some code.
+			ObjectMapper mapper = new ObjectMapper();
+			Pageurlinfo entity = pageurlinfoService.get(Long.parseLong(id));
+			String piechart1 = mapper.writeValueAsString(dataHarvestService.getPiechartDate(entity.getUrl()));
+ 			model.addAttribute("piechartdata",piechart1);
+ 			model.addAttribute("url",entity.getUrl());
+			model.addAttribute("id", id);
 			model.addAttribute("id", id);
 		} else {
 			logger.log(this.getClass(),Logger.ERROR_INT,"登陆帐号无效!","",null);

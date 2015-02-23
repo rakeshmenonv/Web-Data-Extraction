@@ -5,7 +5,8 @@
     <param-name>contextConfigLocation</param-name>
     <param-value>
 			classpath*:/applicationContext.xml,
-			classpath*:/applicationContext-shiro.xml
+			classpath*:/applicationContext-shiro.xml,
+			classpath*:/quartz-job.xml
 		</param-value>
   </context-param>
   <context-param>

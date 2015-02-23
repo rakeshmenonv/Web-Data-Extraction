@@ -12,6 +12,7 @@ import com.google.common.collect.Maps;
 
 
 
+
 import net.infotop.web.easyui.DataGrid;
 
 import org.apache.shiro.SecurityUtils;
@@ -50,7 +51,12 @@ public class PageurlinfoService {
 		pageurlinfoDao.save(entity);
 		Map logData = Maps.newHashMap();
 		logData.put("ID", entity.getId());
-		businessLogger.log("pageurlinfo", "SAVE", getCurrentUserName(), logData);
+//		businessLogger.log("pageurlinfo", "SAVE", getCurrentUserName(), logData);
+		try{
+			businessLogger.log("pageurlinfo", "SAVE", getCurrentUserName(), logData);
+		}catch(Exception e){
+			businessLogger.log("pageurlinfo", "SAVE", "cronjob", logData);	
+		}
 	}
 	
 	/**
@@ -172,5 +178,9 @@ public class PageurlinfoService {
 	public String getCurrentUserName() {
 		ShiroUser user = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
 		return user.loginName;
+	}
+	
+	public List<Pageurlinfo> getPageurlinfoByjobon(String jobon){
+		return pageurlinfoDao.getPageurlinfoByjobon(jobon);
 	}
 }

@@ -25,7 +25,10 @@
 		<div
 			data-options="region:'west',split:true,border:true,title:'查询条件',iconCls:'icon-find'"
 			style="width: 500px;overflow: hidden;">
-			
+			<div id="ny_bt3" class="ny_bt" style="width:100%; height:300px;" >
+			<center><div style="color:red">${url }</div></center>
+			<div id="piechart" style="width:100%; height:400px;"></div>
+			</div>
 		</div>
 		<div data-options="region:'center',border:true">
 			<table id="urlinfo_list_dg" style="display: none;"></table>
@@ -69,7 +72,7 @@
 				'<img onclick="view(\'{0}\',\'{1}\');" src="${ctx}/static/js/plugins/jquery-easyui-1.3.4/themes/icons/view.png" title="查看"/>',
 				urlinfo_list_view_url + row.id);
 		
-		if(row.jobon!=null || row.jobon!=""){
+		if(row.jobon){
 			
 			str += formatString(
 					'<img onclick="schedulerEvent(\'{0}\',\'{1}\');" src="{2}" title="stop"/>',
@@ -142,6 +145,67 @@
 		//绑定按钮事件
 		bindSearchBtn('urlinfo_list_searchBtn','urlinfo_list_clearBtn','pageinfo_list_searchForm',urlinfo_list_datagrid);
 	};
+	require.config({
+		paths:{
+			echarts:'${ctx}/static/js/plugins/echart/echarts',
+			'echarts/chart/bar' : '${ctx}/static/js/plugins/echart/echarts-map',
+			'echarts/chart/line' : '${ctx}/static/js/plugins/echart/echarts-map',
+			'echarts/chart/map' : '${ctx}/static/js/plugins/echart/echarts-map',
+		}
+	});
+	require(
+			[
+			 'echarts',
+			 'echarts/chart/bar',
+			 'echarts/chart/line',
+			 'echarts/chart/map',
+			 ],
+			 
+			 function(ec)
+			 {
+				
+				var mychart1 = ec.init(document.getElementById('piechart'));
+				mychart1.setOption({
+					tooltip : {
+				        trigger: 'item',
+				        formatter: "{a} <br/>{b} : {c} ({d}%)"
+				    },
+				    toolbox: {
+				        show : true,
+				        feature : {
+				            mark : {show: true},
+				            dataView : {show: true, readOnly: false},
+				            magicType : {
+				                show: true, 
+				                type: ['pie', 'funnel'],
+				                option: {
+				                    funnel: {
+				                        x: '25%',
+				                        width: '50%',
+				                        funnelAlign: 'left',
+				                        max: 1548
+				                    }
+				                }
+				            },
+				            restore : {show: true},
+				            saveAsImage : {show: true}
+				        }
+				    },
+				    calculable : true,
+				    series : [
+				        {
+				            name:'访问来源',
+				            type:'pie',
+				            radius : '55%',
+				            center: ['50%', '60%'],
+				            data:${piechartdata}
+				        }
+				    ]
+				
+				                  
+				});
+				
+			 });
 </script>
 
 
