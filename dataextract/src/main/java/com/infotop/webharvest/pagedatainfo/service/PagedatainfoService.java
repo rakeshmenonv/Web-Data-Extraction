@@ -15,6 +15,7 @@ import com.google.common.collect.Maps;
 
 
 
+
 import net.infotop.web.easyui.DataGrid;
 
 import org.apache.shiro.SecurityUtils;
@@ -53,7 +54,11 @@ public class PagedatainfoService {
 		pagedatainfoDao.save(entity);
 		Map logData = Maps.newHashMap();
 		logData.put("ID", entity.getId());
-		businessLogger.log("pagedatainfo", "SAVE", getCurrentUserName(), logData);
+		try{
+			businessLogger.log("pageurlinfo", "SAVE", getCurrentUserName(), logData);
+		}catch(Exception e){
+			businessLogger.log("pageurlinfo", "SAVE", "cronjob", logData);	
+		}
 	}
 	
 	/**
