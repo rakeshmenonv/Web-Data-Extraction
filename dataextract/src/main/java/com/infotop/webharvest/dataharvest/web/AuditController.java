@@ -178,8 +178,8 @@ public class AuditController extends  BasicController{
 			User user = accountService.findUserByLoginName(su.getLoginName());
 			if (user != null) {
 				Pageurlinfo entity = pageurlinfoService.get(id); 
-				List<Parameter> schedulerList = parameterService.getParameterByCategory("scheduler");
-				//List<Parameter> schedulerList = parameterService.getParameterByCategoryAndSubcategory("scheduler", "schedulerType");
+				//List<Parameter> schedulerList = parameterService.getParameterByCategory("scheduler");
+				List<Parameter> schedulerList = parameterService.getParameterByCategoryAndSubcategory("scheduler", "schedulerType");
 				model.addAttribute("schedulerList", schedulerList);
 		        model.addAttribute("pageurlinfo", entity);
 		        model.addAttribute("action", "update");

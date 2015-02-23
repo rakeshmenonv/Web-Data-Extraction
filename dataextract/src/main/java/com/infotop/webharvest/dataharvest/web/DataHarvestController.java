@@ -91,7 +91,8 @@ public class DataHarvestController extends BasicController {
 		User user = accountService.findUserByLoginName(su.getLoginName());
 		if (user != null) {
 			Pageurlinfo entity = new Pageurlinfo();
-			List<Parameter> schedulerList = parameterService.getParameterByCategory("scheduler");
+			//List<Parameter> schedulerList = parameterService.getParameterByCategory("scheduler");
+			List<Parameter> schedulerList = parameterService.getParameterByCategoryAndSubcategory("scheduler", "schedulerType");
 			model.addAttribute("schedulerList", schedulerList);
 			model.addAttribute("pageurlinfo", entity);
 			model.addAttribute("action", "extract");

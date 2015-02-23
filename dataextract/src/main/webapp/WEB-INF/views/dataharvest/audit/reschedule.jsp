@@ -50,9 +50,10 @@ $ .parser.onComplete = function() {
 			<td><input type="text" name="url" id="url" value="${ pageurlinfo.url }" readonly="true"   />	</td>
 		</tr>
 	  		<tr>
-			<td class="biao_bt3">Schedule By</td>
+			<td class="biao_bt3"><spring:message code="webharvest_scheduleBy" /></td>
 			<td style="width:10%;">
-			<select name="jobon" id="jobon">
+			<select class="easyui-combobox" name="jobon" id="jobon">
+			<option value="">选择任意1..</option>
 			<c:forEach items="${schedulerList}" var="par">
 			<option value="${par.name}"
 			<c:if test="${ pageurlinfo.jobon == par.name }"> selected="selected"</c:if>>${par.name}</option>

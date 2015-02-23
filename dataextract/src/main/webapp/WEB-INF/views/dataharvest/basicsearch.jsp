@@ -130,7 +130,8 @@ function showLog(url,params) {
 		<tr>
 	    			<td><spring:message code="webharvest_interval" />:</td> 
 	    			<td>
-	    				<select name="state" id="state" style="width:200px;">
+	    				<select class="easyui-combobox" name="state" id="state" style="width:200px;">
+							<option value="">选择任意1..</option>
 							<c:forEach items="${schedulerList}" var="par">
 							<option value="${par.name}">${par.name}</option>
 							</c:forEach>
