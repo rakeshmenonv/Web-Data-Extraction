@@ -7,7 +7,7 @@
 		<div
 			data-options="region:'west',split:true,border:true,title:'查询条件',iconCls:'icon-find'"
 			style="width: 500px;overflow: hidden;">
-			<center><h2><div style="color:black">Top Ten Extracted Websites</div></h2></center>
+			<center><h2><div style="color:black"><spring:message code="webharvest_top10ExtractedWebsites" /></div></h2></center>
 			<div id="piechart3" style="width:100%; height:400px;"></div>
 		</div>
 		
@@ -49,7 +49,7 @@
 		str += '&nbsp;';*/
 		str += formatString(
 				'<img onclick="indexTabsUpdateTab(\'href\',{title:\'{0}\',url:\'{1}\',iconCls:\'icon-book_next\'})"  src="${ctx}/static/js/plugins/jquery-easyui-1.3.4/themes/icons/book_next.png" title="查看"/>',
-				'Audit Detailed',pageinfoLog_list_view_url + row.id);
+				'<spring:message code="webharvest_auditDetailed" />',pageinfoLog_list_view_url + row.id);
 		str += '&nbsp;';
 		return str; 
 	}
@@ -57,8 +57,8 @@
 	//DataGrid字段设置
 	var pageinfoLog_list_datagrid_columns = [ [
 	                    		{field : 'id',title : '编号',width : 150,checkbox : false,hidden:true,align:'center'},
-	    	          			{field : 'url',title : '<spring:message code="pageinfo_url" />',width : 150,align:'center'},
-			          			{field : 'CountOf',title : 'count',width : 150,align:'center'},
+	    	          			{field : 'url',title : '<spring:message code="webharvest_url" />',width : 150,align:'center'},
+			          			{field : 'CountOf',title : '<spring:message code="webharvest_count" />',width : 150,align:'center'},
 			          	        {field : 'action',title : '操作',width : 80,align : 'center',formatter : pageinfoLog_list_actionFormatter} 
 	                    		] ];
 	/** 初始化DataGrid,加载数据 **/		
