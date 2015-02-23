@@ -35,8 +35,8 @@ $.parser.onComplete = function() {
 				    <c:otherwise>
 				    	<c:set var="tableindex" scope="session" value="${tableindex+1}"/>
 				    	<c:set var="rowindex" scope="session" value="${1}"/>				    	
-				        </table><br><h3>Group ${tableindex}<h3></h1><br><table  class="tg" >	
-				        <tr><th class="tg-031e">No.</th><th class="tg-031e" colspan="50"></th></tr>
+				        </table><br><h3><spring:message code="webharvest_group" /> ${tableindex}<h3></h1><br><table  class="tg" >	
+				        <tr><th class="tg-031e"><spring:message code="webharvest_nos" />.</th><th class="tg-031e" colspan="50"></th></tr>
 				        <tr><td class="tg-031e">${rowindex}</td><td class="tg-031e">${obj.content}</td>
 				    </c:otherwise>
 				</c:choose>			
