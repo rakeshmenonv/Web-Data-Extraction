@@ -1,13 +1,17 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ include file="/common/taglibs.jsp"%>
+<%@ include file = "/common/taglibs.jsp"%>
+<script src="${ctx}/static/js/plugins/echart/esl.js"></script>
+
 <div data-options="fit:true" class="easyui-panel" style="height:200px;">
 	<div class="easyui-layout" data-options="fit:true">
 		<div
 			data-options="region:'west',split:true,border:true,title:'查询条件',iconCls:'icon-find'"
 			style="width: 500px;overflow: hidden;">
-			
+			<div id="ny_bt2" class="ny_bt" style="width:100%; height:350px;" >
+			<div id="piechart3" style="width:100%; height:350px;"></div>
+			</div>
 		</div>
-		<div data-options="region:'center',border:true">
+	<div data-options="region:'center',border:true">
 			<table id="pageinfoLog_list_dg" style="display: none;"></table>
 		</div>
 		<!-- <div id="pageinfoLog_list_toolbar" style="display: none;">
@@ -31,7 +35,7 @@
 	var pageinfoLog_list_delete_url =  '${ctx}/audit/delete';
 	var pageinfoLog_list_view_url =  '${ctx}/audit/urlInfo/';
 	var pageinfoLog_list_datagrid_load_url = '${ctx}/audit/findLogList';
-	
+	var pageinfoLog_piechart_url = '${ctx}/audit/coverpage';
 	//定义相关的操作按钮
 	function pageinfoLog_list_actionFormatter(value,row,index){
 		 var str = '';	
@@ -88,6 +92,68 @@
 		//绑定按钮事件
 		bindSearchBtn('pageinfoLog_list_searchBtn','pageinfoLog_list_clearBtn','pageinfo_list_searchForm',pageinfoLog_list_datagrid);
 	};
+	require.config({
+		paths:{
+			echarts:'${ctx}/static/js/plugins/echart/echarts',
+			'echarts/chart/bar' : '${ctx}/static/js/plugins/echart/echarts-map',
+			'echarts/chart/line' : '${ctx}/static/js/plugins/echart/echarts-map',
+			'echarts/chart/map' : '${ctx}/static/js/plugins/echart/echarts-map',
+		}
+	});
+	require(
+			[
+			 'echarts',
+			 'echarts/chart/bar',
+			 'echarts/chart/line',
+			 'echarts/chart/map',
+			 ],
+			 
+			 function(ec)
+			 {
+				
+				var mychart1 = ec.init(document.getElementById('piechart3'));
+				mychart1.setOption({
+					tooltip : {
+				        trigger: 'item',
+				        formatter: "{a} <br/>{b} : {c} ({d}%)"
+				    },
+				    toolbox: {
+				        show : true,
+				        feature : {
+				            mark : {show: true},
+				            dataView : {show: true, readOnly: false},
+				            magicType : {
+				                show: true, 
+				                type: ['pie', 'funnel'],
+				                option: {
+				                    funnel: {
+				                        x: '25%',
+				                        width: '50%',
+				                        funnelAlign: 'left',
+				                        max: 1548
+				                    }
+				                }
+				            },
+				            restore : {show: true},
+				            saveAsImage : {show: true}
+				        }
+				    },
+				    calculable : true,
+				    series : [
+				        {
+				            name:'访问来源',
+				            type:'pie',
+				            radius : '55%',
+				            center: ['50%', '60%'],
+				            data:${piechart}
+				        }
+				    ]
+				
+				                  
+				});
+				
+			 });
+
 </script>
 
 
