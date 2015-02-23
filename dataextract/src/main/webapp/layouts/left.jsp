@@ -1,5 +1,11 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/common/taglibs.jsp"%>
+<style>
+
+.menuItem li a{
+    margin-left: 10px; padding-left: 10px;text-align:left;
+}
+	</style>
 <div class="easyui-accordion"
 	data-options="fit:true,iconCls:'icon-ok',border:false">
 	<div class="menuItem" title='app' data-options="iconCls:'icon-cog'"

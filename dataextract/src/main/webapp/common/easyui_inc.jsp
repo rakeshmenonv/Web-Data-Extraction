@@ -9,20 +9,20 @@ img {
 
 <!-- easyUI reference css files-->
 <link rel="stylesheet" type="text/css"
-	href="${ctx}/static/js/plugins/jquery-easyui-1.3.4/themes/default/easyui.css">
+	href="${ctx}/static/js/plugins/jquery-easyui-1.4.1/themes/default/easyui.css">
 
 <link rel="stylesheet" type="text/css"
 	href="${ctx}/static/js/plugins/jquery-easyui-1.3.4/themes/icon.css">
 
-<link rel="stylesheet" type="text/css"
-	href="${ctx}/static/js/plugins/jquery-easyui-1.3.4/jquery-ui.css">
+<%-- <link rel="stylesheet" type="text/css"
+	href="${ctx}/static/js/plugins/jquery-easyui-1.3.4/jquery-ui.css"> --%>
 
 <link rel="stylesheet" type="text/css"
 	href="${ctx}/static/styles/default.css" />
 
-<link rel="stylesheet" type="text/css"
+<%-- <link rel="stylesheet" type="text/css"
 	href="${ctx}/static/js/plugins/jquery-easyui-1.3.4/portal.css">
-
+ --%>
 <link rel="stylesheet"
 	href="${ctx }/static/js/plugins/uploadify/uploadify.css"
 	type="text/css">
@@ -31,13 +31,13 @@ img {
 	src="${ctx}/static/js/jquery-1.9.1.min.js"></script>
 <!-- easyUI reference js files-->
 <script type="text/javascript"
-	src="${ctx}/static/js/plugins/jquery-easyui-1.3.4/jquery.easyui.min.js"></script>
+	src="${ctx}/static/js/plugins/jquery-easyui-1.4.1/jquery.easyui.min.js"></script>
 <script type="text/javascript"
-	src="${ctx}/static/js/plugins/jquery-easyui-1.3.4/plugins/datagrid-detailview.js"></script>
+	src="${ctx}/static/js/plugins/jquery-easyui-1.4.1/plugins/datagrid-detailview.js"></script>
 <script type="text/javascript"
-	src="${ctx}/static/js/plugins/jquery-easyui-1.3.4/locale/easyui-lang-zh_CN.js"></script>
+	src="${ctx}/static/js/plugins/jquery-easyui-1.4.1/locale/easyui-lang-zh_CN.js"></script>
 <script type="text/javascript"
-	src="${ctx}/static/js/plugins/jquery-easyui-1.3.4/jquery.portal.js"></script>
+	src="${ctx}/static/js/plugins/jquery-easyui-1.4.1/jquery.portal.js"></script>
 
 <script type="text/javascript"
 	src="${ctx}/static/js/extAppJs/extEasyUI.js"></script>
