@@ -48,8 +48,8 @@
 		                    row.id,pageinfoLog_list_delete_url,'${ctx}/static/js/plugins/jquery-easyui-1.3.4/themes/icons/application_form_delete.png');
 		str += '&nbsp;';*/
 		str += formatString(
-				'<img onclick="indexTabsAddTab(\'href\',{title:\'{0}\',url:\'{1}\',iconCls:\'icon-plugin\'})"  src="${ctx}/static/js/plugins/jquery-easyui-1.3.4/themes/icons/view.png" title="查看"/>',
-				'Audit'+row.id,pageinfoLog_list_view_url + row.id);
+				'<img onclick="indexTabsUpdateTab(\'href\',{title:\'{0}\',url:\'{1}\',iconCls:\'icon-book_next\'})"  src="${ctx}/static/js/plugins/jquery-easyui-1.3.4/themes/icons/book_next.png" title="查看"/>',
+				'Audit Detailed',pageinfoLog_list_view_url + row.id);
 		str += '&nbsp;';
 		return str; 
 	}
