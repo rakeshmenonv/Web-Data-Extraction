@@ -7,6 +7,59 @@
 <title>Insert title here</title>
 </head>
 <body>
+ <script>
+if (!!window.EventSource) {
+       
+	   console.log("Event source available");
+	   var source = new EventSource('dataharvest/log');
+	  
+	   source.addEventListener('message', function(e) {
+		   //console.log(e.data);
+		   var event = $.parseJSON(e.data);
+		   var eventvalue = $.parseJSON(event.data);
+		   console.log(eventvalue);
+		   
+		   if(event.success == true) {
+			   
+			    if(eventvalue.id != null){
+			    $(".log-data").append("<p>"+eventvalue.id+"</p>");
+			    $(".log-data").append("<p>"+eventvalue.pageurlinfo.url+"</p>");
+				$(".log-data").append("<p>"+eventvalue.pageurlinfo.extractedDate+"</p>");
+				$(".log-data").append("<p>"+eventvalue.content+"</p>");
+			    }else{
+			    	 $(".log-data").append("<p>Progress..</p>");
+			    	 $(".log-data").append("<p>progress....</p>");
+			    	 
+			    }
+		   }
+		   else if(event.success == false){
+			    e.target.close();  
+		   }
+		  
+		
+	   });
 
+	   source.addEventListener('open', function(e) {
+		  
+	        console.log("Connection was opened.");
+	   }, false);
+
+	   source.addEventListener('error', function(e) {
+		  	if (e.readyState == EventSource.CLOSED) {
+	            console.log("Connection was closed.");
+	        } else {
+	        	
+	            //console.log(e.readyState);
+	        }
+	   }, false);
+	} else {
+		 
+	        console.log("No SSE available");
+	}
+	
+
+	
+</script>
+<div class="log-data"></div>
 </body>
 </html>

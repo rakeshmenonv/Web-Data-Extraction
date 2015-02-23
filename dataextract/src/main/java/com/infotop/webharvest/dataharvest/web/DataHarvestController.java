@@ -47,6 +47,9 @@ import org.xml.sax.SAXException;
 
 import ch.qos.logback.classic.Logger;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import com.infotop.common.BasicController;
 import com.infotop.system.account.entity.User;
 import com.infotop.system.account.service.ShiroDbRealm.ShiroUser;
@@ -65,6 +68,11 @@ public class DataHarvestController extends BasicController {
 	@Autowired
 	private PagedatainfoService pagedatainfoService;
 
+	String tag="";
+	Pagedatainfo listPagedatainfo; 
+	
+	Message logmsg  = new Message();
+	
 	String resultOutput = "MDR.html";
 	double similarityTreshold = 0.80;
 	boolean ignoreFormattingTags = false;
@@ -91,6 +99,7 @@ public class DataHarvestController extends BasicController {
 	public Message extract(@Valid Pageurlinfo pageurlinfo,
 			RedirectAttributes redirectAttributes) {
 		try {
+			logmsg.setSuccess(true);
 			ShiroUser su = super.getLoginUser();
 			User user = accountService.findUserByLoginName(su.getLoginName());
 			if (user != null) {
@@ -118,7 +127,7 @@ public class DataHarvestController extends BasicController {
 			msg.setMessage(ex.getMessage());
 			msg.setData("");
 		}
-		return msg;
+		return msg; 
 	}
 
 	public void selectedsave(Pageurlinfo pageurlinfo) {
@@ -339,6 +348,7 @@ public class DataHarvestController extends BasicController {
 				// }
 				// output.format("</tr>\n</thead>\n<tbody>\n");
 				// int rowCounter = 1;
+				tag="yes";
 				for (String[] row : table) {
 					String rowGroupKey = OperationNoUtil.getUUID();
 					// output.format("<tr>\n<td>%s</td>", rowCounter);
@@ -353,6 +363,13 @@ public class DataHarvestController extends BasicController {
 								.setExtractedDate(DateTimeUtil.nowTimeStr());
 						pagedatainfo.setType("");
 						pagedatainfoService.save(pagedatainfo);
+						
+						listPagedatainfo = pagedatainfo;
+						listPagedatainfo.setContent(item);
+						listPagedatainfo.setPageurlinfo(pageurlinfo);
+						listPagedatainfo.setExtractedDate(DateTimeUtil.nowTimeStr());
+						logmsg.setSuccess(true);
+						
 						String itemText = item;
 						if (itemText == null) {
 							itemText = "";
@@ -364,9 +381,12 @@ public class DataHarvestController extends BasicController {
 					// output.format("</tr>\n");
 					// rowCounter++;
 				}
+				
 				// output.format("</tbody>\n</table>\n");
 				// tableCounter++;
 			}
+			logmsg.setSuccess(false);
+			listPagedatainfo = new Pagedatainfo();
 
 			// output.format("</body></html>");
 		} catch (SecurityException exception) {
@@ -388,21 +408,23 @@ public class DataHarvestController extends BasicController {
 
 	}
 
-	@RequestMapping(value = "/log", method = RequestMethod.GET)
+    @RequestMapping(value = "/log", method = RequestMethod.GET)
 	@ResponseBody
-	public String sendMessage(Locale locale, HttpServletResponse response) {
+	public String sendMessage(Locale locale, HttpServletResponse response) throws JsonProcessingException {
 
-		 Random r = new Random();
-		 System.out.println("inside");
-         response.setContentType("text/event-stream");
+		 String event;
+		 response.setContentType("text/event-stream");
          try {
-                 Thread.sleep(10000);
+                 Thread.sleep(100);
          } catch (InterruptedException e) {
                  e.printStackTrace();
          } 
-     
-        return "data:"+ DateTimeUtil.nowTimeStr() +": [info] : " + r.nextInt() +"\n\n";
-		
+        ObjectMapper mapper = new ObjectMapper();
+        System.out.println("list entity:::"+mapper.writeValueAsString(listPagedatainfo));
+       
+        logmsg.setData(mapper.writeValueAsString(listPagedatainfo));
+        event = "data:"+mapper.writeValueAsString(logmsg)+"\n\n";
+		return event;
 	
       }
 
