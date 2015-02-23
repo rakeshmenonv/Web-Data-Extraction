@@ -26,7 +26,7 @@ require(
 			var mychart1 = ec.init(document.getElementById('piechartlist'));
 			mychart1.setOption({
 				title : {
-			        text: 'Top Ten Extracted Websites',
+			        text: '<spring:message code="webharvest_top10ExtractedWebsites" />',
 			        x:'center'
 					},
 				tooltip : {
