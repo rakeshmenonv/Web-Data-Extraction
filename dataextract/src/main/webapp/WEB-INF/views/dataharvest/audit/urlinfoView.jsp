@@ -101,7 +101,7 @@
 	var urlinfo_list_datagrid_columns = [ [
 	                    		{field : 'id',title : '编号',width : 150,checkbox : false,hidden:true,align:'center'},
 	    	          			{field : 'url',title : '<spring:message code="pageinfo_url" />',width : 150,align:'center'},
-	    	          			{field : 'pattern',title : 'pattern',width : 150,align:'center',formatter : pattern_formatter},
+	    	          			{field : 'pattern',title : '<spring:message code="webharvest_pattern" />',width : 150,align:'center',formatter : pattern_formatter},
 			          			{field : 'extracted_date',title : '<spring:message code="webharvest_extractedDate" />',width : 150,align:'center'},
 			          	        {field : 'action',title : '操作',width : 80,align : 'center',formatter : urlinfo_list_actionFormatter} 
 	                    		] ];

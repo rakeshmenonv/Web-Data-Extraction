@@ -68,7 +68,7 @@ function showLog(url,params) {
 		iconCls : 'icon-application_form_add',
 		buttons : [
 				{
-					text : 'Next',
+					text : '<spring:message code="webharvest_next" />',
 					iconCls : 'icon-note_go',
 					disabled : true,
 					id : 'formSaveBtn',
