@@ -14,7 +14,7 @@ public class Pageurlinfo extends IdEntity{
 	private String attribute;
 	private String value;
 	private String extractedDate;
-	public String jobon;
+	private String jobon;
 	public String getUrl() {
 		return url;
 	}

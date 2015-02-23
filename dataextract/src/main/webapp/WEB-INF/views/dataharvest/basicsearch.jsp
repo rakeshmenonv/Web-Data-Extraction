@@ -1,17 +1,40 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/common/taglibs.jsp"%>
 <script>
-$.parser.onComplete = function() {
-	parent. $ .messager.progress('close');	
-};
 var formId="dataharvest_form_inputForm";
 var showLogUrl="${ctx}/dataharvest/showlog";
+$.parser.onComplete = function() {
+	parent. $ .messager.progress('close');	
+	
+	$('#'+formId).form(
+			{
+				onSubmit : function() {
+					console.info("ddddd");
+				
+					var isValid = $(this).form('validate');
+					if (!isValid) {
+						parent. $ .messager.progress('close');
+					}
+					return isValid;
+				},
+				success : function(result) {
+					console.info("fineshed");
+					var result = $ .parseJSON(result);
+					console.info("value :"+result.success);
+					var id = result.data.id;
+					$('#formSaveBtn').linkbutton({disabled : false});
+					//parent.$.modalDialog.handler.dialog('close');
+				}
+			});
+};
+
 function beginExtract(){
 	var inputForm = $('#'+ formId);
 	var isValid = inputForm.form('validate');
 	if (isValid) {
-		showLog(showLogUrl);
 		inputForm.submit();
+		showLog(showLogUrl);
+		
 	}
 }
 function showLog(url,params) {
@@ -25,25 +48,21 @@ function showLog(url,params) {
 		iconCls : 'icon-application_form_add',
 		buttons : [
 				{
-					text : '保存',
-					iconCls : 'icon-save',
+					text : 'Next',
+					iconCls : 'icon-next',
+					disabled : true,
 					id : 'formSaveBtn',
 					handler : function() {
 						
 					}
-				}, {
-					text : '取消',
-					id : 'formCancelBtn',
-					iconCls : 'icon-cross',
-					handler : function() {
-						parent.$.modalDialog.handler.dialog('close');
-					}
-				} ]
+				}]
 	};
 	$.extend(opts, params);
 	parent.$.modalDialog(opts);
 
 }
+
+
 </script>
 
 <form:form id="dataharvest_form_inputForm"
@@ -82,23 +101,27 @@ function showLog(url,params) {
 				</tr>
 			</table>
 		</div>
-		<div title="Scheduler" style="padding: 10px">
-			<table cellpadding="5">
-				<tr>
-					<td>INTERVAL:</td>
-					<td><select class="easyui-combobox" name="state"
-						style="width: 200px;">
-							<option value="10">10</option>
-							<option value="20">20</option>
-							<option value="30">30</option>
-					</select></td>
-				</tr>
-			</table>
+
+		<div title="Scheduler" style="padding:10px">
+		<table cellpadding="5">
+		<tr>
+	    			<td>INTERVAL:</td> 
+	    			<td>
+	    				<select class="easyui-combobox" name="state" style="width:200px;">
+						<option value="10">10</option>
+						<option value="20">20</option>
+						<option value="30">30</option>
+						</select>
+	    			</td>
+	    		</tr>
+		</table>
 		</div>
+		
 	</div>
 
 	<div style="text-align: center;">
 		<a href="#" class="easyui-linkbutton" onclick="beginExtract();"
 			data-options="iconCls:'icon-search'">Extract</a>
 	</div>
+
 </form:form>

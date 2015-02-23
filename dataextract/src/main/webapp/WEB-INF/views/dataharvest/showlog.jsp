@@ -18,7 +18,6 @@ if (!!window.EventSource) {
 		   var event = $.parseJSON(e.data);
 		   var eventvalue = $.parseJSON(event.data);
 		   console.log(eventvalue);
-		   
 		   if(event.success == true) {
 			   
 			    if(eventvalue.id != null){
@@ -27,8 +26,8 @@ if (!!window.EventSource) {
 				$(".log-data").append("<p>"+eventvalue.pageurlinfo.extractedDate+"</p>");
 				$(".log-data").append("<p>"+eventvalue.content+"</p>");
 			    }else{
-			    	 $(".log-data").append("<p>Progress..</p>");
-			    	 $(".log-data").append("<p>progress....</p>");
+			    $(".log-data").append("<p>Progress..</p>");
+			    $(".log-data").append("<p>progress....</p>");
 			    	 
 			    }
 		   }
