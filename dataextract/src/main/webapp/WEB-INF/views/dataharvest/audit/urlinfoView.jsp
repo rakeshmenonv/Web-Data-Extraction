@@ -23,7 +23,7 @@
 			</form>
 		</div> --%>
 		<div
-			data-options="region:'west',split:true,border:true,title:'&nbsp;Last Week Statistics',iconCls:'icon-chart_pie'"
+			data-options="region:'west',split:true,border:true,title:'&nbsp;<spring:message code="webharvest_lastweekstatistics" />',iconCls:'icon-chart_pie'"
 			style="width: 503px;overflow: hidden;">
 			<!-- <div id="ny_bt3" class="ny_bt" style="width:95%; height:400px;" >
 			
@@ -102,7 +102,7 @@
 		urlinfo_list_datagrid = $('#'+urlinfo_list_datagrid_id).datagrid({
 			url : urlinfo_list_datagrid_load_url,
 			fit : true,
-			title:'Individual URL Audit',
+			title:'<spring:message code="webharvest_individualurlaudit" />',
 			border : false,
 			fitColumns : true,
 			singleSelect : true,

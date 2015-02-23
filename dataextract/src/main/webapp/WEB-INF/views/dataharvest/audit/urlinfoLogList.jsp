@@ -5,7 +5,7 @@
 <div data-options="fit:true" class="easyui-panel" style="height:200px;">
 	<div class="easyui-layout" data-options="fit:true">
 		<div
-			data-options="region:'west',split:true,border:true,title:'&nbsp;Top Ten URL Statistics',iconCls:'icon-chart_organisation'"
+			data-options="region:'west',split:true,border:true,title:'&nbsp;<spring:message code="webharvest_toptenurlstatistics" />',iconCls:'icon-chart_organisation'"
 			style="width: 500px;overflow: hidden;">
 			<center><h2><div style="color:black"><spring:message code="webharvest_top10ExtractedWebsites" /></div></h2></center>
 			<div id="piechart3" style="width:100%; height:400px;"></div>
@@ -66,7 +66,7 @@
 		pageinfoLog_list_datagrid = $('#'+pageinfoLog_list_datagrid_id).datagrid({
 			url : pageinfoLog_list_datagrid_load_url,
 			fit : true,
-			title:'URL Audit List',
+			title:'<spring:message code="webharvest_urlauditlist" />',
 			border : false,
 			fitColumns : true,
 			singleSelect : true,
