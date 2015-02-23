@@ -25,6 +25,7 @@ if (!!window.EventSource) {
 			    $(".log-data").append("<p>"+eventvalue.pageurlinfo.url+"</p>");
 				$(".log-data").append("<p>"+eventvalue.pageurlinfo.extractedDate+"</p>");
 				$(".log-data").append("<p>"+eventvalue.content+"</p>");
+				$("body").animate({ scrollTop: 80 }, "slow");
 			    }else{
 			    $(".log-data").append("<p>Progress..</p>");
 			    $(".log-data").append("<p>progress....</p>");
