@@ -75,7 +75,7 @@ public class DataHarvestService {
 		String sqlStr = "select  count(url)as value, date_format(extracted_date,'%d-%m-%Y') as name  from webharvest.page_url_info where url='"+url+"' group by name";
 		return jdbcTemplate.queryForList(sqlStr);
 	}
-	public void selectedsave(Pageurlinfo pageurlinfo) {
+	public boolean selectedsave(Pageurlinfo pageurlinfo) {
 		Document doc;
 		try {
 			doc = Jsoup.connect(pageurlinfo.getUrl()).ignoreContentType(true)
@@ -222,8 +222,9 @@ public class DataHarvestService {
 			
 		} catch (IOException e) {
 			e.printStackTrace();
+			return false;
 		}
-
+		return true;
 	}
 	private void pageDataInfoSave(Pagedatainfo pagedatainfo) {
 		try{
@@ -232,7 +233,7 @@ public class DataHarvestService {
 			e.printStackTrace();	
 		}
 	}
-	public void basicsave(Pageurlinfo pageurlinfo) {
+	public boolean basicsave(Pageurlinfo pageurlinfo) {
 		    
 		try {
 			
@@ -329,21 +330,22 @@ public class DataHarvestService {
 			// output.format("</body></html>");
 		} catch (SecurityException exception) {
 			exception.printStackTrace();
-			System.exit(1);
+			return false;
 		} catch (FileNotFoundException exception) {
 			exception.printStackTrace();
-			System.exit(2);
+			return false;
 		} catch (IOException exception) {
 			logmsg.setMessage("connection Timeout : "+pageurlinfo.getUrl()+" can not access.");
-			exception.printStackTrace();				
+			exception.printStackTrace();			
+			return false;
 		} catch (SAXException exception) {
 			exception.printStackTrace();
-			System.exit(4);
+			return false;
 		} catch (Exception exception) {
 			exception.printStackTrace();
-			System.exit(5);
+			return false;
 		}
-
+		return true;
 	}
 
 	public String logProgress(HttpServletResponse response) throws JsonProcessingException{

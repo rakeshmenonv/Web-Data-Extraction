@@ -16,16 +16,16 @@ $.parser.onComplete = function() {
 					return isValid;
 				},
 				success : function(result) {
-					source.close();
-					console.info("fineshed");
+					source.close();					
 					var result = $ .parseJSON(result);
-					console.info("value :"+result.success);
-					var id = result.data.id;
-					$('#formSaveBtn').linkbutton({disabled : false});
-					$('#formSaveBtn').bind('click', function(){
-						 parent.$.modalDialog.handler.dialog('close');						
-						 indexTabsUpdateTab('href',{title:'<spring:message code="webharvest_extracteddata" />',url:'${ctx}/dataharvest/showdata/'+id,iconCls:'icon-table_multiple'});
-					});
+					if(result.success){
+						var id = result.data.id;
+						$('#formSaveBtn').linkbutton({disabled : false});
+						$('#formSaveBtn').bind('click', function(){
+							 parent.$.modalDialog.handler.dialog('close');						
+							 indexTabsUpdateTab('href',{title:'<spring:message code="webharvest_extracteddata" />',url:'${ctx}/dataharvest/showdata/'+id,iconCls:'icon-table_multiple'});
+						});
+					}			
 					//parent.$.modalDialog.handler.dialog('close');
 				}
 			});
