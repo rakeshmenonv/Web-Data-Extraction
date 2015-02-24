@@ -25,7 +25,10 @@
 		<div
 			data-options="region:'west',split:true,border:true,title:'查询条件',iconCls:'icon-find'"
 			style="width: 500px;overflow: hidden;">
-			
+			<div id="ny_bt3" class="ny_bt" style="width:95%; height:400px;" >
+			<center><div style="color:red">${url }</div></center>
+			<div id="piechartloglist" style="width:100%; height:400px;"></div>
+			</div>
 		</div>
 		<div data-options="region:'center',border:true">
 			<table id="urlinfo_list_dg" style="display: none;"></table>
@@ -66,28 +69,28 @@
 		                    row.id,pageinfoLog_list_delete_url,'${ctx}/static/js/plugins/jquery-easyui-1.3.4/themes/icons/application_form_delete.png');
 		str += '&nbsp;'; */
 		str += formatString(
-				'<img onclick="view(\'{0}\',\'{1}\');" src="${ctx}/static/js/plugins/jquery-easyui-1.3.4/themes/icons/view.png" title="查看"/>',
+				'<img onclick="view(\'{0}\',\'{1}\');" src="${ctx}/static/js/plugins/jquery-easyui-1.3.4/themes/icons/zoom.png" title="查看"/>',
 				urlinfo_list_view_url + row.id);
-		
+		str += '&nbsp;';
 		if(row.jobon){
 			
 			str += formatString(
-					'<img onclick="schedulerEvent(\'{0}\',\'{1}\');" src="{2}" title="stop"/>',
+					'<img onclick="schedulerEvent(\'{0}\',\'{1}\');" src="{2}" title="stop scheduler"/>',
 					row.id, user_list_stop_url,
-					'${ctx}/static/js/plugins/jquery-easyui-1.3.4/themes/icons/stop.png');
+					'${ctx}/static/js/plugins/jquery-easyui-1.3.4/themes/icons/hourglass_delete.png');
 			str += '&nbsp;';
 		}
 		str += formatString(
-				'<img onclick="updateForm(\'{0}\',\'reschedule_form_inputForm\',urlinfo_list_datagrid,{title:\'编辑信息\'});" src="{1}" title="redo"/>',
+				'<img onclick="updateForm(\'{0}\',\'reschedule_form_inputForm\',urlinfo_list_datagrid,{title:\'编辑信息\'});" src="{1}" title="reschedule"/>',
 				reschedule_url + row.id,
-				'${ctx}/static/js/plugins/jquery-easyui-1.3.4/themes/icons/redo.png');
+				'${ctx}/static/js/plugins/jquery-easyui-1.3.4/themes/icons/hourglass_add.png');
 		str += '&nbsp;';
 		return str; 
 	}
 	
 	//DataGrid字段设置
 	var urlinfo_list_datagrid_columns = [ [
-	                    		{field : 'id',title : '编号',width : 150,checkbox : true,align:'center'},
+	                    		{field : 'id',title : '编号',width : 150,checkbox : false,hidden:true,align:'center'},
 	    	          					{field : 'url',title : '<spring:message code="pageinfo_url" />',width : 150,align:'center'},
 			          					{field : 'extracted_date',title : 'extractedDate',width : 150,align:'center'},
 			          	                    	{field : 'action',title : '操作',width : 80,align : 'center',formatter : urlinfo_list_actionFormatter} 
@@ -99,7 +102,7 @@
 			fit : true,
 			border : false,
 			fitColumns : true,
-			singleSelect : false,
+			singleSelect : true,
 			striped : true,
 			pagination : true,
 			rownumbers : true,
@@ -142,6 +145,67 @@
 		//绑定按钮事件
 		bindSearchBtn('urlinfo_list_searchBtn','urlinfo_list_clearBtn','pageinfo_list_searchForm',urlinfo_list_datagrid);
 	};
+	require.config({
+		paths:{
+			echarts:'${ctx}/static/js/plugins/echart/echarts',
+			'echarts/chart/bar' : '${ctx}/static/js/plugins/echart/echarts-map',
+			'echarts/chart/line' : '${ctx}/static/js/plugins/echart/echarts-map',
+			'echarts/chart/map' : '${ctx}/static/js/plugins/echart/echarts-map',
+		}
+	});
+	require(
+			[
+			 'echarts',
+			 'echarts/chart/bar',
+			 'echarts/chart/line',
+			 'echarts/chart/map',
+			 ],
+			 
+			 function(ec)
+			 {
+				
+				var mychart1 = ec.init(document.getElementById('piechartloglist'));
+				mychart1.setOption({
+					tooltip : {
+				        trigger: 'item',
+				        formatter: "{a} <br/>{b} : {c} ({d}%)"
+				    },
+				    toolbox: {
+				        show : true,
+				        feature : {
+				            mark : {show: true},
+				            dataView : {show: true, readOnly: false},
+				            magicType : {
+				                show: true, 
+				                type: ['pie', 'funnel'],
+				                option: {
+				                    funnel: {
+				                        x: '25%',
+				                        width: '50%',
+				                        funnelAlign: 'left',
+				                        max: 1548
+				                    }
+				                }
+				            },
+				            restore : {show: true},
+				            saveAsImage : {show: true}
+				        }
+				    },
+				    calculable : true,
+				    series : [
+				        {
+				            name:'访问来源',
+				            type:'pie',
+				            radius : '55%',
+				            center: ['50%', '60%'],
+				            data:${piechartdata}
+				        }
+				    ]
+				
+				                  
+				});
+				
+			 });
 </script>
 
 

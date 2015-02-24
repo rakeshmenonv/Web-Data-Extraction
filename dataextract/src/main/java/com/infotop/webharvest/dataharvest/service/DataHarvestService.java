@@ -303,6 +303,7 @@ public class DataHarvestService {
 						pagedatainfo.setRowGroupKey(rowGroupKey);
 						pagedatainfo
 								.setExtractedDate(DateTimeUtil.nowTimeStr());
+
 						pagedatainfo.setType("");
 						pagedatainfoService.save(pagedatainfo);		
 						
@@ -311,6 +312,10 @@ public class DataHarvestService {
 						listPagedatainfo.setPageurlinfo(pageurlinfo);
 						listPagedatainfo.setExtractedDate(DateTimeUtil.nowTimeStr());
 						logmsg.setSuccess(true);
+
+						pagedatainfo.setType(getTagType(itemText.trim()));
+						pagedatainfoService.save(pagedatainfo);						
+                        //github.com/rakeshmenonv/Web-Data-Extraction.git
 						//System.out.println(itemText);
 						// output.format("<td>%s</td>\n", itemText);
 						// columnCounter++;
@@ -346,7 +351,6 @@ public class DataHarvestService {
 
 	}
 
-	
 	public String logProgress(HttpServletResponse response) throws JsonProcessingException{
 		
 	   String event;	
@@ -360,6 +364,15 @@ public class DataHarvestService {
       logmsg.setData(mapper.writeValueAsString(listPagedatainfo));
       return event = "data:"+mapper.writeValueAsString(logmsg)+"\n\n";
 		
+	}
+
+	public String getTagType(String data){
+		if(data.contains("<a href")){
+			return "Link";
+		}else if(data.contains("<img src")){
+			return "Image";
+		}
+		return "Text";		
 	}
 	
 }

@@ -9,6 +9,7 @@
 	src="${ctx}/static/js/extAppJs/app_index.js"></script>
 <script type="text/javascript"
 	src="${ctx }/static/js/extAppJs/common.js"></script>
+	
 </head>
 <body>
 
@@ -19,10 +20,10 @@
 
 		<div
 			data-options="iconCls:'icon-application_view_tile',region:'west',title:'导航菜单',split:true,href:'${ctx }/layouts/left.jsp'"
-			style="width: 210%; background-color: white;"></div>
+			style="width: 15%; background-color: white;float:left;"></div>
 
 		<div data-options="iconCls:'icon-calendar',region:'east'" title="日历"
-			style="width: 180px; overflow: hidden;">
+			style="width: 15%; overflow: hidden;">
 			<div class="easyui-panel" data-options="border:false"
 				style="height: 180px; overflow: hidden;">
 				<div id="index_calendar" style="height: 180px; overflow: hidden;"></div>
@@ -41,7 +42,7 @@
 		</div>
 
 		<div data-options="region:'south',border:true"
-			style="height: 20px; text-align: center;">
+			style="height: 3%; text-align: center;">
 			<span style="font-weight: bold;">技术支持：</span><span><a
 				href="http://www.iamtop.com" target="_blank">临沂市拓普网络股份有限公司</a></span> <span
 				style="font-weight: bold;">咨询热线：</span><span>400-006-7996,800-860-7996</span>

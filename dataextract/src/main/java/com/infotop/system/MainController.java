@@ -39,10 +39,6 @@ public class MainController extends BasicController {
 		ObjectMapper mapper = new ObjectMapper();
 		String piechart = mapper.writeValueAsString(dataHarvestService.getPiechartData());
 		model.addAttribute("piechart",piechart);
-		String url ="www.yahoo.com";
-		String piechart1 = mapper.writeValueAsString(dataHarvestService.getPiechartDate(url));
-		model.addAttribute("piechartdata",piechart1);
-		model.addAttribute("url",url);
 		return "home/coverpage";
 	}
 	

@@ -271,8 +271,11 @@ function parameter_list_formatterVlaue(value,row,index){
 			</div>
 			<!--datagrid上方的工具栏-->
 			<div id="parameter_list_toolbar" style="display: none;">
-				<a href="Javascript:addForm('增加参数',parameter_list_CREATE_URL,'parameter_form_inputForm','0');"
-					class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:false">增加参数</a> 
+				<a href="javascript:updateForm(parameter_list_CREATE_URL,'parameter_form_inputForm',parameter_list_dg,{title:'增加参数'});" 
+				class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:false">增加参数</a> 			
+		  	
+			<!-- 	<a href="Javascript:updateForm('增加参数',parameter_list_CREATE_URL,'parameter_form_inputForm','0');"
+					class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:false">增加参数</a>  -->
 			</div>
 		</div>
 	</div>

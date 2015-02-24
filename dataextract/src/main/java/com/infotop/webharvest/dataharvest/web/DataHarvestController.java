@@ -56,6 +56,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.infotop.common.BasicController;
 import com.infotop.system.account.entity.User;
 import com.infotop.system.account.service.ShiroDbRealm.ShiroUser;
+import com.infotop.system.parameter.entity.Parameter;
 import com.infotop.webharvest.dataharvest.service.DataHarvestService;
 import com.infotop.webharvest.pagedatainfo.entity.Pagedatainfo;
 import com.infotop.webharvest.pagedatainfo.service.PagedatainfoService;
@@ -87,6 +88,8 @@ public class DataHarvestController extends BasicController {
 		User user = accountService.findUserByLoginName(su.getLoginName());
 		if (user != null) {
 			Pageurlinfo entity = new Pageurlinfo();
+			List<Parameter> schedulerList = parameterService.getParameterByCategory("scheduler");
+			model.addAttribute("schedulerList", schedulerList);
 			model.addAttribute("pageurlinfo", entity);
 			model.addAttribute("action", "extract");
 		} else {
