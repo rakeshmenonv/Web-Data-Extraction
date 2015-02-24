@@ -24,11 +24,11 @@
 		</div> --%>
 		<div
 			data-options="region:'west',split:true,border:true,title:'查询条件',iconCls:'icon-find'"
-			style="width: 500px;overflow: hidden;">
+			style="width: 503px;overflow: hidden;">
 			<!-- <div id="ny_bt3" class="ny_bt" style="width:95%; height:400px;" >
 			
 			</div> -->
-			 <center><div style="color:red">${url }</div></center>
+			 <center><h3><div style="color:black">${url }</div></h3></center>
 			<div id="piechartloglist" style="width:100%; height:400px;"></div>
 			
 		</div>
@@ -168,11 +168,11 @@
 				
 				var mychart1 = ec.init(document.getElementById('piechartloglist'));
 				mychart1.setOption({
-					tooltip : {
+					/* tooltip : {
 				        trigger: 'item',
 				        formatter: "{a} <br/>{b} : {c} ({d}%)"
-				    },
-				    toolbox: {
+				    }, */
+				      toolbox: {
 				        show : true,
 				        feature : {
 				            mark : {show: true},
@@ -182,24 +182,24 @@
 				                type: ['pie', 'funnel'],
 				                option: {
 				                    funnel: {
-				                        x: '25%',
+				                        x: '-25%',
 				                        width: '50%',
 				                        funnelAlign: 'left',
 				                        max: 1548
 				                    }
 				                }
-				            },
+				            },  
 				            restore : {show: true},
 				            saveAsImage : {show: true}
 				        }
-				    },
+				    }, 
 				    calculable : true,
 				    series : [
 				        {
 				            name:'访问来源',
 				            type:'pie',
 				            radius : '55%',
-				            center: ['50%', '60%'],
+				            center: ['50%', '55%'],
 				            data:${piechartdata}
 				        }
 				    ]

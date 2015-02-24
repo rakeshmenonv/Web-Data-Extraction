@@ -27,9 +27,8 @@ require(
 			mychart1.setOption({
 				title : {
 			        text: 'Top Ten Extracted Websites',
-			        x:'center',
-			        color: 'red'
-			        },
+			        x:'center'
+					},
 				tooltip : {
 			        trigger: 'item',
 			        formatter: "{a} <br/>{b} : {c} ({d}%)"

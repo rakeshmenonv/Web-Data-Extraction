@@ -7,10 +7,10 @@
 		<div
 			data-options="region:'west',split:true,border:true,title:'查询条件',iconCls:'icon-find'"
 			style="width: 500px;overflow: hidden;">
-			
+			<center><h2><div style="color:black">Top Ten Extracted Websites</div></h2></center>
 			<div id="piechart3" style="width:100%; height:400px;"></div>
 		</div>
-		<span id="piechart3"></span>
+		
 	<div data-options="region:'center',border:true">
 			<table id="pageinfoLog_list_dg" style="display: none;"></table>
 		</div>
@@ -113,6 +113,7 @@
 				
 				var mychart1 = ec.init(document.getElementById('piechart3'));
 				mychart1.setOption({
+					
 					tooltip : {
 				        trigger: 'item',
 				        formatter: "{a} <br/>{b} : {c} ({d}%)"
