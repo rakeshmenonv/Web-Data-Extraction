@@ -19,6 +19,7 @@ import net.infotop.web.easyui.Message;
 
 
 
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Attribute;
 import org.jsoup.nodes.Document;
@@ -42,6 +43,7 @@ import org.seagatesoft.sde.treematcher.TreeMatcher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -49,6 +51,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.xml.sax.SAXException;
 
 import ch.qos.logback.classic.Logger;
+
 
 
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -147,9 +150,27 @@ public class DataHarvestController extends BasicController {
     @RequestMapping(value = "/log", method = RequestMethod.GET)
 	@ResponseBody
 	public String sendMessage(Locale locale, HttpServletResponse response) throws JsonMappingException, IOException {
-        String event = dataHarvestService.logProgress(response);
+    	response.setContentType("text/event-stream");
+    	String event = dataHarvestService.logProgress(response);
 		return event;
       }
+    
+    @RequestMapping(value = "showdata/{id}", method = RequestMethod.GET)
+	public String updateForm(@PathVariable("id") Long id, Model model) {
+	        ShiroUser su = super.getLoginUser();
+			User user = accountService.findUserByLoginName(su.getLoginName());
+			if (user != null) {
+				Pageurlinfo entity = pageurlinfoService.get(id); 			
+				List<Pagedatainfo> pagedatainfoList=pagedatainfoService.getAlldatainfo(entity);				
+		        model.addAttribute("pagedatainfoList", pagedatainfoList);
+		        model.addAttribute("action", "update");
+			} else {
+				logger.log(this.getClass(),Logger.ERROR_INT,"登陆帐号无效!","",null);
+				return "redirect:/login";
+			}
+	        return "dataharvest/showdata";
+	}
+
 
 }
 

@@ -24,6 +24,7 @@ $.parser.onComplete = function() {
 					return isValid;
 				},
 				success : function(result) {
+					source.close();
 					console.info("fineshed");
 					var result = $ .parseJSON(result);
 					console.info("value :"+result.success);
@@ -64,15 +65,15 @@ function setValidation(){
 
 function showLog(url,params) {
 	var opts = {
-		width : 600,
-		height : 400,
+		width : 900,
+		height : 600,
 		title : '信息',
 		href : url,
 		iconCls : 'icon-application_form_add',
 		buttons : [
 				{
 					text : 'Next',
-					iconCls : 'icon-next',
+					iconCls : 'icon-note_go',
 					disabled : true,
 					id : 'formSaveBtn',
 					handler : function() {
