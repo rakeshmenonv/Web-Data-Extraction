@@ -5,7 +5,7 @@
 <div data-options="fit:true" class="easyui-panel" style="height:200px;">
 	<div class="easyui-layout" data-options="fit:true">
 		<div
-			data-options="region:'west',split:true,border:true,title:'查询条件',iconCls:'icon-find'"
+			data-options="region:'west',split:true,border:true,title:'&nbsp;Top Ten URL Statistics',iconCls:'icon-chart_organisation'"
 			style="width: 500px;overflow: hidden;">
 			<center><h2><div style="color:black"><spring:message code="webharvest_top10ExtractedWebsites" /></div></h2></center>
 			<div id="piechart3" style="width:100%; height:400px;"></div>
@@ -66,6 +66,7 @@
 		pageinfoLog_list_datagrid = $('#'+pageinfoLog_list_datagrid_id).datagrid({
 			url : pageinfoLog_list_datagrid_load_url,
 			fit : true,
+			title:'URL Audit List',
 			border : false,
 			fitColumns : true,
 			singleSelect : true,
@@ -156,24 +157,7 @@
 			 });
 
 </script>
-<div data-options="fit:true" class="easyui-panel" style="height:200px;">
-	<div class="easyui-layout" data-options="fit:true">
-		<div
-			data-options="region:'west',split:true,border:true,title:'查询条件',iconCls:'icon-find'"
-			style="width: 500px;overflow: hidden;">
-			<center><h2><div style="color:black">Top Ten Extracted Websites</div></h2></center>
-			<div id="piechart3" style="width:100%; height:400px;"></div>
-		</div>
-		
-	<div data-options="region:'center',border:true">
-			<table id="pageinfoLog_list_dg" style="display: none;"></table>
-		</div>
-		<!-- <div id="pageinfoLog_list_toolbar" style="display: none;">
-				<a href="javascript:updateForm(pageinfoLog_list_create_url,'pageinfoLog_form_inputForm',pageinfoLog_list_datagrid,{title:'新增信息'});" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:false">添加</a> 			
-		  	  <a href="javascript:deleteBatch(pageinfoLog_list_delete_url,pageinfoLog_list_datagrid);" class="easyui-linkbutton"  data-options="iconCls:'icon-remove',plain:false">删除</a>
-			</div>  -->
-	</div>
-</div>
+
 
 
 

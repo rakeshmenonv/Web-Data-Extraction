@@ -23,7 +23,7 @@
 			</form>
 		</div> --%>
 		<div
-			data-options="region:'west',split:true,border:true,title:'查询条件',iconCls:'icon-find'"
+			data-options="region:'west',split:true,border:true,title:'&nbsp;Last Week Statistics',iconCls:'icon-chart_pie'"
 			style="width: 503px;overflow: hidden;">
 			<!-- <div id="ny_bt3" class="ny_bt" style="width:95%; height:400px;" >
 			
@@ -102,6 +102,7 @@
 		urlinfo_list_datagrid = $('#'+urlinfo_list_datagrid_id).datagrid({
 			url : urlinfo_list_datagrid_load_url,
 			fit : true,
+			title:'Individual URL Audit',
 			border : false,
 			fitColumns : true,
 			singleSelect : true,
