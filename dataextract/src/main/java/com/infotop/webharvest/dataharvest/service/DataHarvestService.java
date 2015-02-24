@@ -301,7 +301,7 @@ public class DataHarvestService {
 						pagedatainfo
 								.setExtractedDate(DateTimeUtil.nowTimeStr());
 
-						pagedatainfo.setType("");
+						pagedatainfo.setType(getTagType(itemText.trim()));
 						pagedatainfoService.save(pagedatainfo);		
 						
 						listPagedatainfo = pagedatainfo;
