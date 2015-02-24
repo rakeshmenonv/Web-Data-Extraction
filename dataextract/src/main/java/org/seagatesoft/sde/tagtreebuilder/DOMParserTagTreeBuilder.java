@@ -94,7 +94,8 @@ public class DOMParserTagTreeBuilder implements TagTreeBuilder
 		BufferedReader in = new BufferedReader(  
                 new InputStreamReader(  
                         new URL(htmlDocument).openStream()));
-        
+		URL url = new URL(htmlDocument);
+		baseURI = url.getProtocol() + "://" + url.getHost();
 		return buildTagTree(new InputSource(in), ignoreFormattingTags);
 	}
 	
@@ -145,7 +146,7 @@ public class DOMParserTagTreeBuilder implements TagTreeBuilder
 		org.w3c.dom.Document documentNode = parser.getDocument();
 		//System.out.println(documentNode.getFirstChild().getTextContent());
 		// dapatkan BaseURI+nama file dari dokumen HTML ini
-		baseURI = documentNode.getBaseURI();
+		if(baseURI==null)baseURI = documentNode.getBaseURI();
 		//baseURI = documentNode.get;
 		Pattern baseDirectoryPattern = Pattern.compile("^(.*/)[^/]*$");
 		/*Matcher matcher = baseDirectoryPattern.matcher( baseURI );
@@ -237,7 +238,12 @@ public class DOMParserTagTreeBuilder implements TagTreeBuilder
 					{
 						// dapatkan nilai atribut src-nya
 						NamedNodeMap attributesMap = node.getAttributes();
-						String imgURI = attributesMap.getNamedItem("src").getNodeValue();
+						String imgURI = "";
+						try{
+							imgURI = attributesMap.getNamedItem("src").getNodeValue();
+						}catch(Exception e){
+							
+						}
 						Matcher absoluteURIMatcher = absoluteURIPattern.matcher( imgURI );
 						
 						// jika URI pada atribut src bukan merupakan URI absolut (URI relatif)
