@@ -15,8 +15,6 @@ $.parser.onComplete = function() {
 	$('#'+formId).form(
 			{
 				onSubmit : function() {
-					console.info("ddddd");
-				
 					var isValid = $(this).form('validate');
 					if (!isValid) {
 						parent. $ .messager.progress('close');
