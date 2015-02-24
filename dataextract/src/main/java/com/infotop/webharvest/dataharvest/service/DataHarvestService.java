@@ -78,6 +78,7 @@ public class DataHarvestService {
 	public boolean selectedsave(Pageurlinfo pageurlinfo) {
 		Document doc;
 		try {
+			logmsg.setMessage(null);
 			doc = Jsoup.connect(pageurlinfo.getUrl()).ignoreContentType(true)
 					.parser(Parser.xmlParser()).get();
 			String selectedelement = pageurlinfo.getElement() + "["
@@ -221,6 +222,7 @@ public class DataHarvestService {
 			}
 			
 		} catch (IOException e) {
+			logmsg.setMessage("connection Timeout : "+pageurlinfo.getUrl()+" can not access.");
 			e.printStackTrace();
 			return false;
 		}
@@ -236,7 +238,7 @@ public class DataHarvestService {
 	public boolean basicsave(Pageurlinfo pageurlinfo) {
 		    
 		try {
-			
+			logmsg.setMessage(null);
 			TagTreeBuilder builder = new DOMParserTagTreeBuilder();
 			TagTree tagTree = builder.buildTagTree(pageurlinfo.getUrl(),
 					ignoreFormattingTags);
