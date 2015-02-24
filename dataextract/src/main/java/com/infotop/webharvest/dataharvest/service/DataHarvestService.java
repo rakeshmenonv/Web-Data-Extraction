@@ -60,7 +60,7 @@ public class DataHarvestService {
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 	
-	Pagedatainfo listPagedatainfo; 
+	Pagedatainfo listPagedatainfo=null;
 	Message logmsg  = new Message();
 	
 	public List getPiechartData()
@@ -76,7 +76,6 @@ public class DataHarvestService {
 		return jdbcTemplate.queryForList(sqlStr);
 	}
 	public void selectedsave(Pageurlinfo pageurlinfo) {
-		logmsg.setSuccess(true);
 		Document doc;
 		try {
 			doc = Jsoup.connect(pageurlinfo.getUrl()).ignoreContentType(true)
@@ -220,9 +219,7 @@ public class DataHarvestService {
 					}
 				}
 			}
-			logmsg.setSuccess(false);
-			listPagedatainfo = new Pagedatainfo();
-
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -236,7 +233,7 @@ public class DataHarvestService {
 		}
 	}
 	public void basicsave(Pageurlinfo pageurlinfo) {
-		    logmsg.setSuccess(true);
+		    
 		try {
 			
 			TagTreeBuilder builder = new DOMParserTagTreeBuilder();
@@ -328,9 +325,7 @@ public class DataHarvestService {
 				// tableCounter++;
 			}
 			
-			logmsg.setSuccess(false);
-			listPagedatainfo = new Pagedatainfo();
-
+			
 			// output.format("</body></html>");
 		} catch (SecurityException exception) {
 			exception.printStackTrace();
@@ -352,17 +347,16 @@ public class DataHarvestService {
 	}
 
 	public String logProgress(HttpServletResponse response) throws JsonProcessingException{
-		
-	   String event;	
-	   response.setContentType("text/event-stream");
-       try {
-               Thread.sleep(1000);
-       } catch (InterruptedException e) {
+		/*try {
+              // Thread.sleep(500);
+		} catch (InterruptedException e) {
                e.printStackTrace();
-       } 
-      ObjectMapper mapper = new ObjectMapper();
-      logmsg.setData(mapper.writeValueAsString(listPagedatainfo));
-      return event = "data:"+mapper.writeValueAsString(logmsg)+"\n\n";
+		} */
+		ObjectMapper mapper = new ObjectMapper();
+		/*if(listPagedatainfo!=null){
+			*/logmsg.setData(listPagedatainfo);
+	//	}
+	return "retry: 5\ndata:"+mapper.writeValueAsString(logmsg)+"\n\n";
 		
 	}
 

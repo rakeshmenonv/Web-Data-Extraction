@@ -213,26 +213,25 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `sys_parameter`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+
 CREATE TABLE `sys_parameter` (
-  `id` bigint(20) NOT NULL auto_increment,
-  `uuid` varchar(255) NOT NULL default '',
-  `category` varchar(255) default NULL,
-  `subcategory` varchar(255) default NULL,
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `uuid` varchar(255) NOT NULL DEFAULT '',
+  `category` varchar(255) DEFAULT NULL,
+  `subcategory` varchar(255) DEFAULT NULL,
   `name` varchar(255) NOT NULL,
   `value` varchar(255) NOT NULL,
-  `remark` varchar(255) default NULL,
-  `short_name` varchar(255) default NULL,
-  `sort` int(11) default NULL,
-  `parent_id` int(20) default NULL,
-  PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+  `remark` varchar(255) DEFAULT NULL,
+  `short_name` varchar(255) DEFAULT NULL,
+  `sort` int(11) DEFAULT NULL,
+  `parent_id` int(20) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
---
--- Dumping data for table `sys_parameter`
---
+/*Data for the table `sys_parameter` */
+
+insert  into `sys_parameter`(`id`,`uuid`,`category`,`subcategory`,`name`,`value`,`remark`,`short_name`,`sort`,`parent_id`) values (3,'aaed6f80-f17c-4884-92a8-0ee135186ad0','scheduler','scheduler','','','',NULL,0,0),(4,'8d461f39-1212-480e-93d7-155bde8a880e','scheduler','schedulerType','day','1','',NULL,0,3),(5,'a66d99cb-9e22-43e8-bb03-d616e25fc4ae','scheduler','schedulerType','month','2','',NULL,0,3),(6,'091f48fa-391e-424d-bfa5-675277d359c0','scheduler','schedulerType','year','3','',NULL,0,3);
+
 
 LOCK TABLES `sys_parameter` WRITE;
 /*!40000 ALTER TABLE `sys_parameter` DISABLE KEYS */;

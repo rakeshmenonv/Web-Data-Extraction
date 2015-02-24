@@ -14,34 +14,23 @@ if (!!window.EventSource) {
 	   var source = new EventSource('dataharvest/log');
 	  
 	   source.addEventListener('message', function(e) {
-		   //console.log(e.data);
-		   var event = $.parseJSON(e.data);
-		   console.log(event);
-		   var eventvalue = $.parseJSON(event.data);
-		   if(event.success == true) {
-			   
-			    if(eventvalue.id != null){
-			    $(".log-data").append("<p>"+eventvalue.id+"</p>");
-			    $(".log-data").append("<p>"+eventvalue.pageurlinfo.url+"</p>");
-				$(".log-data").append("<p>"+eventvalue.pageurlinfo.extractedDate+"</p>");
-				$(".log-data").append("<p>"+eventvalue.content+"</p>");
-				$("body").animate({ scrollTop: 80 }, "slow");
-			    }else{
-			    $(".log-data").append("<p>Progress..</p>");
-			    $(".log-data").append("<p>progress....</p>");
-			    	 
-			    }
-		   }
-		   else if(event.success == false){
-			    e.target.close();  
-		   }
-		  
-		
-	   });
+
+		   //console.info(e.data);
+		   var msg = $.parseJSON(e.data);
+		  	if(msg.data) {
+			  	$(".log-data").append("<p>"+msg.data.id+"</p>");
+			    $(".log-data").append("<p>"+msg.data.pageurlinfo.url+"</p>");
+				$(".log-data").append("<p>"+msg.data.pageurlinfo.extractedDate+"</p>");
+				$(".log-data").append("<p>"+msg.data.content+"</p>");
+			}
+		  	var contentdiv=$(".log-data");
+		  //	contentdiv.scrollTop = contentdiv.scrollHeight;
+		  	$(".log-data").scrollTop($(".log-data").prop('scrollHeight'));
+			//contentdiv.scrollTop(contentdiv[0].scrollHeight-contentdiv.height());
+		});
 
 	   source.addEventListener('open', function(e) {
-		  
-	        console.log("Connection was opened.");
+		  	console.log("Connection was opened.");
 	   }, false);
 
 	   source.addEventListener('error', function(e) {
@@ -60,6 +49,6 @@ if (!!window.EventSource) {
 
 	
 </script>
-<div class="log-data"></div>
+<div class="log-data" style="height:100%;overflow-y:scroll;"></div>
 </body>
 </html>
