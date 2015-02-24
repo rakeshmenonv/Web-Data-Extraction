@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>临沂市骨干企业信息直报系统</title>
+<title>Web Data Harvesting</title>
 <%@ include file="/common/easyui_inc.jsp"%>
 <script type="text/javascript"
 	src="${ctx}/static/js/extAppJs/app_index.js"></script>
@@ -30,7 +30,7 @@
 			</div>
 		</div>
 		<div data-options="iconCls:'icon-logo',region:'center'"
-			title="拓普网络-引领科技现代生活！" style="overflow: hidden;">
+			title="Web Data Harvesting！" style="overflow: hidden;">
 			<div id="index_tabs" style="overflow: hidden;">
 			<div title="拓普" data-options="href:'${ctx }/home/coverpage',iconCls:'icon-house'"></div></div>
 		</div>
