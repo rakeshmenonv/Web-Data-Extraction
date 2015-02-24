@@ -25,10 +25,12 @@
 		<div
 			data-options="region:'west',split:true,border:true,title:'查询条件',iconCls:'icon-find'"
 			style="width: 500px;overflow: hidden;">
-			<div id="ny_bt3" class="ny_bt" style="width:95%; height:400px;" >
-			<center><div style="color:red">${url }</div></center>
+			<!-- <div id="ny_bt3" class="ny_bt" style="width:95%; height:400px;" >
+			
+			</div> -->
+			 <center><div style="color:red">${url }</div></center>
 			<div id="piechartloglist" style="width:100%; height:400px;"></div>
-			</div>
+			
 		</div>
 		<div data-options="region:'center',border:true">
 			<table id="urlinfo_list_dg" style="display: none;"></table>

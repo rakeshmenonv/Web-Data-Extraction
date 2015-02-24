@@ -7,10 +7,10 @@
 		<div
 			data-options="region:'west',split:true,border:true,title:'查询条件',iconCls:'icon-find'"
 			style="width: 500px;overflow: hidden;">
-			<div id="ny_bt2" class="ny_bt" style="width:95%; height:350px;" >
-			<div id="piechart3" style="width:100%; height:350px;"></div>
-			</div>
+			
+			<div id="piechart3" style="width:100%; height:400px;"></div>
 		</div>
+		<span id="piechart3"></span>
 	<div data-options="region:'center',border:true">
 			<table id="pageinfoLog_list_dg" style="display: none;"></table>
 		</div>

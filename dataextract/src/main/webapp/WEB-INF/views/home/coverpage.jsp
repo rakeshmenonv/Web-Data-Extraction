@@ -25,6 +25,11 @@ require(
 			
 			var mychart1 = ec.init(document.getElementById('piechartlist'));
 			mychart1.setOption({
+				title : {
+			        text: 'Top Ten Extracted Websites',
+			        x:'center',
+			        color: 'red'
+			        },
 				tooltip : {
 			        trigger: 'item',
 			        formatter: "{a} <br/>{b} : {c} ({d}%)"
@@ -72,4 +77,5 @@ require(
 	
 	<div id="piechartlist" style="width:100%; height:400px;">
 	</div>
+	
 </div>
