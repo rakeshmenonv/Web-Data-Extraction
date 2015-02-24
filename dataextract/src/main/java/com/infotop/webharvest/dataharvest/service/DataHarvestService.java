@@ -334,8 +334,8 @@ public class DataHarvestService {
 			exception.printStackTrace();
 			System.exit(2);
 		} catch (IOException exception) {
-			exception.printStackTrace();
-			System.exit(3);
+			logmsg.setMessage("connection Timeout : "+pageurlinfo.getUrl()+" can not access.");
+			exception.printStackTrace();				
 		} catch (SAXException exception) {
 			exception.printStackTrace();
 			System.exit(4);

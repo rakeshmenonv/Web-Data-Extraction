@@ -22,6 +22,9 @@ if (!!window.EventSource) {
 				$(".log-data").append("<p>"+msg.data.pageurlinfo.extractedDate+"</p>");
 				$(".log-data").append("<p>"+msg.data.content+"</p>");
 			}
+			if(msg.message) {
+			  	$(".log-data").append("<p>"+msg.message+"</p>");			   
+			}
 		  	var contentdiv=$(".log-data");
 		  //	contentdiv.scrollTop = contentdiv.scrollHeight;
 		  	$(".log-data").scrollTop($(".log-data").prop('scrollHeight'));
