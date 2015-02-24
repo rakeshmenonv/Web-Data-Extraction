@@ -72,7 +72,7 @@ function showLog(url,params) {
 		buttons : [
 				{
 					text : 'Next',
-					iconCls : 'icon-next',
+					iconCls : 'icon-ok',
 					disabled : true,
 					id : 'formSaveBtn',
 					handler : function() {

@@ -16,8 +16,8 @@ if (!!window.EventSource) {
 	   source.addEventListener('message', function(e) {
 		   //console.log(e.data);
 		   var event = $.parseJSON(e.data);
+		   console.log(event);
 		   var eventvalue = $.parseJSON(event.data);
-		   console.log(eventvalue);
 		   if(event.success == true) {
 			   
 			    if(eventvalue.id != null){
