@@ -48,6 +48,6 @@ if (!!window.EventSource) {
 
 	
 </script>
-<div class="log-data" style="height:100%;overflow-y:scroll;"></div>
+<div class="log-data" style="height:100%;overflow-y:scroll;">Processing.................</div>
 </body>
 </html>
