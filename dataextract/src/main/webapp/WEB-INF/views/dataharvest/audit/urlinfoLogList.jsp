@@ -1,8 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file = "/common/taglibs.jsp"%>
 <script src="${ctx}/static/js/plugins/echart/esl.js"></script>
-<<<<<<< HEAD
-=======
 
 <div data-options="fit:true" class="easyui-panel" style="height:200px;">
 	<div class="easyui-layout" data-options="fit:true">
@@ -22,7 +20,6 @@
 			</div>  -->
 	</div>
 </div>
->>>>>>> branch 'master' of https://github.com/rakeshmenonv/Web-Data-Extraction.git
 <script type="text/javascript">
 	//列表DataGrid
 	var pageinfoLog_list_datagrid;
