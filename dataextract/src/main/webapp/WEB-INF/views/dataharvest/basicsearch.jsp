@@ -24,6 +24,10 @@ $.parser.onComplete = function() {
 					console.info("value :"+result.success);
 					var id = result.data.id;
 					$('#formSaveBtn').linkbutton({disabled : false});
+					$('#formSaveBtn').bind('click', function(){
+						 parent.$.modalDialog.handler.dialog('close');						
+						 indexTabsAddTab('href',{title:'result',url:'${ctx}/dataharvest/showdata/'+id,iconCls:'icon-plugin'});
+					});
 					//parent.$.modalDialog.handler.dialog('close');
 				}
 			});
