@@ -46,7 +46,7 @@ $ .parser.onComplete = function() {
 	<input type="hidden" name="id" id="id" value="${ pageurlinfo.id}" />
 	<table class="content" style="width: 100%;">
 	 		<tr>
-			<td class="biao_bt3"><spring:message code="pageurlinfo_url" /></td>
+			<td class="biao_bt3"><spring:message code="webharvest_url" /></td>
 			<td><input type="text" name="url" id="url" value="${ pageurlinfo.url }" readonly="true"   />	</td>
 		</tr>
 	  		<tr>

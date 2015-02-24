@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>航海日志</title>
 </head>
 <body>
  <script>
@@ -48,6 +48,6 @@ if (!!window.EventSource) {
 
 	
 </script>
-<div class="log-data" style="height:100%;overflow-y:scroll;">Processing.................</div>
+<div class="log-data" style="height:100%;overflow-y:scroll;"><spring:message code="webharvest_processing" />.................</div>
 </body>
 </html>

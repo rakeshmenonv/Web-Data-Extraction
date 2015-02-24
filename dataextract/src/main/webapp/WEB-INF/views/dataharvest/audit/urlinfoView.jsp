@@ -77,13 +77,13 @@
 		if(row.jobon){
 			
 			str += formatString(
-					'<img onclick="schedulerEvent(\'{0}\',\'{1}\');" src="{2}" title="stop scheduler"/>',
+					'<img onclick="schedulerEvent(\'{0}\',\'{1}\');" src="{2}" title="停止调度"/>',
 					row.id, user_list_stop_url,
 					'${ctx}/static/js/plugins/jquery-easyui-1.3.4/themes/icons/hourglass_delete.png');
 			str += '&nbsp;';
 		}
 		str += formatString(
-				'<img onclick="updateForm(\'{0}\',\'reschedule_form_inputForm\',urlinfo_list_datagrid,{title:\'编辑信息\'});" src="{1}" title="reschedule"/>',
+				'<img onclick="updateForm(\'{0}\',\'reschedule_form_inputForm\',urlinfo_list_datagrid,{title:\'编辑信息\'});" src="{1}" title="重新安排e"/>',
 				reschedule_url + row.id,
 				'${ctx}/static/js/plugins/jquery-easyui-1.3.4/themes/icons/hourglass_add.png');
 		str += '&nbsp;';
@@ -94,7 +94,7 @@
 	var urlinfo_list_datagrid_columns = [ [
 	                    		{field : 'id',title : '编号',width : 150,checkbox : false,hidden:true,align:'center'},
 	    	          					{field : 'url',title : '<spring:message code="pageinfo_url" />',width : 150,align:'center'},
-			          					{field : 'extracted_date',title : 'extractedDate',width : 150,align:'center'},
+			          					{field : 'extracted_date',title : '<spring:message code="webharvest_extractedDate" />',width : 150,align:'center'},
 			          	                    	{field : 'action',title : '操作',width : 80,align : 'center',formatter : urlinfo_list_actionFormatter} 
 	                    		] ];
 	/** 初始化DataGrid,加载数据 **/		
@@ -124,7 +124,7 @@
 		});
 	}
 	function schedulerEvent(id, ACTIONURL) {
-		parent.$.messager.confirm('Click Yes', 'If you want to stop', function(r) {
+		parent.$.messager.confirm('确认', '你肯定要停下来？', function(r) {
 			if (r) {
 				$.post(ACTIONURL, {
 					id : id
