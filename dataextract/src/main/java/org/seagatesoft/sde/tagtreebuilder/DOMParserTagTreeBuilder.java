@@ -64,6 +64,8 @@ public class DOMParserTagTreeBuilder implements TagTreeBuilder
 	 * 
 	 */
 	private Pattern absoluteURIPattern = Pattern.compile("^.*:.*$");
+	private Pattern PartialURIPattern = Pattern.compile("//.*$");
+	//g.tbcdn.cn/s.gif
 	/**
 	 * 
 	 */
@@ -91,11 +93,12 @@ public class DOMParserTagTreeBuilder implements TagTreeBuilder
 	
 	public TagTree buildTagTree(String htmlDocument, boolean ignoreFormattingTags)  throws IOException, SAXException
 	{
-		BufferedReader in = new BufferedReader(  
-                new InputStreamReader(  
-                        new URL(htmlDocument).openStream()));
 		URL url = new URL(htmlDocument);
-		baseURI = url.getProtocol() + "://" + url.getHost();
+		HttpURLConnection httpcon = (HttpURLConnection) url.openConnection();
+	    httpcon.addRequestProperty("User-Agent", "Mozilla/4.0");
+	    BufferedReader in = new BufferedReader(  
+                new InputStreamReader(httpcon.getInputStream(),"UTF-8"));
+	    baseURI = url.getProtocol() + "://" + url.getHost();
 		return buildTagTree(new InputSource(in), ignoreFormattingTags);
 	}
 	
@@ -249,8 +252,13 @@ public class DOMParserTagTreeBuilder implements TagTreeBuilder
 						// jika URI pada atribut src bukan merupakan URI absolut (URI relatif)
 						if ( ! absoluteURIMatcher.matches() )
 						{
+							Matcher partialURIMatcher = PartialURIPattern.matcher( imgURI );
+							if(! partialURIMatcher.matches() ){
+								imgURI = baseURI + imgURI;
+							}else{
+								imgURI = "http:" + imgURI;
+							}
 							// tambahkan baseURI sehingga menjadi URI absolut
-							imgURI = baseURI + imgURI;
 						}
 						
 						// tambahkan tag IMG dengan src-nya sebagai teks HTML pada TagNode parent-nya
@@ -275,8 +283,13 @@ public class DOMParserTagTreeBuilder implements TagTreeBuilder
 							// jika nilai atribut href bukan merupakan URI absolut
 							if ( ! absoluteURIMatcher.matches() )
 							{
-								// tambahkan baseURI sehingga menjadi URI absolut
-								linkURI = baseURI + linkURI;
+								Matcher partialURIMatcher = PartialURIPattern.matcher( linkURI );
+								if(! partialURIMatcher.matches() ){
+									linkURI = baseURI + linkURI;
+								}else{
+									linkURI = "http:" + linkURI;
+								}
+								// tambahkan baseURI sehingga menjadi URI absolut								
 							}
 						
 							// tambahkan tag A dengan href-nya dan teks Link sebagai teks HTML pada TagNode parent-nya

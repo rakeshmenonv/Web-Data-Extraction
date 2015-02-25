@@ -332,9 +332,11 @@ public class DataHarvestService {
 			
 			// output.format("</body></html>");
 		} catch (SecurityException exception) {
+			logmsg.setMessage(exception.toString());
 			exception.printStackTrace();
 			return false;
 		} catch (FileNotFoundException exception) {
+			logmsg.setMessage(exception.toString());
 			exception.printStackTrace();
 			return false;
 		} catch (IOException exception) {
@@ -345,6 +347,7 @@ public class DataHarvestService {
 			exception.printStackTrace();
 			return false;
 		} catch (Exception exception) {
+			logmsg.setMessage(exception.toString());
 			exception.printStackTrace();
 			return false;
 		}
