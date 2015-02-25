@@ -79,7 +79,7 @@ public class DataHarvestService {
 		Document doc;
 		try {
 			logmsg.setMessage(null);
-			doc = Jsoup.connect(pageurlinfo.getUrl()).ignoreContentType(true)
+			doc = Jsoup.connect(pageurlinfo.getUrl()).userAgent("Mozilla/4.0").ignoreContentType(true)
 					.parser(Parser.xmlParser()).get();
 			String selectedelement = pageurlinfo.getElement() + "["
 					+ pageurlinfo.getAttribute() + "=" + pageurlinfo.getValue()
