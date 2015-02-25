@@ -64,6 +64,8 @@ public class DOMParserTagTreeBuilder implements TagTreeBuilder
 	 * 
 	 */
 	private Pattern absoluteURIPattern = Pattern.compile("^.*:.*$");
+	private Pattern PartialURIPattern = Pattern.compile("//.*$");
+	//g.tbcdn.cn/s.gif
 	/**
 	 * 
 	 */
@@ -249,8 +251,15 @@ public class DOMParserTagTreeBuilder implements TagTreeBuilder
 						// jika URI pada atribut src bukan merupakan URI absolut (URI relatif)
 						if ( ! absoluteURIMatcher.matches() )
 						{
+							Matcher partialURIMatcher = PartialURIPattern.matcher( imgURI );
+							if(! partialURIMatcher.matches() ){
+								imgURI = baseURI + imgURI;
+							}else{
+								imgURI = "http:" + imgURI;
+							}
+							
 							// tambahkan baseURI sehingga menjadi URI absolut
-							imgURI = baseURI + imgURI;
+							
 						}
 						
 						// tambahkan tag IMG dengan src-nya sebagai teks HTML pada TagNode parent-nya
