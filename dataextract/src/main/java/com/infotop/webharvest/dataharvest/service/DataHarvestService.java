@@ -97,10 +97,9 @@ public class DataHarvestService {
 								Pagedatainfo pagedatainfo = new Pagedatainfo();
 								if (!element.ownText().isEmpty()) {
 									pagedatainfo.setContent(element.ownText()
-											+ "|" + element.absUrl("src"));
+											+ "|" +  "<img src=\""+element.absUrl("src")+"\" alt=\"+"+element.ownText()+"\"  >");
 								} else {
-									pagedatainfo.setContent(element
-											.absUrl("src"));
+									pagedatainfo.setContent( "<img src=\""+element.absUrl("src")+"\" alt=\"+"+element.ownText()+"\"  >");
 								}
 								pagedatainfo.setType(element.nodeName());
 								pagedatainfo.setExtractedDate(DateTimeUtil
@@ -121,10 +120,11 @@ public class DataHarvestService {
 								Pagedatainfo pagedatainfo = new Pagedatainfo();
 								if (!element.ownText().isEmpty()) {
 									pagedatainfo.setContent(element.ownText()
-											+ "|" + element.attr("abs:src"));
+											+ "|" + "<img src=\""+element.attr("abs:src")+"\" alt=\"+"+element.ownText()+"\"  >");
+									
+									
 								} else {
-									pagedatainfo.setContent(element
-											.attr("abs:src"));
+									pagedatainfo.setContent("<img src=\""+element.attr("abs:src")+"\" alt=\"+"+element.ownText()+"\"  >");
 								}
 								pagedatainfo.setType(element.nodeName());
 								pagedatainfo.setExtractedDate(DateTimeUtil
@@ -145,10 +145,9 @@ public class DataHarvestService {
 								if (!element.ownText().isEmpty()) {
 									pagedatainfo.setContent(element.ownText()
 											+ "|"
-											+ element.attr("data-lazyload"));
+											+ "<img src=\""+element.attr("data-lazyload")+"\" alt=\"+"+element.ownText()+"\"  >" );
 								} else {
-									pagedatainfo.setContent(element
-											.attr("data-lazyload"));
+									pagedatainfo.setContent("<img src=\""+element.attr("data-lazyload")+"\" alt=\"+"+element.ownText()+"\"  >" );
 								}
 								pagedatainfo.setPageurlinfo(pageurlinfo);
 								pagedatainfo.setExtractedDate(DateTimeUtil
@@ -169,9 +168,10 @@ public class DataHarvestService {
 						Pagedatainfo pagedatainfo = new Pagedatainfo();
 						if (!element.ownText().isEmpty()) {
 							pagedatainfo.setContent(element.ownText() + "|"
-									+ element.attr("abs:href"));
+									+"<a href=\""+element.attr("abs:href")+"\">"+element.ownText()+"</a>");
 						} else {
-							pagedatainfo.setContent(element.attr("abs:href"));
+							pagedatainfo.setContent("<a href=\""+element.attr("abs:href")+"\">Link</a>");
+							
 						}
 						pagedatainfo.setType(element.nodeName());
 						pagedatainfo
@@ -191,13 +191,14 @@ public class DataHarvestService {
 					} else {
 
 						Pagedatainfo pagedatainfo = new Pagedatainfo();
-						if (!element.ownText().isEmpty()) {
-
-							pagedatainfo.setContent(element.ownText()
-									.replaceAll("  ", " ").trim());
-						} else {
-							pagedatainfo.setContent(element.attr("abs:href"));
-						}
+//						if (!element.ownText().isEmpty()) {
+//
+//							pagedatainfo.setContent(element.ownText()
+//									.replaceAll("  ", " ").trim());
+//						} else {
+//							pagedatainfo.setContent(element.attr("abs:href"));
+//						}
+						pagedatainfo.setContent(element.ownText());
 						pagedatainfo.setType(element.nodeName());
 						pagedatainfo
 								.setExtractedDate(DateTimeUtil.nowTimeStr());
