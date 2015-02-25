@@ -257,9 +257,7 @@ public class DOMParserTagTreeBuilder implements TagTreeBuilder
 							}else{
 								imgURI = "http:" + imgURI;
 							}
-							
 							// tambahkan baseURI sehingga menjadi URI absolut
-							
 						}
 						
 						// tambahkan tag IMG dengan src-nya sebagai teks HTML pada TagNode parent-nya
@@ -284,8 +282,13 @@ public class DOMParserTagTreeBuilder implements TagTreeBuilder
 							// jika nilai atribut href bukan merupakan URI absolut
 							if ( ! absoluteURIMatcher.matches() )
 							{
-								// tambahkan baseURI sehingga menjadi URI absolut
-								linkURI = baseURI + linkURI;
+								Matcher partialURIMatcher = PartialURIPattern.matcher( linkURI );
+								if(! partialURIMatcher.matches() ){
+									linkURI = baseURI + linkURI;
+								}else{
+									linkURI = "http:" + linkURI;
+								}
+								// tambahkan baseURI sehingga menjadi URI absolut								
 							}
 						
 							// tambahkan tag A dengan href-nya dan teks Link sebagai teks HTML pada TagNode parent-nya
