@@ -93,11 +93,12 @@ public class DOMParserTagTreeBuilder implements TagTreeBuilder
 	
 	public TagTree buildTagTree(String htmlDocument, boolean ignoreFormattingTags)  throws IOException, SAXException
 	{
-		BufferedReader in = new BufferedReader(  
-                new InputStreamReader(  
-                        new URL(htmlDocument).openStream()));
 		URL url = new URL(htmlDocument);
-		baseURI = url.getProtocol() + "://" + url.getHost();
+		HttpURLConnection httpcon = (HttpURLConnection) url.openConnection();
+	    httpcon.addRequestProperty("User-Agent", "Mozilla/4.0");
+	    BufferedReader in = new BufferedReader(  
+                new InputStreamReader(httpcon.getInputStream(),"UTF-8"));
+	    baseURI = url.getProtocol() + "://" + url.getHost();
 		return buildTagTree(new InputSource(in), ignoreFormattingTags);
 	}
 	
