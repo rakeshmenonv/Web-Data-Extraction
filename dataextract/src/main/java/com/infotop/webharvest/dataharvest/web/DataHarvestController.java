@@ -153,8 +153,8 @@ public class DataHarvestController extends BasicController {
 	@ResponseBody
 	public String sendMessage(Locale locale, HttpServletResponse response) throws JsonMappingException, IOException {
     	response.setContentType("text/event-stream");
-    	dataHarvestService.logProgress(response);
-		return null;
+    	String event = dataHarvestService.logProgress(response);
+		return event;
       }
     
     @RequestMapping(value = "showdata/{id}", method = RequestMethod.GET)

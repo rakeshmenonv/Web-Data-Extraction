@@ -67,7 +67,7 @@ public class DataHarvestService {
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 	
-	Pagedatainfo listPagedatainfo=null;
+	Pagedatainfo listPagedatainfo=null; 
 	Message logmsg  = new Message();
 	
 	public List getPiechartData()
@@ -84,6 +84,7 @@ public class DataHarvestService {
 	}
 	public boolean selectedsave(Pageurlinfo pageurlinfo) {
 		Document doc;
+		listPagedatainfo = null;
 		logmsg.setMessage(null);
 		WebClient webClient = new WebClient(BrowserVersion.FIREFOX_24); // Chrome not working
 		HtmlPage page = null;
@@ -263,6 +264,7 @@ public class DataHarvestService {
 	public boolean basicsave(Pageurlinfo pageurlinfo) {
 		    
 		try {
+			listPagedatainfo = null;
 			logmsg.setMessage(null);
 			TagTreeBuilder builder = new DOMParserTagTreeBuilder();
 			TagTree tagTree = builder.buildTagTree(pageurlinfo.getUrl(),
@@ -379,16 +381,11 @@ public class DataHarvestService {
 	}
 
 	public String logProgress(HttpServletResponse response) throws JsonProcessingException{
-		/*try {
-              // Thread.sleep(500);
-		} catch (InterruptedException e) {
-               e.printStackTrace();
-		} */
+
 		ObjectMapper mapper = new ObjectMapper();
-		/*if(listPagedatainfo!=null){
-			*/logmsg.setData(listPagedatainfo);
-	//	}
-	return "retry: 5\ndata:"+mapper.writeValueAsString(logmsg)+"\n\n";
+	    logmsg.setData(listPagedatainfo);
+	    listPagedatainfo = null;
+        return "retry: 5\ndata:"+mapper.writeValueAsString(logmsg)+"\n\n";
 		
 	}
 

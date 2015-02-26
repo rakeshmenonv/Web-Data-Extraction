@@ -14,7 +14,6 @@ if (!!window.EventSource) {
 	   var source = new EventSource('dataharvest/log');
 	  
 	   source.addEventListener('message', function(e) {
-
 		   //console.info(e.data);
 		   var msg = $.parseJSON(e.data);
 		  	if(msg.data) {
