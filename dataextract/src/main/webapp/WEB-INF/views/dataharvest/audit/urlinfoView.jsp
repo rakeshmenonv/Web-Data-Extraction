@@ -23,7 +23,7 @@
 			</form>
 		</div> --%>
 		<div
-			data-options="region:'west',split:true,border:true,title:'查询条件',iconCls:'icon-find'"
+			data-options="region:'west',split:true,border:true,title:'&nbsp;<spring:message code="webharvest_lastweekstatistics" />',iconCls:'icon-chart_pie'"
 			style="width: 503px;overflow: hidden;">
 			<!-- <div id="ny_bt3" class="ny_bt" style="width:95%; height:400px;" >
 			
@@ -77,31 +77,40 @@
 		if(row.jobon){
 			
 			str += formatString(
-					'<img onclick="schedulerEvent(\'{0}\',\'{1}\');" src="{2}" title="stop scheduler"/>',
+					'<img onclick="schedulerEvent(\'{0}\',\'{1}\');" src="{2}" title="停止调度"/>',
 					row.id, user_list_stop_url,
 					'${ctx}/static/js/plugins/jquery-easyui-1.3.4/themes/icons/hourglass_delete.png');
 			str += '&nbsp;';
 		}
 		str += formatString(
-				'<img onclick="updateForm(\'{0}\',\'reschedule_form_inputForm\',urlinfo_list_datagrid,{title:\'编辑信息\'});" src="{1}" title="reschedule"/>',
+				'<img onclick="updateForm(\'{0}\',\'reschedule_form_inputForm\',urlinfo_list_datagrid,{title:\'编辑信息\'});" src="{1}" title="重新安排e"/>',
 				reschedule_url + row.id,
 				'${ctx}/static/js/plugins/jquery-easyui-1.3.4/themes/icons/hourglass_add.png');
 		str += '&nbsp;';
 		return str; 
 	}
-	
+	function pattern_formatter(value,row,index){
+		var str = '';	
+		if(row.element){
+			str=row.element+'['+row.attribute+'='+row.value+']'
+		}
+	return str;
+	}
+		
 	//DataGrid字段设置
 	var urlinfo_list_datagrid_columns = [ [
 	                    		{field : 'id',title : '编号',width : 150,checkbox : false,hidden:true,align:'center'},
-	    	          					{field : 'url',title : '<spring:message code="pageinfo_url" />',width : 150,align:'center'},
-			          					{field : 'extracted_date',title : 'extractedDate',width : 150,align:'center'},
-			          	                    	{field : 'action',title : '操作',width : 80,align : 'center',formatter : urlinfo_list_actionFormatter} 
+	    	          			{field : 'url',title : '<spring:message code="pageinfo_url" />',width : 150,align:'center'},
+	    	          			{field : 'pattern',title : '<spring:message code="webharvest_pattern" />',width : 150,align:'center',formatter : pattern_formatter},
+			          			{field : 'extracted_date',title : '<spring:message code="webharvest_extractedDate" />',width : 150,align:'center'},
+			          	        {field : 'action',title : '操作',width : 80,align : 'center',formatter : urlinfo_list_actionFormatter} 
 	                    		] ];
 	/** 初始化DataGrid,加载数据 **/		
 	function urlinfo_list_loadDataGrid(){		 
 		urlinfo_list_datagrid = $('#'+urlinfo_list_datagrid_id).datagrid({
 			url : urlinfo_list_datagrid_load_url,
 			fit : true,
+			title:'<spring:message code="webharvest_individualurlaudit" />',
 			border : false,
 			fitColumns : true,
 			singleSelect : true,
@@ -123,7 +132,7 @@
 		});
 	}
 	function schedulerEvent(id, ACTIONURL) {
-		parent.$.messager.confirm('Click Yes', 'If you want to stop', function(r) {
+		parent.$.messager.confirm('确认', '你肯定要停下来？', function(r) {
 			if (r) {
 				$.post(ACTIONURL, {
 					id : id

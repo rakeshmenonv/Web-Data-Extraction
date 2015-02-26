@@ -91,7 +91,8 @@ public class DataHarvestController extends BasicController {
 		User user = accountService.findUserByLoginName(su.getLoginName());
 		if (user != null) {
 			Pageurlinfo entity = new Pageurlinfo();
-			List<Parameter> schedulerList = parameterService.getParameterByCategory("scheduler");
+			//List<Parameter> schedulerList = parameterService.getParameterByCategory("scheduler");
+			List<Parameter> schedulerList = parameterService.getParameterByCategoryAndSubcategory("scheduler", "schedulerType");
 			model.addAttribute("schedulerList", schedulerList);
 			model.addAttribute("pageurlinfo", entity);
 			model.addAttribute("action", "extract");
@@ -109,16 +110,17 @@ public class DataHarvestController extends BasicController {
 		try {
 			
 			ShiroUser su = super.getLoginUser();
+			boolean result=false;
 			User user = accountService.findUserByLoginName(su.getLoginName());
 			if (user != null) {
 				pageurlinfo.setExtractedDate(DateTimeUtil.nowTimeStr());
 				pageurlinfoService.save(pageurlinfo);
 				if (pageurlinfo.getElement().isEmpty()) {
-					dataHarvestService.basicsave(pageurlinfo);
+					result=dataHarvestService.basicsave(pageurlinfo);
 				} else {
-				dataHarvestService.selectedsave(pageurlinfo);
+					result=dataHarvestService.selectedsave(pageurlinfo);
 				}
-				msg.setSuccess(true);
+				msg.setSuccess(result);
 				msg.setMessage("信息添加成功");
 				msg.setData(pageurlinfo);
 			} else {

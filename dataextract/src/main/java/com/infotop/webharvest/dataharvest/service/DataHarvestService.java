@@ -2,7 +2,9 @@ package com.infotop.webharvest.dataharvest.service;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.PrintWriter;
+
+import java.net.MalformedURLException;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,6 +42,10 @@ import org.xml.sax.SAXException;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gargoylesoftware.htmlunit.BrowserVersion;
+import com.gargoylesoftware.htmlunit.FailingHttpStatusCodeException;
+import com.gargoylesoftware.htmlunit.WebClient;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.infotop.webharvest.pagedatainfo.entity.Pagedatainfo;
 import com.infotop.webharvest.pagedatainfo.service.PagedatainfoService;
 import com.infotop.webharvest.pageurlinfo.entity.Pageurlinfo;
@@ -76,155 +82,176 @@ public class DataHarvestService {
 		String sqlStr = "select  count(url)as value, date_format(extracted_date,'%d-%m-%Y') as name  from webharvest.page_url_info where url='"+url+"' group by name";
 		return jdbcTemplate.queryForList(sqlStr);
 	}
-	public void selectedsave(Pageurlinfo pageurlinfo) {
+	public boolean selectedsave(Pageurlinfo pageurlinfo) {
 		Document doc;
-		try {
-			doc = Jsoup.connect(pageurlinfo.getUrl()).ignoreContentType(true)
-					.parser(Parser.xmlParser()).get();
-			String selectedelement = pageurlinfo.getElement() + "["
-					+ pageurlinfo.getAttribute() + "=" + pageurlinfo.getValue()
-					+ "]";
-			Elements elements = doc.select(selectedelement);
-			for (Element element2 : elements) {
-				String tableGroupKey = OperationNoUtil.getUUID();
-				element2.getAllElements();
-				for (Element element : element2.getAllElements()) {
-					String rowGroupKey = OperationNoUtil.getUUID();
-					if (element.nodeName().equals("img")) {
-						for (Attribute attribute : element.attributes()) {
+		logmsg.setMessage(null);
+		WebClient webClient = new WebClient(BrowserVersion.FIREFOX_24); // Chrome not working
+		HtmlPage page = null;
+		try 
+		{
+			webClient.getOptions().setThrowExceptionOnFailingStatusCode(false);
+			webClient.getOptions().setThrowExceptionOnScriptError(false);
+		    page = webClient.getPage(pageurlinfo.getUrl());
+		} catch (FailingHttpStatusCodeException e1) 
+		{
+		    // TODO Auto-generated catch block
+		    e1.printStackTrace();
+		}
+		catch (MalformedURLException e1) 
+		{
+		    // TODO Auto-generated catch block
+		    e1.printStackTrace();
+		}
+		catch (IOException e1) 
+		{
+		    // TODO Auto-generated catch block
+		    e1.printStackTrace();
+		} 
+		
+		
+		
+		doc = Jsoup.parse(page.asXml());
+		String selectedelement = pageurlinfo.getElement() + "["
+				+ pageurlinfo.getAttribute() + "=" + pageurlinfo.getValue()
+				+ "]";
+		Elements elements = doc.select(selectedelement);
+		for (Element element2 : elements) {
+			String tableGroupKey = OperationNoUtil.getUUID();
+			element2.getAllElements();
+			for (Element element : element2.getAllElements()) {
+				String rowGroupKey = OperationNoUtil.getUUID();
+				if (element.nodeName().equals("img")) {
+					for (Attribute attribute : element.attributes()) {
 
-							if (("src".equals(attribute.getKey()))) {
-								Pagedatainfo pagedatainfo = new Pagedatainfo();
-								if (!element.ownText().isEmpty()) {
-									pagedatainfo.setContent(element.ownText()
-											+ "|" + element.absUrl("src"));
-								} else {
-									pagedatainfo.setContent(element
-											.absUrl("src"));
-								}
-								pagedatainfo.setType(element.nodeName());
-								pagedatainfo.setExtractedDate(DateTimeUtil
-										.nowTimeStr());
-								pagedatainfo.setRowGroupKey(rowGroupKey);
-								pagedatainfo.setTableGroupKey(tableGroupKey);
-								pagedatainfo.setPageurlinfo(pageurlinfo);
-								pageDataInfoSave(pagedatainfo);
-								
-								listPagedatainfo = pagedatainfo;
-								listPagedatainfo.setContent(pagedatainfo.getContent());
-								listPagedatainfo.setPageurlinfo(pageurlinfo);
-								listPagedatainfo.setExtractedDate(DateTimeUtil.nowTimeStr());
-								logmsg.setSuccess(true);
-								
+						if (("src".equals(attribute.getKey()))) {
+							Pagedatainfo pagedatainfo = new Pagedatainfo();
+							if (!element.ownText().isEmpty()) {
+								pagedatainfo.setContent(element.ownText()
+										+ "|" +  "<img src=\""+element.absUrl("src")+"\" alt=\"+"+element.ownText()+"\"  >");
+							} else {
+								pagedatainfo.setContent( "<img src=\""+element.absUrl("src")+"\" alt=\"+"+element.ownText()+"\"  >");
 							}
-							if ("abs:src".equals(attribute.getKey())) {
-								Pagedatainfo pagedatainfo = new Pagedatainfo();
-								if (!element.ownText().isEmpty()) {
-									pagedatainfo.setContent(element.ownText()
-											+ "|" + element.attr("abs:src"));
-								} else {
-									pagedatainfo.setContent(element
-											.attr("abs:src"));
-								}
-								pagedatainfo.setType(element.nodeName());
-								pagedatainfo.setExtractedDate(DateTimeUtil
-										.nowTimeStr());
-								pagedatainfo.setRowGroupKey(rowGroupKey);
-								pagedatainfo.setTableGroupKey(tableGroupKey);
-								pagedatainfo.setPageurlinfo(pageurlinfo);
-								pageDataInfoSave(pagedatainfo);
+							pagedatainfo.setType(element.nodeName());
+							pagedatainfo.setExtractedDate(DateTimeUtil
+									.nowTimeStr());
+							pagedatainfo.setRowGroupKey(rowGroupKey);
+							pagedatainfo.setTableGroupKey(tableGroupKey);
+							pagedatainfo.setPageurlinfo(pageurlinfo);
+							pageDataInfoSave(pagedatainfo);
+							
+							listPagedatainfo = pagedatainfo;
+							listPagedatainfo.setContent(pagedatainfo.getContent());
+							listPagedatainfo.setPageurlinfo(pageurlinfo);
+							listPagedatainfo.setExtractedDate(DateTimeUtil.nowTimeStr());
+							logmsg.setSuccess(true);
+							
+						}
+						if ("abs:src".equals(attribute.getKey())) {
+							Pagedatainfo pagedatainfo = new Pagedatainfo();
+							if (!element.ownText().isEmpty()) {
+								pagedatainfo.setContent(element.ownText()
+										+ "|" + "<img src=\""+element.attr("abs:src")+"\" alt=\"+"+element.ownText()+"\"  >");
 								
-								listPagedatainfo = pagedatainfo;
-								listPagedatainfo.setContent(pagedatainfo.getContent());
-								listPagedatainfo.setPageurlinfo(pageurlinfo);
-								listPagedatainfo.setExtractedDate(DateTimeUtil.nowTimeStr());
-								logmsg.setSuccess(true);
-							}
-							if ("data-lazyload".equals(attribute.getKey())) {
-								Pagedatainfo pagedatainfo = new Pagedatainfo();
-								if (!element.ownText().isEmpty()) {
-									pagedatainfo.setContent(element.ownText()
-											+ "|"
-											+ element.attr("data-lazyload"));
-								} else {
-									pagedatainfo.setContent(element
-											.attr("data-lazyload"));
-								}
-								pagedatainfo.setPageurlinfo(pageurlinfo);
-								pagedatainfo.setExtractedDate(DateTimeUtil
-										.nowTimeStr());
-								pagedatainfo.setType(element.nodeName());
-								pagedatainfo.setRowGroupKey(rowGroupKey);
-								pagedatainfo.setTableGroupKey(tableGroupKey);
-								pageDataInfoSave(pagedatainfo);
 								
-								listPagedatainfo = pagedatainfo;
-								listPagedatainfo.setContent(pagedatainfo.getContent());
-								listPagedatainfo.setPageurlinfo(pageurlinfo);
-								listPagedatainfo.setExtractedDate(DateTimeUtil.nowTimeStr());
-								logmsg.setSuccess(true);
+							} else {
+								pagedatainfo.setContent("<img src=\""+element.attr("abs:src")+"\" alt=\"+"+element.ownText()+"\"  >");
 							}
+							pagedatainfo.setType(element.nodeName());
+							pagedatainfo.setExtractedDate(DateTimeUtil
+									.nowTimeStr());
+							pagedatainfo.setRowGroupKey(rowGroupKey);
+							pagedatainfo.setTableGroupKey(tableGroupKey);
+							pagedatainfo.setPageurlinfo(pageurlinfo);
+							pageDataInfoSave(pagedatainfo);
+							
+							listPagedatainfo = pagedatainfo;
+							listPagedatainfo.setContent(pagedatainfo.getContent());
+							listPagedatainfo.setPageurlinfo(pageurlinfo);
+							listPagedatainfo.setExtractedDate(DateTimeUtil.nowTimeStr());
+							logmsg.setSuccess(true);
 						}
-					} else if (element.nodeName().equals("a")) {
-						Pagedatainfo pagedatainfo = new Pagedatainfo();
-						if (!element.ownText().isEmpty()) {
-							pagedatainfo.setContent(element.ownText() + "|"
-									+ element.attr("abs:href"));
-						} else {
-							pagedatainfo.setContent(element.attr("abs:href"));
-						}
-						pagedatainfo.setType(element.nodeName());
-						pagedatainfo
-								.setExtractedDate(DateTimeUtil.nowTimeStr());
-						pagedatainfo.setRowGroupKey(rowGroupKey);
-						pagedatainfo.setPageurlinfo(pageurlinfo);
-						pagedatainfo.setTableGroupKey(tableGroupKey);
-						pageDataInfoSave(pagedatainfo);
-						
-						listPagedatainfo = pagedatainfo;
-						listPagedatainfo.setContent(pagedatainfo.getContent());
-						listPagedatainfo.setPageurlinfo(pageurlinfo);
-						listPagedatainfo.setExtractedDate(DateTimeUtil.nowTimeStr());
-						logmsg.setSuccess(true);
-					} else if (element.nodeName().equals("script")) {
-					} else if (element.nodeName().equals("Imports")) {
-					} else {
-
-						Pagedatainfo pagedatainfo = new Pagedatainfo();
-						if (!element.ownText().isEmpty()) {
-
-							pagedatainfo.setContent(element.ownText()
-									.replaceAll("  ", " ").trim());
-						} else {
-							pagedatainfo.setContent(element.attr("abs:href"));
-						}
-						pagedatainfo.setType(element.nodeName());
-						pagedatainfo
-								.setExtractedDate(DateTimeUtil.nowTimeStr());
-						pagedatainfo.setRowGroupKey(rowGroupKey);
-						pagedatainfo.setTableGroupKey(tableGroupKey);
-						pagedatainfo.setPageurlinfo(pageurlinfo);
-						if (!element.ownText().isEmpty()) {
-							if (!element.ownText().equals("  ")) {
-								pageDataInfoSave(pagedatainfo);
-								listPagedatainfo = pagedatainfo;
-								listPagedatainfo.setContent(pagedatainfo.getContent());
-								listPagedatainfo.setPageurlinfo(pageurlinfo);
-								listPagedatainfo.setExtractedDate(DateTimeUtil.nowTimeStr());
-								logmsg.setSuccess(true);
+						if ("data-lazyload".equals(attribute.getKey())) {
+							Pagedatainfo pagedatainfo = new Pagedatainfo();
+							if (!element.ownText().isEmpty()) {
+								pagedatainfo.setContent(element.ownText()
+										+ "|"
+										+ "<img src=\""+element.attr("data-lazyload")+"\" alt=\"+"+element.ownText()+"\"  >" );
+							} else {
+								pagedatainfo.setContent("<img src=\""+element.attr("data-lazyload")+"\" alt=\"+"+element.ownText()+"\"  >" );
 							}
-
-						} else {
+							pagedatainfo.setPageurlinfo(pageurlinfo);
+							pagedatainfo.setExtractedDate(DateTimeUtil
+									.nowTimeStr());
+							pagedatainfo.setType(element.nodeName());
+							pagedatainfo.setRowGroupKey(rowGroupKey);
+							pagedatainfo.setTableGroupKey(tableGroupKey);
+							pageDataInfoSave(pagedatainfo);
+							
+							listPagedatainfo = pagedatainfo;
+							listPagedatainfo.setContent(pagedatainfo.getContent());
+							listPagedatainfo.setPageurlinfo(pageurlinfo);
+							listPagedatainfo.setExtractedDate(DateTimeUtil.nowTimeStr());
+							logmsg.setSuccess(true);
 						}
-
 					}
+				} else if (element.nodeName().equals("a")) {
+					Pagedatainfo pagedatainfo = new Pagedatainfo();
+					if (!element.ownText().isEmpty()) {
+						pagedatainfo.setContent(element.ownText() + "|"
+								+"<a href=\""+element.attr("abs:href")+"\">"+element.ownText()+"</a>");
+					} else {
+						pagedatainfo.setContent("<a href=\""+element.attr("abs:href")+"\">Link</a>");
+						
+					}
+					pagedatainfo.setType(element.nodeName());
+					pagedatainfo
+							.setExtractedDate(DateTimeUtil.nowTimeStr());
+					pagedatainfo.setRowGroupKey(rowGroupKey);
+					pagedatainfo.setPageurlinfo(pageurlinfo);
+					pagedatainfo.setTableGroupKey(tableGroupKey);
+					pageDataInfoSave(pagedatainfo);
+					
+					listPagedatainfo = pagedatainfo;
+					listPagedatainfo.setContent(pagedatainfo.getContent());
+					listPagedatainfo.setPageurlinfo(pageurlinfo);
+					listPagedatainfo.setExtractedDate(DateTimeUtil.nowTimeStr());
+					logmsg.setSuccess(true);
+				} else if (element.nodeName().equals("script")) {
+				} else if (element.nodeName().equals("Imports")) {
+				} else {
+
+					Pagedatainfo pagedatainfo = new Pagedatainfo();
+//						if (!element.ownText().isEmpty()) {
+//
+//							pagedatainfo.setContent(element.ownText()
+//									.replaceAll("  ", " ").trim());
+//						} else {
+//							pagedatainfo.setContent(element.attr("abs:href"));
+//						}
+					pagedatainfo.setContent(element.ownText());
+					pagedatainfo.setType(element.nodeName());
+					pagedatainfo
+							.setExtractedDate(DateTimeUtil.nowTimeStr());
+					pagedatainfo.setRowGroupKey(rowGroupKey);
+					pagedatainfo.setTableGroupKey(tableGroupKey);
+					pagedatainfo.setPageurlinfo(pageurlinfo);
+					if (!element.ownText().isEmpty()) {
+						if (!element.ownText().equals("  ")) {
+							pageDataInfoSave(pagedatainfo);
+							listPagedatainfo = pagedatainfo;
+							listPagedatainfo.setContent(pagedatainfo.getContent());
+							listPagedatainfo.setPageurlinfo(pageurlinfo);
+							listPagedatainfo.setExtractedDate(DateTimeUtil.nowTimeStr());
+							logmsg.setSuccess(true);
+						}
+
+					} else {
+					}
+
 				}
 			}
-			
-		} catch (IOException e) {
-			e.printStackTrace();
 		}
-
+		return true;
 	}
 	private void pageDataInfoSave(Pagedatainfo pagedatainfo) {
 		try{
@@ -233,10 +260,10 @@ public class DataHarvestService {
 			e.printStackTrace();	
 		}
 	}
-	public void basicsave(Pageurlinfo pageurlinfo) {
+	public boolean basicsave(Pageurlinfo pageurlinfo) {
 		    
 		try {
-			
+			logmsg.setMessage(null);
 			TagTreeBuilder builder = new DOMParserTagTreeBuilder();
 			TagTree tagTree = builder.buildTagTree(pageurlinfo.getUrl(),
 					ignoreFormattingTags);
@@ -329,22 +356,26 @@ public class DataHarvestService {
 			
 			// output.format("</body></html>");
 		} catch (SecurityException exception) {
+			logmsg.setMessage(exception.toString());
 			exception.printStackTrace();
-			System.exit(1);
+			return false;
 		} catch (FileNotFoundException exception) {
+			logmsg.setMessage(exception.toString());
 			exception.printStackTrace();
-			System.exit(2);
+			return false;
 		} catch (IOException exception) {
-			exception.printStackTrace();
-			System.exit(3);
+			logmsg.setMessage("connection Timeout : "+pageurlinfo.getUrl()+" can not access.");
+			exception.printStackTrace();			
+			return false;
 		} catch (SAXException exception) {
 			exception.printStackTrace();
-			System.exit(4);
+			return false;
 		} catch (Exception exception) {
+			logmsg.setMessage(exception.toString());
 			exception.printStackTrace();
-			System.exit(5);
+			return false;
 		}
-
+		return true;
 	}
 
 	public String logProgress(HttpServletResponse response) throws JsonProcessingException{

@@ -8,14 +8,14 @@
 	</style>
 <div class="easyui-accordion"
 	data-options="fit:true,iconCls:'icon-ok',border:false">
-	<div class="menuItem" title='Web Harvesting Details' data-options="iconCls:'icon-page_world'"
+	<div class="menuItem" title='网站收获的细节' data-options="iconCls:'icon-page_world'"
 		style="padding: 10px;">
 		<ul>
 			<li><a data-options="plain:true" href="javascript:void(0)"
 				class="user easyui-linkbutton"
-				onclick="indexTabsAddTab('href',{title:'Web Extract',url:'${ctx}/dataharvest/extract',iconCls:'icon-page_find'})">
+				onclick="indexTabsAddTab('href',{title:'网页提取',url:'${ctx}/dataharvest/extract',iconCls:'icon-page_find'})">
 					<img
-					src="${ctx}/static/js/plugins/jquery-easyui-1.3.4/themes/icons/page_find.png" />&nbsp;Web Extract
+					src="${ctx}/static/js/plugins/jquery-easyui-1.3.4/themes/icons/page_find.png" />&nbsp;网页提取
 			</a></li>
 			<%-- <li><a data-options="plain:true" href="javascript:void(0)"
 				class="user easyui-linkbutton"
@@ -31,9 +31,9 @@
 			</a></li> --%>
 			<li><a data-options="plain:true" href="javascript:void(0)"
 				class="user easyui-linkbutton"
-				onclick="indexTabsAddTab('href',{title:'Audit',url:'${ctx}/audit/urlCount',iconCls:'icon-book_open'})">
+				onclick="indexTabsAddTab('href',{title:'审计',url:'${ctx}/audit/urlCount',iconCls:'icon-book_open'})">
 					<img
-					src="${ctx}/static/js/plugins/jquery-easyui-1.3.4/themes/icons/book_open.png" />&nbsp;Audit
+					src="${ctx}/static/js/plugins/jquery-easyui-1.3.4/themes/icons/book_open.png" />&nbsp;审计
 			</a></li>
 		</ul>
 	</div>

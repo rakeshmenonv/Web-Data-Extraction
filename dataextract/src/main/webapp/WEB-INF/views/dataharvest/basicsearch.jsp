@@ -1,17 +1,11 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/common/taglibs.jsp"%>
 <script>
-
-$.parser.onComplete = function() {
-	parent. $ .messager.progress('close');
-	setValidation();
-};
-
 var formId="dataharvest_form_inputForm";
 var showLogUrl="${ctx}/dataharvest/showlog";
 $.parser.onComplete = function() {
+	setValidation();
 	parent. $ .messager.progress('close');	
-	
 	$('#'+formId).form(
 			{
 				onSubmit : function() {
@@ -22,12 +16,16 @@ $.parser.onComplete = function() {
 					return isValid;
 				},
 				success : function(result) {
-					source.close();
-					console.info("fineshed");
+					source.close();					
 					var result = $ .parseJSON(result);
-					console.info("value :"+result.success);
-					var id = result.data.id;
-					$('#formSaveBtn').linkbutton({disabled : false});
+					if(result.success){
+						var id = result.data.id;
+						$('#formSaveBtn').linkbutton({disabled : false});
+						$('#formSaveBtn').bind('click', function(){
+							 parent.$.modalDialog.handler.dialog('close');						
+							 indexTabsUpdateTab('href',{title:'<spring:message code="webharvest_extracteddata" />',url:'${ctx}/dataharvest/showdata/'+id,iconCls:'icon-table_multiple'});
+						});
+					}			
 					//parent.$.modalDialog.handler.dialog('close');
 				}
 			});
@@ -70,7 +68,7 @@ function showLog(url,params) {
 		iconCls : 'icon-application_form_add',
 		buttons : [
 				{
-					text : 'Next',
+					text : '<spring:message code="webharvest_next" />',
 					iconCls : 'icon-note_go',
 					disabled : true,
 					id : 'formSaveBtn',
@@ -90,7 +88,7 @@ function showLog(url,params) {
 	modelAttribute="pageurlinfo" method="post" class="form-horizontal">
 	<div class="easyui-tabs"
 		style="width: 400px; height: 250px; margin: 20px auto;">
-		<div title="Basic Search" style="padding: 10px">
+		<div title="<spring:message code="webharvest_basicSearch" />" style="padding: 10px" data-options="iconCls:'icon-page_white_magnify'">
 		
 			<%-- URL:
 			
@@ -98,7 +96,7 @@ function showLog(url,params) {
 			<table cellpadding="5">
 
 				<tr>
-					<td>URL:</td>
+					<td><spring:message code="webharvest_url" />:</td>
 					<td><input class="easyui-validatebox textbox" type="text"  name="url" id="url"
 						data-options="required:true,validType:'url'"  style="width: 267px;"></input></td>
 				</tr>
@@ -106,33 +104,34 @@ function showLog(url,params) {
 				
 			</table>
 		</div>
-		<div title="PatternSearch" style="padding: 10px">
+		<div title="<spring:message code="webharvest_patternSearch" />" style="padding: 10px" data-options="iconCls:'icon-page_white_star'">
 			<table cellpadding="5">
 				<tr>
-					<td>ELEMENT:</td>
+					<td><spring:message code="webharvest_element" />:</td>
 					<td><input class="easyui-validatebox textbox" type="text" name="element" id="element"
 						data-options="required:true" onkeyup="setValidation()"></input></td>
 						
 				</tr>
 				<tr>
-					<td>ATTRIBUTE:</td>
+					<td><spring:message code="webharvest_attribute" />:</td>
 					<td><input class="easyui-validatebox textbox" type="text" name="attribute" id="attribute"
 						data-options="required:true" onkeyup="setValidation()"></input></td>
 				</tr>
 				<tr>
-					<td>VALUE:</td>
+					<td><spring:message code="webharvest_value" />:</td>
 					<td><input class="easyui-validatebox textbox" type="text" name="value" id="value" 
 						data-options="required:true" onkeyup="setValidation()"></input></td>
 				</tr>
 			</table>
 		</div>
 
-		<div title="Scheduler" style="padding:10px">
+		<div title="<spring:message code="webharvest_scheduler" />" style="padding:10px" data-options="iconCls:'icon-hourglass'">
 		<table cellpadding="5">
 		<tr>
-	    			<td>INTERVAL:</td> 
+	    			<td><spring:message code="webharvest_interval" />:</td> 
 	    			<td>
-	    				<select name="state" id="state" style="width:200px;">
+	    				<select class="easyui-combobox" name="state" id="state" style="width:200px;">
+							<option value="">选择任意1..</option>
 							<c:forEach items="${schedulerList}" var="par">
 							<option value="${par.name}">${par.name}</option>
 							</c:forEach>
@@ -146,7 +145,7 @@ function showLog(url,params) {
 
 	<div style="text-align: center;">
 		<a href="#" class="easyui-linkbutton" onclick="beginExtract();"
-			data-options="iconCls:'icon-search'">Extract</a>
+			data-options="iconCls:'icon-search'"><spring:message code="webharvest_extract" /></a>
 	</div>
 
 </form:form>

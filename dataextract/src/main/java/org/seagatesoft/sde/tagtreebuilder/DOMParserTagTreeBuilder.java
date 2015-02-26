@@ -22,10 +22,15 @@
 package org.seagatesoft.sde.tagtreebuilder;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
@@ -43,6 +48,14 @@ import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.cyberneko.html.HTMLElements;
 import org.cyberneko.html.parsers.DOMParser;
+import org.jsoup.Jsoup;
+import org.jsoup.parser.Parser;
+
+import com.gargoylesoftware.htmlunit.BrowserVersion;
+import com.gargoylesoftware.htmlunit.FailingHttpStatusCodeException;
+import com.gargoylesoftware.htmlunit.WebClient;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import com.gargoylesoftware.htmlunit.javascript.background.JavaScriptJobManager;
 
 /**
  * Kelas yang dapat membangun TagTree dari InputSource menggunakan parser DOM. Parser DOM yang digunakan adalah parser DOM dari NekoHTML.
@@ -64,6 +77,8 @@ public class DOMParserTagTreeBuilder implements TagTreeBuilder
 	 * 
 	 */
 	private Pattern absoluteURIPattern = Pattern.compile("^.*:.*$");
+	private Pattern PartialURIPattern = Pattern.compile("//.*$");
+	//g.tbcdn.cn/s.gif
 	/**
 	 * 
 	 */
@@ -91,11 +106,13 @@ public class DOMParserTagTreeBuilder implements TagTreeBuilder
 	
 	public TagTree buildTagTree(String htmlDocument, boolean ignoreFormattingTags)  throws IOException, SAXException
 	{
-		BufferedReader in = new BufferedReader(  
-                new InputStreamReader(  
-                        new URL(htmlDocument).openStream()));
-        
-		return buildTagTree(new InputSource(in), ignoreFormattingTags);
+		URL url = new URL(htmlDocument);
+		HttpURLConnection httpcon = (HttpURLConnection) url.openConnection();
+	    httpcon.addRequestProperty("User-Agent", "Mozilla/4.0");
+	    BufferedReader in = new BufferedReader(  
+                new InputStreamReader(httpcon.getInputStream(),"UTF-8"));
+	    baseURI = url.getProtocol() + "://" + url.getHost();
+		return buildTagTree(new InputSource(in), ignoreFormattingTags,htmlDocument);
 	}
 	
 	/**
@@ -110,60 +127,51 @@ public class DOMParserTagTreeBuilder implements TagTreeBuilder
 		return buildTagTree(inputSource, false);
 	}
 
-	public TagTree buildTagTree(InputSource inputSource, boolean ignoreFormattingTags) throws IOException, SAXException 
+	public TagTree buildTagTree(InputSource inputSource, boolean ignoreFormattingTags,String htmlDocument) throws IOException, SAXException 
 	{
-		TagTree tree = null;
-		
-		// jika formatting tags diabaikan dalam pembuatan pohon tag
+		WebClient webClient = new WebClient(BrowserVersion.FIREFOX_24); // Chrome not working
+		HtmlPage page = null;
+		try {
+	        page = processWebPage(htmlDocument,webClient);
+	    } catch (Exception e) {
+	        System.out.println("Get page error");
+	    }
+        TagTree tree = null;
 		if ( ignoreFormattingTags )
 		{
 			tagNodeCreator = new IgnoreFormattingTagsTagNodeCreator();
 		}
-		// jika formatting tags tidak diabaikan dalam pembuatan pohon tag
 		else
 		{
 			tagNodeCreator = new DefaultTagNodeCreator();
 		}
-
-		// parse dokumen HTML menjadi pohon DOM dan dapatkan Document-nya
 		DOMParser parser = new DOMParser();
 		try {  
 	           //设置网页的默认编码  
-	           parser.setProperty("http://cyberneko.org/html/properties/default-encoding","gb2312");  
-	           /*The Xerces HTML DOM implementation does not support namespaces  
-	           and cannot represent XHTML documents with namespace information.  
-	           Therefore, in order to use the default HTML DOM implementation with NekoHTML's  
-	           DOMParser to parse XHTML documents, you must turn off namespace processing.*/  
-	           parser.setFeature("http://xml.org/sax/features/namespaces", false);  
-	          // String strURL = "http://product.dangdang.com/product.aspx?product_id=9317290";  
-	            
-	           parser.parse(inputSource);  
-	            
-	          } catch (Exception e) {  
+			parser.setFeature("http://xml.org/sax/features/validation", true);
+			parser.setFeature("http://apache.org/xml/features/dom/include-ignorable-whitespace", false);
+	        parser.setProperty("http://cyberneko.org/html/properties/default-encoding","UTF-8");  
+	        parser.setFeature("http://xml.org/sax/features/namespaces", false);  
+	        inputSource.setEncoding("UTF-8");
+	        } catch (Exception e) {  
 	           e.printStackTrace();  
-	          }  
-		org.w3c.dom.Document documentNode = parser.getDocument();
-		//System.out.println(documentNode.getFirstChild().getTextContent());
-		// dapatkan BaseURI+nama file dari dokumen HTML ini
-		baseURI = documentNode.getBaseURI();
-		//baseURI = documentNode.get;
-		Pattern baseDirectoryPattern = Pattern.compile("^(.*/)[^/]*$");
-		/*Matcher matcher = baseDirectoryPattern.matcher( baseURI );
-			
-		// dapatkan BaseURI dari dokumen HTML ini
-		if ( matcher.lookingAt() )
-		{
-			baseURI = matcher.group(1);
-		}*/
-			
-		// dapatkan node BODY dan salin sebagai root untuk pohon tag
+	        }  
+		org.jsoup.nodes.Document doc=Jsoup.parse(page.asXml());
+		File temprFile = File.createTempFile("parsedHtml", ".html");
+		temprFile.deleteOnExit();
+        FileOutputStream fos = new FileOutputStream(temprFile);
+        fos.write(doc.html().getBytes("UTF-8"));
+        fos.close();
+        BufferedReader in = new BufferedReader(
+                new InputStreamReader(new FileInputStream(temprFile.getAbsolutePath()), "UTF8"));
+        parser.parse(new InputSource(in));
+		org.w3c.dom.Document documentNode =parser.getDocument();
 		Node bodyNode = documentNode.getElementsByTagName("BODY").item(0);
 		TagNode rootTagNode = new TagNode();
 		tree = new TagTree();
 		tree.setRoot(rootTagNode);
 		rootTagNode.setTagElement(HTMLElements.getElement(bodyNode.getNodeName()).code);
 		tree.addTagNodeAtLevel(rootTagNode);
-		// salin Node DOM menjadi TagNode untuk anak2 dari root
 		Node child = bodyNode.getFirstChild();
 
 		while(child != null)
@@ -171,13 +179,28 @@ public class DOMParserTagTreeBuilder implements TagTreeBuilder
 			tagNodeCreator.createTagNodes(child, rootTagNode, tree);
 			child = child.getNextSibling();
 		}
-			
-		// berikan nomor node pada TagNode di TagTree
 		tree.assignNodeNumber();
-		
 		return tree;
 	}
 	
+	private static HtmlPage processWebPage(String url, WebClient webClient) throws InterruptedException {
+		webClient.waitForBackgroundJavaScript(5000);
+		webClient.getOptions().setThrowExceptionOnFailingStatusCode(false);
+		webClient.getOptions().setThrowExceptionOnScriptError(false);
+		HtmlPage page = null;
+		try {
+		    page = webClient.getPage(url);
+		} catch (Exception e) {
+		    System.out.println(e+"Get page error");
+		}
+		JavaScriptJobManager manager = page.getEnclosingWindow().getJobManager();
+		 Thread.sleep(10000);
+		/*while (manager.getJobCount() > 0) {
+		    Thread.sleep(1000);
+		}*/
+		System.out.println(page.asXml());
+		return page;
+	}
 	/**
 	 * Method untuk mengecek apakah array mengandung element
 	 * 
@@ -237,14 +260,24 @@ public class DOMParserTagTreeBuilder implements TagTreeBuilder
 					{
 						// dapatkan nilai atribut src-nya
 						NamedNodeMap attributesMap = node.getAttributes();
-						String imgURI = attributesMap.getNamedItem("src").getNodeValue();
+						String imgURI = "";
+						try{
+							imgURI = attributesMap.getNamedItem("src").getNodeValue();
+						}catch(Exception e){
+							
+						}
 						Matcher absoluteURIMatcher = absoluteURIPattern.matcher( imgURI );
 						
 						// jika URI pada atribut src bukan merupakan URI absolut (URI relatif)
 						if ( ! absoluteURIMatcher.matches() )
 						{
+							Matcher partialURIMatcher = PartialURIPattern.matcher( imgURI );
+							if(! partialURIMatcher.matches() ){
+								imgURI = baseURI + imgURI;
+							}else{
+								imgURI = "http:" + imgURI;
+							}
 							// tambahkan baseURI sehingga menjadi URI absolut
-							imgURI = baseURI + imgURI;
 						}
 						
 						// tambahkan tag IMG dengan src-nya sebagai teks HTML pada TagNode parent-nya
@@ -269,8 +302,13 @@ public class DOMParserTagTreeBuilder implements TagTreeBuilder
 							// jika nilai atribut href bukan merupakan URI absolut
 							if ( ! absoluteURIMatcher.matches() )
 							{
-								// tambahkan baseURI sehingga menjadi URI absolut
-								linkURI = baseURI + linkURI;
+								Matcher partialURIMatcher = PartialURIPattern.matcher( linkURI );
+								if(! partialURIMatcher.matches() ){
+									linkURI = baseURI + linkURI;
+								}else{
+									linkURI = "http:" + linkURI;
+								}
+								// tambahkan baseURI sehingga menjadi URI absolut								
 							}
 						
 							// tambahkan tag A dengan href-nya dan teks Link sebagai teks HTML pada TagNode parent-nya
@@ -417,5 +455,12 @@ public class DOMParserTagTreeBuilder implements TagTreeBuilder
 				}
 			}
 		}
+	}
+
+	@Override
+	public TagTree buildTagTree(InputSource inputSource,
+			boolean ignoreFormattingTags) throws IOException, SAXException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

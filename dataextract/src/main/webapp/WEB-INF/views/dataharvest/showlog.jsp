@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>航海日志</title>
 </head>
 <body>
  <script>
@@ -22,6 +22,9 @@ if (!!window.EventSource) {
 			    $(".log-data").append("<p>"+msg.data.pageurlinfo.url+"</p>");
 				$(".log-data").append("<p>"+msg.data.pageurlinfo.extractedDate+"</p>");
 				$(".log-data").append("<p>"+msg.data.content+"</p>");
+			}
+			if(msg.message) {
+			  	$(".log-data").append("<p>"+msg.message+"</p>");			   
 			}
 		  	var contentdiv=$(".log-data");
 		  //	contentdiv.scrollTop = contentdiv.scrollHeight;
@@ -49,6 +52,6 @@ if (!!window.EventSource) {
 
 	
 </script>
-<div class="log-data" style="height:100%;overflow-y:scroll;"></div>
+<div class="log-data" style="height:100%;overflow-y:scroll;"><spring:message code="webharvest_processing" />.................</div>
 </body>
 </html>
