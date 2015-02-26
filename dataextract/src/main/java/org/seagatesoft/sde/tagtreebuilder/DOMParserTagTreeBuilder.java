@@ -274,8 +274,12 @@ public class DOMParserTagTreeBuilder implements TagTreeBuilder
 							Matcher partialURIMatcher = PartialURIPattern.matcher( imgURI );
 							if(! partialURIMatcher.matches() ){
 								String[] splitimgURI=imgURI.split("/",2);	
-								if(splitimgURI[0].contains(".") || splitimgURI[0].contains("/")){
-									imgURI = baseURI+"/" + imgURI.split("/",2)[1];	
+								if(splitimgURI[0].contains(".") || splitimgURI[0].contains("/")){									
+									if(splitimgURI.length==2){
+										imgURI = baseURI+"/" + splitimgURI[1];	
+									}else{
+										imgURI = baseURI+"/" + splitimgURI[0];
+									}
 								}else{
 									imgURI = baseURI+"/" + imgURI;	
 								}														
@@ -311,7 +315,11 @@ public class DOMParserTagTreeBuilder implements TagTreeBuilder
 								if(! partialURIMatcher.matches() ){											
 									String[] splitimgURI=linkURI.split("/",2);	
 									if(splitimgURI[0].contains(".") || splitimgURI[0].contains("/")){
-										linkURI = baseURI+"/" + linkURI.split("/",2)[1];	
+										if(splitimgURI.length==2){
+											linkURI = baseURI+"/" + splitimgURI[1];	
+										}else{
+											linkURI = baseURI+"/" + splitimgURI[0];
+										}
 									}else{
 										linkURI = baseURI+"/" + linkURI;	
 									}	
