@@ -118,7 +118,8 @@ public class DataHarvestService {
 		Elements elements = doc.select(selectedelement);
 		for (Element element2 : elements) {
 			String tableGroupKey = OperationNoUtil.getUUID();
-			element2.getAllElements();
+			
+			if (!element2.nodeName().equals("table")){
 			for (Element element : element2.getAllElements()) {
 				String rowGroupKey = OperationNoUtil.getUUID();
 				if (element.nodeName().equals("img")) {
@@ -222,13 +223,6 @@ public class DataHarvestService {
 				} else {
 
 					Pagedatainfo pagedatainfo = new Pagedatainfo();
-//						if (!element.ownText().isEmpty()) {
-//
-//							pagedatainfo.setContent(element.ownText()
-//									.replaceAll("  ", " ").trim());
-//						} else {
-//							pagedatainfo.setContent(element.attr("abs:href"));
-//						}
 					pagedatainfo.setContent(element.ownText());
 					pagedatainfo.setType(element.nodeName());
 					pagedatainfo
@@ -250,6 +244,141 @@ public class DataHarvestService {
 					}
 
 				}
+			}
+			
+			
+		}else{
+			String rowGroupKey = OperationNoUtil.getUUID();
+				for (Element element : element2.getAllElements()) {
+				if (element.nodeName().equals("tr")){
+					  rowGroupKey = OperationNoUtil.getUUID();
+				}else{
+				}
+				
+				if (element.nodeName().equals("img")) {
+					for (Attribute attribute : element.attributes()) {
+
+						if (("src".equals(attribute.getKey()))) {
+							Pagedatainfo pagedatainfo = new Pagedatainfo();
+							if (!element.ownText().isEmpty()) {
+								pagedatainfo.setContent(element.ownText()
+										+ "|" +  "<img src=\""+element.absUrl("src")+"\" alt=\"+"+element.ownText()+"\"  >");
+							} else {
+								pagedatainfo.setContent( "<img src=\""+element.absUrl("src")+"\" alt=\"+"+element.ownText()+"\"  >");
+							}
+							pagedatainfo.setType(element.nodeName());
+							pagedatainfo.setExtractedDate(DateTimeUtil
+									.nowTimeStr());
+							pagedatainfo.setRowGroupKey(rowGroupKey);
+							pagedatainfo.setTableGroupKey(tableGroupKey);
+							pagedatainfo.setPageurlinfo(pageurlinfo);
+							pageDataInfoSave(pagedatainfo);
+							
+							listPagedatainfo = pagedatainfo;
+							listPagedatainfo.setContent(pagedatainfo.getContent());
+							listPagedatainfo.setPageurlinfo(pageurlinfo);
+							listPagedatainfo.setExtractedDate(DateTimeUtil.nowTimeStr());
+							logmsg.setSuccess(true);
+							
+						}
+						if ("abs:src".equals(attribute.getKey())) {
+							Pagedatainfo pagedatainfo = new Pagedatainfo();
+							if (!element.ownText().isEmpty()) {
+								pagedatainfo.setContent(element.ownText()
+										+ "|" + "<img src=\""+element.attr("abs:src")+"\" alt=\"+"+element.ownText()+"\"  >");
+								
+								
+							} else {
+								pagedatainfo.setContent("<img src=\""+element.attr("abs:src")+"\" alt=\"+"+element.ownText()+"\"  >");
+							}
+							pagedatainfo.setType(element.nodeName());
+							pagedatainfo.setExtractedDate(DateTimeUtil
+									.nowTimeStr());
+							pagedatainfo.setRowGroupKey(rowGroupKey);
+							pagedatainfo.setTableGroupKey(tableGroupKey);
+							pagedatainfo.setPageurlinfo(pageurlinfo);
+							pageDataInfoSave(pagedatainfo);
+							
+							listPagedatainfo = pagedatainfo;
+							listPagedatainfo.setContent(pagedatainfo.getContent());
+							listPagedatainfo.setPageurlinfo(pageurlinfo);
+							listPagedatainfo.setExtractedDate(DateTimeUtil.nowTimeStr());
+							logmsg.setSuccess(true);
+						}
+						if ("data-lazyload".equals(attribute.getKey())) {
+							Pagedatainfo pagedatainfo = new Pagedatainfo();
+							if (!element.ownText().isEmpty()) {
+								pagedatainfo.setContent(element.ownText()
+										+ "|"
+										+ "<img src=\""+element.attr("data-lazyload")+"\" alt=\"+"+element.ownText()+"\"  >" );
+							} else {
+								pagedatainfo.setContent("<img src=\""+element.attr("data-lazyload")+"\" alt=\"+"+element.ownText()+"\"  >" );
+							}
+							pagedatainfo.setPageurlinfo(pageurlinfo);
+							pagedatainfo.setExtractedDate(DateTimeUtil
+									.nowTimeStr());
+							pagedatainfo.setType(element.nodeName());
+							pagedatainfo.setRowGroupKey(rowGroupKey);
+							pagedatainfo.setTableGroupKey(tableGroupKey);
+							pageDataInfoSave(pagedatainfo);
+							
+							listPagedatainfo = pagedatainfo;
+							listPagedatainfo.setContent(pagedatainfo.getContent());
+							listPagedatainfo.setPageurlinfo(pageurlinfo);
+							listPagedatainfo.setExtractedDate(DateTimeUtil.nowTimeStr());
+							logmsg.setSuccess(true);
+						}
+					}
+				} else if (element.nodeName().equals("a")) {
+					Pagedatainfo pagedatainfo = new Pagedatainfo();
+					if (!element.ownText().isEmpty()) {
+						pagedatainfo.setContent(element.ownText() + "|"
+								+"<a href=\""+element.attr("abs:href")+"\">"+element.ownText()+"</a>");
+					} else {
+						pagedatainfo.setContent("<a href=\""+element.attr("abs:href")+"\">Link</a>");
+						
+					}
+					pagedatainfo.setType(element.nodeName());
+					pagedatainfo
+							.setExtractedDate(DateTimeUtil.nowTimeStr());
+					pagedatainfo.setRowGroupKey(rowGroupKey);
+					pagedatainfo.setPageurlinfo(pageurlinfo);
+					pagedatainfo.setTableGroupKey(tableGroupKey);
+					pageDataInfoSave(pagedatainfo);
+					
+					listPagedatainfo = pagedatainfo;
+					listPagedatainfo.setContent(pagedatainfo.getContent());
+					listPagedatainfo.setPageurlinfo(pageurlinfo);
+					listPagedatainfo.setExtractedDate(DateTimeUtil.nowTimeStr());
+					logmsg.setSuccess(true);
+				} else if (element.nodeName().equals("script")) {
+				} else if (element.nodeName().equals("Imports")) {
+				} else {
+
+					Pagedatainfo pagedatainfo = new Pagedatainfo();
+					pagedatainfo.setContent(element.ownText());
+					pagedatainfo.setType(element.nodeName());
+					pagedatainfo
+							.setExtractedDate(DateTimeUtil.nowTimeStr());
+					pagedatainfo.setRowGroupKey(rowGroupKey);
+					pagedatainfo.setTableGroupKey(tableGroupKey);
+					pagedatainfo.setPageurlinfo(pageurlinfo);
+					if (!element.ownText().isEmpty()) {
+						if (!element.ownText().equals("  ")) {
+							pageDataInfoSave(pagedatainfo);
+							listPagedatainfo = pagedatainfo;
+							listPagedatainfo.setContent(pagedatainfo.getContent());
+							listPagedatainfo.setPageurlinfo(pageurlinfo);
+							listPagedatainfo.setExtractedDate(DateTimeUtil.nowTimeStr());
+							logmsg.setSuccess(true);
+						}
+
+					} else {
+					}
+
+				}
+			
+			}
 			}
 		}
 		return true;
