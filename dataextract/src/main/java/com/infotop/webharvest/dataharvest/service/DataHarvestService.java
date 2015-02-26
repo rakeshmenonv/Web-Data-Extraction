@@ -2,6 +2,7 @@ package com.infotop.webharvest.dataharvest.service;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
