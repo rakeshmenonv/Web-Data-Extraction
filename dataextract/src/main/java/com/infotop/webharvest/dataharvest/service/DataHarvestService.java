@@ -347,8 +347,7 @@ public class DataHarvestService {
 				} else if (element.nodeName().equals("a")) {
 					Pagedatainfo pagedatainfo = new Pagedatainfo();
 					if (!element.ownText().isEmpty()) {
-						pagedatainfo.setContent(element.ownText() + "|"
-								+"<a href=\""+element.attr("abs:href")+"\">"+element.ownText()+"</a>");
+						pagedatainfo.setContent("<a href=\""+element.attr("abs:href")+"\">"+element.ownText()+"</a>");
 					} else {
 						pagedatainfo.setContent("<a href=\""+element.attr("abs:href")+"\">Link</a>");
 						
