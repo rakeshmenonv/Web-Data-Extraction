@@ -2,9 +2,8 @@ package com.infotop.webharvest.dataharvest.service;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-
+import java.io.PrintWriter;
 import java.net.MalformedURLException;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -381,13 +380,16 @@ public class DataHarvestService {
 	}
 
 	public String logProgress(HttpServletResponse response) throws JsonProcessingException{
-
+	
 		ObjectMapper mapper = new ObjectMapper();
 	    logmsg.setData(listPagedatainfo);
-	    listPagedatainfo = null;
-        return "retry: 5\ndata:"+mapper.writeValueAsString(logmsg)+"\n\n";
+	    String event =  "retry: 5\ndata:"+mapper.writeValueAsString(logmsg)+"\n\n";
+        logmsg  = new Message();
+        listPagedatainfo = null;
+        return event;
 		
 	}
+
 
 	public String getTagType(String data){
 		if(data.contains("<a href")){
