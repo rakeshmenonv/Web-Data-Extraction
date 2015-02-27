@@ -168,10 +168,7 @@ public class DataHarvestService {
 							pagedatainfo.setPageurlinfo(pageurlinfo);
 							pageDataInfoSave(pagedatainfo);
 							
-							listPagedatainfo = pagedatainfo;
-							listPagedatainfo.setContent(pagedatainfo.getContent());
-							listPagedatainfo.setPageurlinfo(pageurlinfo);
-							listPagedatainfo.setExtractedDate(DateTimeUtil.nowTimeStr());
+							listPagedatainfo = pagedatainfo;	
 							logmsg.setSuccess(true);
 							
 						}
@@ -193,10 +190,7 @@ public class DataHarvestService {
 							pagedatainfo.setPageurlinfo(pageurlinfo);
 							pageDataInfoSave(pagedatainfo);
 							
-							listPagedatainfo = pagedatainfo;
-							listPagedatainfo.setContent(pagedatainfo.getContent());
-							listPagedatainfo.setPageurlinfo(pageurlinfo);
-							listPagedatainfo.setExtractedDate(DateTimeUtil.nowTimeStr());
+							listPagedatainfo = pagedatainfo;		
 							logmsg.setSuccess(true);
 						}
 						if ("data-lazyload".equals(attribute.getKey())) {
@@ -217,10 +211,7 @@ public class DataHarvestService {
 							pagedatainfo.setTableGroupKey(tableGroupKey);
 							pageDataInfoSave(pagedatainfo);
 							
-							listPagedatainfo = pagedatainfo;
-							listPagedatainfo.setContent(pagedatainfo.getContent());
-							listPagedatainfo.setPageurlinfo(pageurlinfo);
-							listPagedatainfo.setExtractedDate(DateTimeUtil.nowTimeStr());
+							listPagedatainfo = pagedatainfo;		
 							logmsg.setSuccess(true);
 						}
 					}
@@ -242,10 +233,7 @@ public class DataHarvestService {
 					pagedatainfo.setTableGroupKey(tableGroupKey);
 					pageDataInfoSave(pagedatainfo);
 					
-					listPagedatainfo = pagedatainfo;
-					listPagedatainfo.setContent(pagedatainfo.getContent());
-					listPagedatainfo.setPageurlinfo(pageurlinfo);
-					listPagedatainfo.setExtractedDate(DateTimeUtil.nowTimeStr());
+					listPagedatainfo = pagedatainfo;		
 					logmsg.setSuccess(true);
 				} else if (element.nodeName().equals("script")) {
 				} else if (element.nodeName().equals("Imports")) {
@@ -262,10 +250,7 @@ public class DataHarvestService {
 					if (!element.ownText().isEmpty()) {
 						if (!element.ownText().equals("  ")) {
 							pageDataInfoSave(pagedatainfo);
-							listPagedatainfo = pagedatainfo;
-							listPagedatainfo.setContent(pagedatainfo.getContent());
-							listPagedatainfo.setPageurlinfo(pageurlinfo);
-							listPagedatainfo.setExtractedDate(DateTimeUtil.nowTimeStr());
+							listPagedatainfo = pagedatainfo;							
 							logmsg.setSuccess(true);
 						}
 
@@ -305,10 +290,7 @@ public class DataHarvestService {
 							pagedatainfo.setPageurlinfo(pageurlinfo);
 							pageDataInfoSave(pagedatainfo);
 							
-							listPagedatainfo = pagedatainfo;
-							listPagedatainfo.setContent(pagedatainfo.getContent());
-							listPagedatainfo.setPageurlinfo(pageurlinfo);
-							listPagedatainfo.setExtractedDate(DateTimeUtil.nowTimeStr());
+							listPagedatainfo = pagedatainfo;			
 							logmsg.setSuccess(true);
 							
 						}
@@ -330,10 +312,7 @@ public class DataHarvestService {
 							pagedatainfo.setPageurlinfo(pageurlinfo);
 							pageDataInfoSave(pagedatainfo);
 							
-							listPagedatainfo = pagedatainfo;
-							listPagedatainfo.setContent(pagedatainfo.getContent());
-							listPagedatainfo.setPageurlinfo(pageurlinfo);
-							listPagedatainfo.setExtractedDate(DateTimeUtil.nowTimeStr());
+							listPagedatainfo = pagedatainfo;					
 							logmsg.setSuccess(true);
 						}
 						if ("data-lazyload".equals(attribute.getKey())) {
@@ -354,10 +333,7 @@ public class DataHarvestService {
 							pagedatainfo.setTableGroupKey(tableGroupKey);
 							pageDataInfoSave(pagedatainfo);
 							
-							listPagedatainfo = pagedatainfo;
-							listPagedatainfo.setContent(pagedatainfo.getContent());
-							listPagedatainfo.setPageurlinfo(pageurlinfo);
-							listPagedatainfo.setExtractedDate(DateTimeUtil.nowTimeStr());
+							listPagedatainfo = pagedatainfo;				
 							logmsg.setSuccess(true);
 						}
 					}
@@ -378,10 +354,7 @@ public class DataHarvestService {
 					pagedatainfo.setTableGroupKey(tableGroupKey);
 					pageDataInfoSave(pagedatainfo);
 					
-					listPagedatainfo = pagedatainfo;
-					listPagedatainfo.setContent(pagedatainfo.getContent());
-					listPagedatainfo.setPageurlinfo(pageurlinfo);
-					listPagedatainfo.setExtractedDate(DateTimeUtil.nowTimeStr());
+					listPagedatainfo = pagedatainfo;		
 					logmsg.setSuccess(true);
 				} else if (element.nodeName().equals("script")) {
 				} else if (element.nodeName().equals("Imports")) {
@@ -398,10 +371,7 @@ public class DataHarvestService {
 					if (!element.ownText().isEmpty()) {
 						if (!element.ownText().equals("  ")) {
 							pageDataInfoSave(pagedatainfo);
-							listPagedatainfo = pagedatainfo;
-							listPagedatainfo.setContent(pagedatainfo.getContent());
-							listPagedatainfo.setPageurlinfo(pageurlinfo);
-							listPagedatainfo.setExtractedDate(DateTimeUtil.nowTimeStr());
+							listPagedatainfo = pagedatainfo;						
 							logmsg.setSuccess(true);
 						}
 
@@ -490,18 +460,11 @@ public class DataHarvestService {
 						pagedatainfo.setRowGroupKey(rowGroupKey);
 						pagedatainfo
 								.setExtractedDate(DateTimeUtil.nowTimeStr());
-
 						pagedatainfo.setType(getTagType(itemText.trim()));
 						pagedatainfoService.save(pagedatainfo);		
 						
-						listPagedatainfo = pagedatainfo;
-						listPagedatainfo.setContent(item);
-						listPagedatainfo.setPageurlinfo(pageurlinfo);
-						listPagedatainfo.setExtractedDate(DateTimeUtil.nowTimeStr());
-						logmsg.setSuccess(true);
-
-						pagedatainfo.setType(getTagType(itemText.trim()));
-						pagedatainfoService.save(pagedatainfo);						
+						listPagedatainfo = pagedatainfo;				
+						logmsg.setSuccess(true);					
                         //github.com/rakeshmenonv/Web-Data-Extraction.git
 						//System.out.println(itemText);
 						// output.format("<td>%s</td>\n", itemText);
