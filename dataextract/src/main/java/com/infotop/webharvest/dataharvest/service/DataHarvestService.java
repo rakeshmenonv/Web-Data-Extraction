@@ -109,16 +109,31 @@ public class DataHarvestService {
 		    e1.printStackTrace();
 		} 
 		
-		
-		
-		doc = Jsoup.parse(page.asXml());
 		String selectedelement = pageurlinfo.getElement() + "["
 				+ pageurlinfo.getAttribute() + "=" + pageurlinfo.getValue()
 				+ "]";
+		
+		doc = Jsoup.parse(page.asXml());
+		if(pageurlinfo.getAttribute().equals("id")){
+			   selectedelement = pageurlinfo.getElement()+"#"+pageurlinfo.getValue();
+		}else if(pageurlinfo.getAttribute().equals("class")){
+			
+			   selectedelement = pageurlinfo.getElement()+"."+pageurlinfo.getValue();
+		}
+		
 		Elements elements = doc.select(selectedelement);
+		Elements tableElements=elements.select("table");
+		if(!elements.isEmpty()){
+			parseElements(tableElements,pageurlinfo);
+			tableElements.remove();
+		}
+		parseElements(elements,pageurlinfo);
+		return true;
+	}
+	private void parseElements(Elements elements,Pageurlinfo pageurlinfo){
 		for (Element element2 : elements) {
 			String tableGroupKey = OperationNoUtil.getUUID();
-			
+			System.out.println(element2.nodeName());
 			if (!element2.nodeName().equals("table")){
 			for (Element element : element2.getAllElements()) {
 				String rowGroupKey = OperationNoUtil.getUUID();
@@ -381,7 +396,6 @@ public class DataHarvestService {
 			}
 			}
 		}
-		return true;
 	}
 	private void pageDataInfoSave(Pagedatainfo pagedatainfo) {
 		try{
