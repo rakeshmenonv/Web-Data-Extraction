@@ -135,6 +135,7 @@ public class DataHarvestController extends BasicController {
 				msg.setData("");
 			}
 		} catch (Exception ex) {
+			ex.printStackTrace();
 			logger.log(this.getClass(), Logger.ERROR_INT, ex.getMessage(),
 					super.getLoginUser().getLoginName(), null);
 			msg.setSuccess(false);
