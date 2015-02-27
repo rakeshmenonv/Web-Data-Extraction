@@ -166,6 +166,16 @@ public class DOMParserTagTreeBuilder implements TagTreeBuilder
                 new InputStreamReader(new FileInputStream(temprFile.getAbsolutePath()), "UTF8"));
         parser.parse(new InputSource(in));
 		org.w3c.dom.Document documentNode =parser.getDocument();
+		//baseURI = documentNode.getBaseURI();
+		//Pattern baseDirectoryPattern = Pattern.compile("^(.*/)[^/]*$");
+		//Matcher matcher = baseDirectoryPattern.matcher( baseURI );
+			
+		/*// dapatkan BaseURI dari dokumen HTML ini
+		if ( matcher.lookingAt() )
+		{
+			baseURI = matcher.group(1);
+		}*/
+			
 		Node bodyNode = documentNode.getElementsByTagName("BODY").item(0);
 		TagNode rootTagNode = new TagNode();
 		tree = new TagTree();
@@ -190,15 +200,25 @@ public class DOMParserTagTreeBuilder implements TagTreeBuilder
 		HtmlPage page = null;
 		try {
 		    page = webClient.getPage(url);
+		    /*int jsPending = 1;
+            int msecsToWait = 2048;
+            int msecsWaited = 0;
+            jsPending = webClient.waitForBackgroundJavaScript(msecsToWait);
+            msecsWaited += msecsToWait;
+            while (jsPending > 0 && msecsWaited < 10000){
+           	 jsPending = webClient.waitForBackgroundJavaScript(msecsToWait);
+           	 msecsWaited += msecsToWait;
+           	 msecsToWait = msecsToWait/2;
+            }*/
 		} catch (Exception e) {
 		    System.out.println(e+"Get page error");
 		}
 		JavaScriptJobManager manager = page.getEnclosingWindow().getJobManager();
-		 Thread.sleep(10000);
+		// Thread.sleep(10000);
 		/*while (manager.getJobCount() > 0) {
 		    Thread.sleep(1000);
 		}*/
-		System.out.println(page.asXml());
+		//System.out.println(page.asXml());
 		return page;
 	}
 	/**
@@ -274,8 +294,12 @@ public class DOMParserTagTreeBuilder implements TagTreeBuilder
 							Matcher partialURIMatcher = PartialURIPattern.matcher( imgURI );
 							if(! partialURIMatcher.matches() ){
 								String[] splitimgURI=imgURI.split("/",2);	
-								if(splitimgURI[0].contains(".") || splitimgURI[0].contains("/")){
-									imgURI = baseURI+"/" + imgURI.split("/",2)[1];	
+								if(splitimgURI[0].contains(".") || splitimgURI[0].contains("/")){									
+									if(splitimgURI.length==2){
+										imgURI = baseURI+"/" + splitimgURI[1];	
+									}else{
+										imgURI = baseURI+"/" + splitimgURI[0];
+									}
 								}else{
 									imgURI = baseURI+"/" + imgURI;	
 								}														
@@ -311,7 +335,11 @@ public class DOMParserTagTreeBuilder implements TagTreeBuilder
 								if(! partialURIMatcher.matches() ){											
 									String[] splitimgURI=linkURI.split("/",2);	
 									if(splitimgURI[0].contains(".") || splitimgURI[0].contains("/")){
-										linkURI = baseURI+"/" + linkURI.split("/",2)[1];	
+										if(splitimgURI.length==2){
+											linkURI = baseURI+"/" + splitimgURI[1];	
+										}else{
+											linkURI = baseURI+"/" + splitimgURI[0];
+										}
 									}else{
 										linkURI = baseURI+"/" + linkURI;	
 									}	

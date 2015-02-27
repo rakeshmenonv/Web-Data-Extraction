@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+ <%@ include file="/common/taglibs.jsp"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -17,6 +18,9 @@ if (!!window.EventSource) {
 		   //console.info(e.data);
 		   var msg = $.parseJSON(e.data);
 		  	if(msg.data) {
+		  		if ($('#loadingimg').length){
+		  			$('#loadingimg').remove();
+		  	    }
 			  	$(".log-data").append("<p>"+msg.data.id+"</p>");
 			    $(".log-data").append("<p>"+msg.data.pageurlinfo.url+"</p>");
 				$(".log-data").append("<p>"+msg.data.pageurlinfo.extractedDate+"</p>");
@@ -53,64 +57,15 @@ if (!!window.EventSource) {
 </script>
 
 
+
 <div class="log-data" style="height:100%;overflow-y:scroll;"><spring:message code="webharvest_processing" />.................</div>
+
+	<div class="log-data" style="height:100%;overflow-y:scroll;margin-left:20px;">
+		<div id="loadingimg" style="width:100%;"><center><img style="margin:20px auto;" src="${ctx }/static/images/Vector_Loading_fallback.gif"/></center></div>
+	</div>
+
 </body>
 </html>
 
 
 
-
-
-
-
-<%-- <%@ page language="java" contentType="text/event-stream; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-<meta charset="utf-8" />
-<title>Insert title here</title>
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-</head>
-<!-- <body>
-
-<div class="log-data" style="height:100%;overflow-y:scroll;"></div>
-</body> -->
-    <script>
-      var es = new EventSource("dataharvest/log");
-      console.info("source::"+es);
-      /* es.addEventListener("message", function (event) {
-	  //var msg = $.parseJSON(event.data);
-	  console.info("value::"+event.data);
-	  alert(event.data);
-	 // var div = document.createElement("div");
-     
-      //div.appendChild(document.createTextNode(msg));
-     // document.body.appendChild(div);
-      }); */ 
-      
-      
-       var listener = function (event) {
-    
-    	 $.each(event,function(key,value){
-    	 
-    		 console.info(key+"::"+value);
-    	 }); 
-    	  
-    	  
-    	/* var div = document.createElement("div");
-        var type = event.type;
-        console.info("type:"+event.type);
-        console.info("data:"+event.data);
-        div.appendChild(document.createTextNode(type + ": " + (type === "message" ? event.data : es.url)));
-        document.body.appendChild(div); */
-      }; 
-      es.addEventListener("open", listener);
-      es.addEventListener("error", listener);
-    </script>
-<body>  
-    
-
-</body>
-
-</html> --%>
