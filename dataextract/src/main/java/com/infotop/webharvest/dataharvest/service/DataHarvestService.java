@@ -144,7 +144,6 @@ public class DataHarvestService {
 	private void parseElements(Elements elements,Pageurlinfo pageurlinfo) throws MalformedURLException{
 		for (Element element2 : elements) {
 			String tableGroupKey = OperationNoUtil.getUUID();
-			System.out.println(element2.nodeName());
 			if (!element2.nodeName().equals("table")){
 			for (Element element : element2.getAllElements()) {
 				String rowGroupKey = OperationNoUtil.getUUID();
@@ -225,13 +224,14 @@ public class DataHarvestService {
 							logmsg.setSuccess(true);
 						}
 					}
-				} else if (element.nodeName().equals("a")) {
+				} else if (element.nodeName().equals("a")&&!element.attr("href").isEmpty()) {
+					String absUrl=JsoupUtil.getabsUrl(pageurlinfo.getUrl(), element.attr("href"));
 					Pagedatainfo pagedatainfo = new Pagedatainfo();
 					if (!element.ownText().isEmpty()) {
 						pagedatainfo.setContent(element.ownText() + "|"
-								+"<a href=\""+element.attr("abs:href")+"\">"+element.ownText()+"</a>");
+								+"<a href='"+absUrl+"'>"+element.ownText()+"</a>");
 					} else {
-						pagedatainfo.setContent("<a href=\""+element.attr("abs:href")+"\">Link</a>");
+						pagedatainfo.setContent("<a href='"+absUrl+"'>Link</a>");
 						
 					}
 					pagedatainfo.setType(element.nodeName());
@@ -361,12 +361,13 @@ public class DataHarvestService {
 							logmsg.setSuccess(true);
 						}
 					}
-				} else if (element.nodeName().equals("a")) {
+				} else if (element.nodeName().equals("a")&&!element.attr("href").isEmpty()) {
 					Pagedatainfo pagedatainfo = new Pagedatainfo();
+					String absUrl=JsoupUtil.getabsUrl(pageurlinfo.getUrl(), element.attr("href"));
 					if (!element.ownText().isEmpty()) {
-						pagedatainfo.setContent("<a href=\""+element.attr("abs:href")+"\">"+element.ownText()+"</a>");
+						pagedatainfo.setContent("<a href='"+absUrl+"'>"+element.ownText()+"</a>");
 					} else {
-						pagedatainfo.setContent("<a href=\""+element.attr("abs:href")+"\">Link</a>");
+						pagedatainfo.setContent("<a href='"+absUrl+"'>Link</a>");
 						
 					}
 					pagedatainfo.setType(element.nodeName());
