@@ -42,6 +42,7 @@ import org.xml.sax.SAXException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gargoylesoftware.htmlunit.BrowserVersion;
+import com.gargoylesoftware.htmlunit.CookieManager;
 import com.gargoylesoftware.htmlunit.FailingHttpStatusCodeException;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
@@ -88,10 +89,19 @@ public class DataHarvestService {
 		WebClient webClient = new WebClient(BrowserVersion.FIREFOX_24); // Chrome not working
 		HtmlPage page = null;
 		try 
-		{
-			webClient.getOptions().setThrowExceptionOnFailingStatusCode(false);
-			webClient.getOptions().setThrowExceptionOnScriptError(false);
-		    page = webClient.getPage(pageurlinfo.getUrl());
+		{ webClient.getOptions().setJavaScriptEnabled(true);
+
+	    CookieManager cookieMan = new CookieManager();
+	    cookieMan = webClient.getCookieManager();
+	    cookieMan.setCookiesEnabled(true);
+
+	    webClient.getOptions().setRedirectEnabled(true);
+	    webClient.getOptions().setThrowExceptionOnFailingStatusCode(false);
+	    webClient.getOptions().setTimeout(60000);
+        
+	    webClient.getOptions().setPrintContentOnFailingStatusCode(true);
+	    webClient.getOptions().setThrowExceptionOnScriptError(false);
+		page = webClient.getPage(pageurlinfo.getUrl());
 		} catch (FailingHttpStatusCodeException e1) 
 		{
 		    // TODO Auto-generated catch block
