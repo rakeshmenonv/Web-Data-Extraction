@@ -121,10 +121,12 @@ public class DataHarvestService {
 		}
 		
 		Elements elements = doc.select(selectedelement);
-		Elements tableElements=elements.select("table");
-		if(!elements.isEmpty()){
-			parseElements(tableElements,pageurlinfo);
-			tableElements.remove();
+		if(!pageurlinfo.getElement().equals("table")){
+			Elements tableElements=elements.select("table");
+			if(!tableElements.isEmpty()){
+				parseElements(tableElements,pageurlinfo);
+				elements.select("table").remove();
+			}
 		}
 		parseElements(elements,pageurlinfo);
 		return true;
