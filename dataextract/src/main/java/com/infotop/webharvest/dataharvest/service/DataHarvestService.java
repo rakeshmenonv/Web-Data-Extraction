@@ -2,9 +2,7 @@ package com.infotop.webharvest.dataharvest.service;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-
 import java.net.MalformedURLException;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +28,7 @@ import org.seagatesoft.sde.datarecordsfinder.MiningDataRecords;
 import org.seagatesoft.sde.dataregionsfinder.DataRegionsFinder;
 import org.seagatesoft.sde.dataregionsfinder.MiningDataRegions;
 import org.seagatesoft.sde.tagtreebuilder.DOMParserTagTreeBuilder;
+import org.seagatesoft.sde.tagtreebuilder.JsoupUtil;
 import org.seagatesoft.sde.tagtreebuilder.TagTreeBuilder;
 import org.seagatesoft.sde.treematcher.EnhancedSimpleTreeMatching;
 import org.seagatesoft.sde.treematcher.SimpleTreeMatching;
@@ -82,7 +81,7 @@ public class DataHarvestService {
 		String sqlStr = "select  count(url)as value, date_format(extracted_date,'%d-%m-%Y') as name  from webharvest.page_url_info where url='"+url+"' group by name";
 		return jdbcTemplate.queryForList(sqlStr);
 	}
-	public boolean selectedsave(Pageurlinfo pageurlinfo) {
+	public boolean selectedsave(Pageurlinfo pageurlinfo) throws MalformedURLException {
 		Document doc;
 		listPagedatainfo = null;
 		logmsg.setMessage(null);
@@ -130,7 +129,7 @@ public class DataHarvestService {
 		parseElements(elements,pageurlinfo);
 		return true;
 	}
-	private void parseElements(Elements elements,Pageurlinfo pageurlinfo){
+	private void parseElements(Elements elements,Pageurlinfo pageurlinfo) throws MalformedURLException{
 		for (Element element2 : elements) {
 			String tableGroupKey = OperationNoUtil.getUUID();
 			System.out.println(element2.nodeName());
@@ -138,15 +137,17 @@ public class DataHarvestService {
 			for (Element element : element2.getAllElements()) {
 				String rowGroupKey = OperationNoUtil.getUUID();
 				if (element.nodeName().equals("img")) {
+					
+					String absUrl=JsoupUtil.getabsUrl(pageurlinfo.getUrl(), element.attr("src"));
 					for (Attribute attribute : element.attributes()) {
 
 						if (("src".equals(attribute.getKey()))) {
 							Pagedatainfo pagedatainfo = new Pagedatainfo();
 							if (!element.ownText().isEmpty()) {
 								pagedatainfo.setContent(element.ownText()
-										+ "|" +  "<img src=\""+element.absUrl("src")+"\" alt=\"+"+element.ownText()+"\"  >");
+										+ "|" +  "<img src='"+absUrl+"' alt=\"+"+element.ownText()+"\"  >");
 							} else {
-								pagedatainfo.setContent( "<img src=\""+element.absUrl("src")+"\" alt=\"+"+element.ownText()+"\"  >");
+								pagedatainfo.setContent( "<img src='"+absUrl+"' alt=\"+"+element.ownText()+"\"  >");
 							}
 							pagedatainfo.setType(element.nodeName());
 							pagedatainfo.setExtractedDate(DateTimeUtil
@@ -167,11 +168,11 @@ public class DataHarvestService {
 							Pagedatainfo pagedatainfo = new Pagedatainfo();
 							if (!element.ownText().isEmpty()) {
 								pagedatainfo.setContent(element.ownText()
-										+ "|" + "<img src=\""+element.attr("abs:src")+"\" alt=\"+"+element.ownText()+"\"  >");
+										+ "|" + "<img src='"+absUrl+"' alt=\"+"+element.ownText()+"\"  >");
 								
 								
 							} else {
-								pagedatainfo.setContent("<img src=\""+element.attr("abs:src")+"\" alt=\"+"+element.ownText()+"\"  >");
+								pagedatainfo.setContent("<img src='"+absUrl+"' alt=\"+"+element.ownText()+"\"  >");
 							}
 							pagedatainfo.setType(element.nodeName());
 							pagedatainfo.setExtractedDate(DateTimeUtil
@@ -188,13 +189,14 @@ public class DataHarvestService {
 							logmsg.setSuccess(true);
 						}
 						if ("data-lazyload".equals(attribute.getKey())) {
+							absUrl=JsoupUtil.getabsUrl(pageurlinfo.getUrl(), element.attr("data-lazyload"));
 							Pagedatainfo pagedatainfo = new Pagedatainfo();
 							if (!element.ownText().isEmpty()) {
 								pagedatainfo.setContent(element.ownText()
 										+ "|"
-										+ "<img src=\""+element.attr("data-lazyload")+"\" alt=\"+"+element.ownText()+"\"  >" );
+										+ "<img src=\""+absUrl+"\" alt=\"+"+element.ownText()+"\"  >" );
 							} else {
-								pagedatainfo.setContent("<img src=\""+element.attr("data-lazyload")+"\" alt=\"+"+element.ownText()+"\"  >" );
+								pagedatainfo.setContent("<img src='"+absUrl+"' alt=\"+"+element.ownText()+"\"  >" );
 							}
 							pagedatainfo.setPageurlinfo(pageurlinfo);
 							pagedatainfo.setExtractedDate(DateTimeUtil
@@ -271,15 +273,17 @@ public class DataHarvestService {
 				}
 				
 				if (element.nodeName().equals("img")) {
+					String absUrl=JsoupUtil.getabsUrl(pageurlinfo.getUrl(), element.attr("src"));
+					
 					for (Attribute attribute : element.attributes()) {
 
 						if (("src".equals(attribute.getKey()))) {
 							Pagedatainfo pagedatainfo = new Pagedatainfo();
 							if (!element.ownText().isEmpty()) {
 								pagedatainfo.setContent(element.ownText()
-										+ "|" +  "<img src=\""+element.absUrl("src")+"\" alt=\"+"+element.ownText()+"\"  >");
+										+ "|" +  "<img src='"+absUrl+"' alt=\"+"+element.ownText()+"\"  >");
 							} else {
-								pagedatainfo.setContent( "<img src=\""+element.absUrl("src")+"\" alt=\"+"+element.ownText()+"\"  >");
+								pagedatainfo.setContent( "<img src='"+absUrl+"' alt=\""+element.ownText()+"\"  >");
 							}
 							pagedatainfo.setType(element.nodeName());
 							pagedatainfo.setExtractedDate(DateTimeUtil
@@ -300,11 +304,11 @@ public class DataHarvestService {
 							Pagedatainfo pagedatainfo = new Pagedatainfo();
 							if (!element.ownText().isEmpty()) {
 								pagedatainfo.setContent(element.ownText()
-										+ "|" + "<img src=\""+element.attr("abs:src")+"\" alt=\"+"+element.ownText()+"\"  >");
+										+ "|" + "<img src='"+absUrl+"' alt=\"+"+element.ownText()+"\"  >");
 								
 								
 							} else {
-								pagedatainfo.setContent("<img src=\""+element.attr("abs:src")+"\" alt=\"+"+element.ownText()+"\"  >");
+								pagedatainfo.setContent("<img src='"+absUrl+"' alt=\"+"+element.ownText()+"\"  >");
 							}
 							pagedatainfo.setType(element.nodeName());
 							pagedatainfo.setExtractedDate(DateTimeUtil
@@ -321,13 +325,14 @@ public class DataHarvestService {
 							logmsg.setSuccess(true);
 						}
 						if ("data-lazyload".equals(attribute.getKey())) {
+							absUrl=JsoupUtil.getabsUrl(pageurlinfo.getUrl(), element.attr("data-lazyload"));
 							Pagedatainfo pagedatainfo = new Pagedatainfo();
 							if (!element.ownText().isEmpty()) {
 								pagedatainfo.setContent(element.ownText()
 										+ "|"
-										+ "<img src=\""+element.attr("data-lazyload")+"\" alt=\"+"+element.ownText()+"\"  >" );
+										+ "<img src='"+absUrl+"' alt=\"+"+element.ownText()+"\"  >" );
 							} else {
-								pagedatainfo.setContent("<img src=\""+element.attr("data-lazyload")+"\" alt=\"+"+element.ownText()+"\"  >" );
+								pagedatainfo.setContent("<img src='"+absUrl+"' alt=\"+"+element.ownText()+"\"  >" );
 							}
 							pagedatainfo.setPageurlinfo(pageurlinfo);
 							pagedatainfo.setExtractedDate(DateTimeUtil
