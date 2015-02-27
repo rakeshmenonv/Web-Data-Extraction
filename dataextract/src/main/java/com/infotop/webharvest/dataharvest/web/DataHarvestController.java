@@ -171,7 +171,7 @@ public class DataHarvestController extends BasicController {
 				}
 				msg.setSuccess(result);
 				msg.setMessage("信息添加成功");
-				msg.setData(pageurlinfo);
+				msg.setData(pageurlinfonew);
 			} else {
 				logger.log(this.getClass(), Logger.ERROR_INT, "登陆帐号无效!", "",
 						null);
