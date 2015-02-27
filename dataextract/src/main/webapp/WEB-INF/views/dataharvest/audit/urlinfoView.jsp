@@ -59,6 +59,8 @@
 	var urlinfo_list_view_url =  '${ctx}/dataharvest/showdata/'; 
 	var user_list_stop_url = '${ctx}/audit/stopScheduler/';
 	var reschedule_url =  '${ctx}/audit/reschedule/';
+	var user_list_search_url = '${ctx}/dataharvest/extracted/';
+	var showLogUrl="${ctx}/dataharvest/showlog";
 	//定义相关的操作按钮
 	function urlinfo_list_actionFormatter(value,row,index){
 		 var str = '';	
@@ -71,7 +73,7 @@
 		                    row.id,pageinfoLog_list_delete_url,'${ctx}/static/js/plugins/jquery-easyui-1.3.4/themes/icons/application_form_delete.png');
 		str += '&nbsp;'; */
 		str += formatString(
-				'<img onclick="view(\'{0}\',\'{1}\');" src="${ctx}/static/js/plugins/jquery-easyui-1.3.4/themes/icons/zoom.png" title="查看"/>',
+				'<img onclick="view(\'{0}\',\'{1}\');" src="${ctx}/static/js/plugins/jquery-easyui-1.3.4/themes/icons/eye.png" title="查看"/>',
 				urlinfo_list_view_url + row.id);
 		str += '&nbsp;';
 		if(row.jobon){
@@ -86,6 +88,11 @@
 				'<img onclick="updateForm(\'{0}\',\'reschedule_form_inputForm\',urlinfo_list_datagrid,{title:\'编辑信息\'});" src="{1}" title="重新安排e"/>',
 				reschedule_url + row.id,
 				'${ctx}/static/js/plugins/jquery-easyui-1.3.4/themes/icons/hourglass_add.png');
+		str += '&nbsp;';
+		str += formatString(
+				'<img onclick="searchEvent(\'{0}\',\'{1}\');" src="{2}" title="搜索"/>',
+				row.id, user_list_search_url,
+				'${ctx}/static/js/plugins/jquery-easyui-1.3.4/themes/icons/search.png');
 		str += '&nbsp;';
 		return str; 
 	}
@@ -138,6 +145,32 @@
 					id : id
 				}, function(result) {
 					if (result.success) {
+						
+						urlinfo_list_datagrid.datagrid('reload'); // reload the user data;
+						$.messager.show({ // show error message
+							title : '提示',
+							msg : result.message
+						});
+					} else {
+						$.messager.alert('错误', data.message, 'error');
+					}
+				}, 'JSON');
+			}
+		});
+	}
+	function searchEvent(id, ACTIONURL) {
+		parent.$.messager.confirm('确认', '你确定要搜索吗？', function(r) {
+			if (r) {
+				showLog(showLogUrl);
+				$.post(ACTIONURL, {
+					id : id
+				}, function(result) {
+					if (result.success) {
+						$('#formSaveBtn').linkbutton({disabled : false});
+						$('#formSaveBtn').bind('click', function(){
+							 parent.$.modalDialog.handler.dialog('close');						
+							 indexTabsUpdateTab('href',{title:'<spring:message code="webharvest_extracteddata" />',url:'${ctx}/dataharvest/showdata/'+id,iconCls:'icon-table_multiple'});
+						});
 						urlinfo_list_datagrid.datagrid('reload'); // reload the user data;
 						$.messager.show({ // show error message
 							title : '提示',
@@ -217,6 +250,28 @@
 				});
 				
 			 });
+	function showLog(url,params) {
+		var opts = {
+			width : 900,
+			height : 600,
+			title : '信息',
+			href : url,
+			iconCls : 'icon-application_form_add',
+			buttons : [
+					{
+						text : '<spring:message code="webharvest_next" />',
+						iconCls : 'icon-note_go',
+						disabled : true,
+						id : 'formSaveBtn',
+						handler : function() {
+							
+						}
+					}]
+		};
+		$.extend(opts, params);
+		parent.$.modalDialog(opts);
+
+	}
 </script>
 
 

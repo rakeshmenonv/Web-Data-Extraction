@@ -20,6 +20,7 @@ import net.infotop.web.easyui.Message;
 
 
 
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Attribute;
 import org.jsoup.nodes.Document;
@@ -46,11 +47,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.xml.sax.SAXException;
 
 import ch.qos.logback.classic.Logger;
+
 
 
 
@@ -113,6 +116,7 @@ public class DataHarvestController extends BasicController {
 			boolean result=false;
 			User user = accountService.findUserByLoginName(su.getLoginName());
 			if (user != null) {
+				
 				pageurlinfo.setExtractedDate(DateTimeUtil.nowTimeStr());
 				pageurlinfoService.save(pageurlinfo);
 				if (pageurlinfo.getElement().isEmpty()) {
@@ -128,6 +132,50 @@ public class DataHarvestController extends BasicController {
 						null);
 				msg.setSuccess(false);
 				msg.setMessage("登陆帐号无效!");
+				msg.setData("");
+			}
+		} catch (Exception ex) {
+			logger.log(this.getClass(), Logger.ERROR_INT, ex.getMessage(),
+					super.getLoginUser().getLoginName(), null);
+			msg.setSuccess(false);
+			msg.setMessage(ex.getMessage());
+			msg.setData("");
+		}
+		return msg;
+	}
+	
+	@RequestMapping(value = "extracted")
+	@ResponseBody
+	public Message extracted(@Valid Pageurlinfo pageurlinfo,
+			RedirectAttributes redirectAttributes,@RequestParam("id") Long id) {
+		try {
+			
+			ShiroUser su = super.getLoginUser();
+			boolean result=false;
+			User user = accountService.findUserByLoginName(su.getLoginName());
+			if (user != null) {
+				Pageurlinfo pageurlinfonew = new Pageurlinfo();
+				pageurlinfo = pageurlinfoService.get(id);
+				pageurlinfonew.setUrl(pageurlinfo.getUrl());
+				pageurlinfonew.setAttribute(pageurlinfo.getAttribute());
+				pageurlinfonew.setElement(pageurlinfo.getElement());
+				pageurlinfonew.setJobon(pageurlinfo.getJobon());
+				pageurlinfonew.setValue(pageurlinfo.getValue());
+				pageurlinfonew.setExtractedDate(DateTimeUtil.nowTimeStr());
+				pageurlinfoService.save(pageurlinfonew);
+				if (pageurlinfonew.getElement().isEmpty()) {
+					result=dataHarvestService.basicsave(pageurlinfonew);
+				} else {
+					result=dataHarvestService.selectedsave(pageurlinfonew);
+				}
+				msg.setSuccess(result);
+				msg.setMessage("信息添加成功");
+				msg.setData(pageurlinfo);
+			} else {
+				logger.log(this.getClass(), Logger.ERROR_INT, "登陆帐号无效!", "",
+						null);
+				msg.setSuccess(false);
+				msg.setMessage("完成！单击“下一步”观");
 				msg.setData("");
 			}
 		} catch (Exception ex) {
