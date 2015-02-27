@@ -525,10 +525,17 @@ public class DataHarvestService {
 
 	public String logProgress(HttpServletResponse response) throws JsonProcessingException{
 
-		ObjectMapper mapper = new ObjectMapper();
+		/*ObjectMapper mapper = new ObjectMapper();
 	    logmsg.setData(listPagedatainfo);
 	    listPagedatainfo = null;
-        return "retry: 5\ndata:"+mapper.writeValueAsString(logmsg)+"\n\n";
+        return "retry: 5\ndata:"+mapper.writeValueAsString(logmsg)+"\n\n";*/
+		
+		ObjectMapper mapper = new ObjectMapper();
+	    logmsg.setData(listPagedatainfo);
+	    String event =  "retry: 5\ndata:"+mapper.writeValueAsString(logmsg)+"\n\n";
+        logmsg  = new Message();
+        listPagedatainfo = null;
+        return event;
 		
 	}
 
