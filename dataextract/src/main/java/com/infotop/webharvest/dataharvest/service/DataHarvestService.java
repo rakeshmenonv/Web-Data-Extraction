@@ -219,8 +219,7 @@ public class DataHarvestService {
 					String absUrl=JsoupUtil.getabsUrl(pageurlinfo.getUrl(), element.attr("href"));
 					Pagedatainfo pagedatainfo = new Pagedatainfo();
 					if (!element.ownText().isEmpty()) {
-						pagedatainfo.setContent(element.ownText() + "|"
-								+"<a href='"+absUrl+"'>"+element.ownText()+"</a>");
+						pagedatainfo.setContent("<a href='"+absUrl+"'>"+element.ownText()+"</a>");
 					} else {
 						pagedatainfo.setContent("<a href='"+absUrl+"'>Link</a>");
 						
