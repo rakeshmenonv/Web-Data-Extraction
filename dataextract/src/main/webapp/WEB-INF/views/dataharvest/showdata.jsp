@@ -4,6 +4,35 @@
 $.parser.onComplete = function() {
 	parent. $ .messager.progress('close');	
 };
+var showdataDeleteUrl="${ctx}/dataharvest/delete";
+function deleteByTableGroupKey(tableGroupKey) {
+	parent.$.messager.confirm('确认', '是否确定删除该记录?', function(r) {
+		if (r) {
+			$.post(showdataDeleteUrl, {
+				tableGroupKey : tableGroupKey						
+			}, function(data) {
+				console.info(data);
+				if (data.success) {					
+					// data
+					var tab = index_tabs.tabs('getSelected');
+					if (tab) {
+						var href = tab.panel('options').href;
+						if (href) {/* 说明tab是以href方式引入的目标页面 */
+						var index = index_tabs.tabs('getTabIndex',index_tabs.tabs('getSelected'));
+							index_tabs.tabs('getTab', index).panel('refresh');
+						}
+					}
+					$.messager.show({ // show error message
+						title : '提示',
+						msg : data.message
+					});
+				} else {
+					$.messager.alert('错误', data.message, 'error');
+				}
+			}, 'JSON');
+		}
+	});
+}
 </script>
 <style type="text/css">
 .tg  {border-collapse:collapse;border-spacing:0;border-color:#999;}
@@ -35,7 +64,8 @@ $.parser.onComplete = function() {
 				    <c:otherwise>
 				    	<c:set var="tableindex" scope="session" value="${tableindex+1}"/>
 				    	<c:set var="rowindex" scope="session" value="${1}"/>				    	
-				        </table><br><h3><spring:message code="webharvest_group" /> ${tableindex}<h3></h1><br><table  class="tg" >	
+				        </table><br><h3><spring:message code="webharvest_group" /> ${tableindex}
+				        <a href="javascript:deleteByTableGroupKey('${obj.tableGroupKey}');" class="easyui-linkbutton" data-options="iconCls:'icon-remove',plain:false">删除</a></h3><br><table  class="tg" >	
 				        <tr><th class="tg-031e"><spring:message code="webharvest_nos" />.</th><th class="tg-031e" colspan="50"></th></tr>
 				        <tr><td class="tg-031e">${rowindex}</td><td class="tg-031e">${obj.content}</td>
 				    </c:otherwise>
