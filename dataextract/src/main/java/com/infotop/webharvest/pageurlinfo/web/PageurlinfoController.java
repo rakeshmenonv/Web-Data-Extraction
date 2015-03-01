@@ -191,6 +191,7 @@ public class PageurlinfoController extends BasicController {
 			 	ShiroUser su = super.getLoginUser();
 				User user = accountService.findUserByLoginName(su.getLoginName());
 				if (user != null) {
+					pageurlinfo.setNextScheduleOn(pageurlinfo.getJobon());
 			    	pageurlinfoService.save(pageurlinfo);
 					msg.setSuccess(true);
 					msg.setMessage("信息更新成功");

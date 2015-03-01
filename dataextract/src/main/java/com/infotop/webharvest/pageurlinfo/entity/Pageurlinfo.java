@@ -15,6 +15,8 @@ public class Pageurlinfo extends IdEntity{
 	private String value;
 	private String extractedDate;
 	private String jobon;
+	private String nextScheduleOn;
+	
 	public String getUrl() {
 		return url;
 	}
@@ -50,6 +52,12 @@ public class Pageurlinfo extends IdEntity{
 	}
 	public void setJobon(String jobon) {
 		this.jobon = jobon;
+	}
+	public String getNextScheduleOn() {
+		return nextScheduleOn;
+	}
+	public void setNextScheduleOn(String nextScheduleOn) {
+		this.nextScheduleOn = nextScheduleOn;
 	}
 	
 

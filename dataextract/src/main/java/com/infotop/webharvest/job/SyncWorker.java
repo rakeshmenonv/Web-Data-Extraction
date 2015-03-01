@@ -36,37 +36,48 @@ public class SyncWorker implements Worker {
 		logger.debug("   " + threadName + " has began working.");
 		System.out.println("   " + threadName + " has began working.");
 		try {
-			Calendar calendarFirstDayOfTheMonth = Calendar.getInstance();
-			calendarFirstDayOfTheMonth.set(Calendar.DAY_OF_MONTH, 1);
-			Calendar calendarFirstDayOfTheYear = Calendar.getInstance();
-			calendarFirstDayOfTheYear.set(Calendar.DAY_OF_YEAR, 1);
-			Calendar cal = Calendar.getInstance();
+ List<Pageurlinfo> listPageurlinfos =pageurlinfoService.findByJobonNotNull();
+			 
+			 for (Pageurlinfo pageurlinfo :listPageurlinfos){
+				 
+				
+						 if ( pageurlinfo.getNextScheduleOn()== null){
+							 pageurlinfo.setNextScheduleOn(pageurlinfo.getJobon());
+							 
+						 }
+						 try{
+							 int schedulingInt   = Integer.parseInt(pageurlinfo.getNextScheduleOn());
+							 
+							 if (schedulingInt==0){
+								 	pageurlinfo.setNextScheduleOn(pageurlinfo.getJobon());
+									pageurlinfoService.save(pageurlinfo);
+								 
+								 pageurlinfo.setId(null);
+									pageurlinfo.setJobon(null);
+									pageurlinfo.setNextScheduleOn(null);
+									pageurlinfo.setExtractedDate(DateTimeUtil.nowTimeStr());
+									System.out.println("in loop ;) "+pageurlinfo.getUrl());
+									pageurlinfoService.save(pageurlinfo);
+									if (pageurlinfo.getElement().isEmpty()) {
+										dataHarvestService.basicsave(pageurlinfo);
+									} else {
+									dataHarvestService.selectedsave(pageurlinfo);
+									}
+							 }else{
+								 schedulingInt = schedulingInt-1;
+								 pageurlinfo.setNextScheduleOn(String.valueOf(schedulingInt));
+							 }
+							 pageurlinfoService.save(pageurlinfo);
+						 }catch(Exception e){
+							 e.printStackTrace();
+						 }
+						
+						 
+			 }
 			
 			
-			List<Pageurlinfo> listPageurlinfo = pageurlinfoService.getPageurlinfoByjobon("day");
-			System.out.println("list size with dayonly "+listPageurlinfo.size());
-			if(cal.equals(calendarFirstDayOfTheMonth)){
-				List<Pageurlinfo> listPageurlinfoforyear = pageurlinfoService.getPageurlinfoByjobon("month");
-				listPageurlinfo.addAll(listPageurlinfoforyear);
-	    	}
-			System.out.println("list size after month "+listPageurlinfo.size());
-			if(cal.equals(calendarFirstDayOfTheYear)){
-				List<Pageurlinfo> listPageurlinfoformonth = pageurlinfoService.getPageurlinfoByjobon("year");
-				listPageurlinfo.addAll(listPageurlinfoformonth);
-	    	}
-			System.out.println("list size after year "+listPageurlinfo.size());
-			for (Pageurlinfo pageurlinfo : listPageurlinfo) {
-				System.out.println("in loop ;) "+pageurlinfo.getUrl());
-				pageurlinfo.setId(null);
-				pageurlinfo.setJobon(null);
-				pageurlinfo.setExtractedDate(DateTimeUtil.nowTimeStr());
-				pageurlinfoService.save(pageurlinfo);
-				if (pageurlinfo.getElement().isEmpty()) {
-					dataHarvestService.basicsave(pageurlinfo);
-				} else {
-				dataHarvestService.selectedsave(pageurlinfo);
-				}
-			}
+				
+				
 			logger.debug("working...");
 			System.out.println("working...");
 //			Thread.sleep(10000); // simulates work
