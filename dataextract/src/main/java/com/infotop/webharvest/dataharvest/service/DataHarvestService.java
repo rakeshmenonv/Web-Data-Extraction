@@ -105,12 +105,12 @@ public class DataHarvestService {
 		} catch (FailingHttpStatusCodeException e1) 
 		{
 		    // TODO Auto-generated catch block
-		    e1.printStackTrace();
+		    //e1.printStackTrace();
 		}
 		catch (MalformedURLException e1) 
 		{
 		    // TODO Auto-generated catch block
-		    e1.printStackTrace();
+		    //e1.printStackTrace();
 		}
 		catch (IOException e1) 
 		{
@@ -121,8 +121,9 @@ public class DataHarvestService {
 		String selectedelement = pageurlinfo.getElement() + "["
 				+ pageurlinfo.getAttribute() + "=" + pageurlinfo.getValue()
 				+ "]";
-		
-		doc = Jsoup.parse(page.asXml());
+		page.getWebResponse().cleanUp();
+		//page.getWebResponse().getContentAsString();
+		doc = Jsoup.parse(page.getWebResponse().getContentAsString());
 		if(pageurlinfo.getAttribute().equals("id")){
 			   selectedelement = pageurlinfo.getElement()+"#"+pageurlinfo.getValue();
 		}else if(pageurlinfo.getAttribute().equals("class")){
