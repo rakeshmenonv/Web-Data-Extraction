@@ -56,7 +56,7 @@
 	<bean id="cronTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean"
 	    	p:jobDetail-ref="jobDetailBean" 
 	    	p:startDelay="10000"
-	    	p:cronExpression="0 0 0 * * ?" />
+	    	p:cronExpression="0 0 * * * ?" />
 <!-- 	    	p:cronExpression="0/10 * * * * ?" /> -->
 <!-- 	    	p:cronExpression="0 0 0 * * ?" /> -->
 	 

@@ -183,4 +183,8 @@ public class PageurlinfoService {
 	public List<Pageurlinfo> getPageurlinfoByjobon(String jobon){
 		return pageurlinfoDao.getPageurlinfoByjobon(jobon);
 	}
+	
+	public List<Pageurlinfo> findByJobonNotNull(){
+		return pageurlinfoDao.findByJobonNotNull();
+	}
 }

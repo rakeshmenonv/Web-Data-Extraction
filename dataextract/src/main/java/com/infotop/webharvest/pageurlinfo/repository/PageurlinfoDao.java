@@ -10,5 +10,7 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 public interface PageurlinfoDao extends PagingAndSortingRepository<Pageurlinfo, Long>, JpaSpecificationExecutor<Pageurlinfo>  {
 	
 	List<Pageurlinfo> getPageurlinfoByjobon(String jobon);
+	
+	List<Pageurlinfo> findByJobonNotNull();
 
 }
