@@ -16,11 +16,6 @@ import net.infotop.util.OperationNoUtil;
 import net.infotop.web.easyui.DataGrid;
 import net.infotop.web.easyui.Message;
 
-
-
-
-
-
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Attribute;
 import org.jsoup.nodes.Document;
@@ -54,9 +49,6 @@ import org.xml.sax.SAXException;
 
 import ch.qos.logback.classic.Logger;
 
-
-
-
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.infotop.common.BasicController;
@@ -81,8 +73,7 @@ public class DataHarvestController extends BasicController {
 
 	@Autowired
 	private DataHarvestService dataHarvestService;
-	
-    
+
 	double similarityTreshold = 0.80;
 	boolean ignoreFormattingTags = false;
 	boolean useContentSimilarity = false;
@@ -94,8 +85,11 @@ public class DataHarvestController extends BasicController {
 		User user = accountService.findUserByLoginName(su.getLoginName());
 		if (user != null) {
 			Pageurlinfo entity = new Pageurlinfo();
-			//List<Parameter> schedulerList = parameterService.getParameterByCategory("scheduler");
-			List<Parameter> schedulerList = parameterService.getParameterByCategoryAndSubcategory("scheduler", "schedulerType");
+			// List<Parameter> schedulerList =
+			// parameterService.getParameterByCategory("scheduler");
+			List<Parameter> schedulerList = parameterService
+					.getParameterByCategoryAndSubcategory("scheduler",
+							"schedulerType");
 			model.addAttribute("schedulerList", schedulerList);
 			model.addAttribute("pageurlinfo", entity);
 			model.addAttribute("action", "extract");
@@ -111,18 +105,18 @@ public class DataHarvestController extends BasicController {
 	public Message extract(@Valid Pageurlinfo pageurlinfo,
 			RedirectAttributes redirectAttributes) {
 		try {
-			
+
 			ShiroUser su = super.getLoginUser();
-			boolean result=false;
+			boolean result = false;
 			User user = accountService.findUserByLoginName(su.getLoginName());
 			if (user != null) {
-				
+
 				pageurlinfo.setExtractedDate(DateTimeUtil.nowTimeStr());
 				pageurlinfoService.save(pageurlinfo);
 				if (pageurlinfo.getElement().isEmpty()) {
-					result=dataHarvestService.basicsave(pageurlinfo);
+					result = dataHarvestService.basicsave(pageurlinfo);
 				} else {
-					result=dataHarvestService.selectedsave(pageurlinfo);
+					result = dataHarvestService.selectedsave(pageurlinfo);
 				}
 				msg.setSuccess(result);
 				msg.setMessage("信息添加成功");
@@ -143,15 +137,15 @@ public class DataHarvestController extends BasicController {
 		}
 		return msg;
 	}
-	
+
 	@RequestMapping(value = "extracted")
 	@ResponseBody
 	public Message extracted(@Valid Pageurlinfo pageurlinfo,
-			RedirectAttributes redirectAttributes,@RequestParam("id") Long id) {
+			RedirectAttributes redirectAttributes, @RequestParam("id") Long id) {
 		try {
-			
+
 			ShiroUser su = super.getLoginUser();
-			boolean result=false;
+			boolean result = false;
 			User user = accountService.findUserByLoginName(su.getLoginName());
 			if (user != null) {
 				Pageurlinfo pageurlinfonew = new Pageurlinfo();
@@ -164,9 +158,9 @@ public class DataHarvestController extends BasicController {
 				pageurlinfonew.setExtractedDate(DateTimeUtil.nowTimeStr());
 				pageurlinfoService.save(pageurlinfonew);
 				if (pageurlinfonew.getElement().isEmpty()) {
-					result=dataHarvestService.basicsave(pageurlinfonew);
+					result = dataHarvestService.basicsave(pageurlinfonew);
 				} else {
-					result=dataHarvestService.selectedsave(pageurlinfonew);
+					result = dataHarvestService.selectedsave(pageurlinfonew);
 				}
 				msg.setSuccess(result);
 				msg.setMessage("信息添加成功");
@@ -188,41 +182,64 @@ public class DataHarvestController extends BasicController {
 		return msg;
 	}
 
-	
-
 	@RequestMapping(value = "showlog")
 	public String showlog() {
 		return "dataharvest/showlog";
 	}
 
-
-
-    @RequestMapping(value = "/log", method = RequestMethod.GET)
+	@RequestMapping(value = "/log", method = RequestMethod.GET)
 	@ResponseBody
-	public String sendMessage(Locale locale, HttpServletResponse response) throws JsonMappingException, IOException {
-    	response.setContentType("text/event-stream");
-    	String event = dataHarvestService.logProgress(response);
+	public String sendMessage(Locale locale, HttpServletResponse response)
+			throws JsonMappingException, IOException {
+		response.setContentType("text/event-stream");
+		String event = dataHarvestService.logProgress(response);
 		return event;
-      }
-    
-    @RequestMapping(value = "showdata/{id}", method = RequestMethod.GET)
-	public String updateForm(@PathVariable("id") Long id, Model model) {
-	        ShiroUser su = super.getLoginUser();
-			User user = accountService.findUserByLoginName(su.getLoginName());
-			if (user != null) {
-				Pageurlinfo entity = pageurlinfoService.get(id); 			
-				List<Pagedatainfo> pagedatainfoList=pagedatainfoService.getAlldatainfo(entity);				
-		        model.addAttribute("pagedatainfoList", pagedatainfoList);
-		        model.addAttribute("action", "update");
-			} else {
-				logger.log(this.getClass(),Logger.ERROR_INT,"登陆帐号无效!","",null);
-				return "redirect:/login";
-			}
-	        return "dataharvest/showdata";
 	}
 
+	@RequestMapping(value = "showdata/{id}", method = RequestMethod.GET)
+	public String updateForm(@PathVariable("id") Long id, Model model) {
+		ShiroUser su = super.getLoginUser();
+		User user = accountService.findUserByLoginName(su.getLoginName());
+		if (user != null) {
+			Pageurlinfo entity = pageurlinfoService.get(id);
+			List<Pagedatainfo> pagedatainfoList = pagedatainfoService
+					.getAlldatainfo(entity);
+			model.addAttribute("pagedatainfoList", pagedatainfoList);
+			model.addAttribute("action", "update");
+		} else {
+			logger.log(this.getClass(), Logger.ERROR_INT, "登陆帐号无效!", "", null);
+			return "redirect:/login";
+		}
+		return "dataharvest/showdata";
+	}
 
+	@RequestMapping(value = "delete", method = RequestMethod.POST)
+	@ResponseBody
+	public Message delete(@RequestParam(value = "tableGroupKey") String tableGroupKey,
+			ServletRequest request) throws Exception {
+		try {
+			ShiroUser su = super.getLoginUser();
+			User user = accountService.findUserByLoginName(su.getLoginName());
+			if (user != null) {
+				pagedatainfoService.deleteByTableGroupKey(tableGroupKey);
+				msg.setSuccess(true);
+				msg.setMessage("信息删除成功");
+				msg.setData("");
+			} else {
+				logger.log(this.getClass(), Logger.ERROR_INT, "登陆帐号无效!", "",
+						null);
+				msg.setSuccess(false);
+				msg.setMessage("登陆帐号无效!");
+				msg.setData("");
+			}
+
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			msg.setSuccess(false);
+			msg.setMessage(ex.getMessage());
+			msg.setData("");
+
+		}
+		return msg;
+	}
 }
-
-
-

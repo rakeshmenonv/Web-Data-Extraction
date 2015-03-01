@@ -16,6 +16,7 @@ import com.google.common.collect.Maps;
 
 
 
+
 import net.infotop.web.easyui.DataGrid;
 
 import org.apache.shiro.SecurityUtils;
@@ -183,5 +184,9 @@ public class PagedatainfoService {
 	public String getCurrentUserName() {
 		ShiroUser user = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
 		return user.loginName;
+	}
+	
+	public void deleteByTableGroupKey(String tableGroupKey) {
+		pagedatainfoDao.deleteByTableGroupKey(tableGroupKey);		
 	}
 }
