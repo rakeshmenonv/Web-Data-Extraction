@@ -32,7 +32,7 @@
      };
      es.addEventListener("open", listener);
      es.addEventListener("message", listener);
-     es.addEventListener("error", listener);
+     es.addEventListener("error", listener);           
 
 </script>
 	<div class="log-data" style="height:100%;overflow-y:scroll;margin-left:20px;">
