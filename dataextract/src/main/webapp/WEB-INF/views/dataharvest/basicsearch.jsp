@@ -131,7 +131,7 @@ function showLog(url,params) {
 		<tr>
 	    			<td><spring:message code="webharvest_interval" />:</td> 
 	    			<td>
-	    			<input class="easyui-numberspinner" style="width:100px;" name="jobon" id="jobon" data-options="min:0,max:1000,editable:false"></input>
+	    			<input class="easyui-numberspinner" style="width:100px;" name="jobon" id="jobon" data-options="min:0,max:1000,editable:true"></input>
 <!-- 	    				<select class="easyui-combobox" name="state" id="state" style="width:200px;"> -->
 <!-- 							<option value="">选择任意1..</option> -->
 <%-- 							<c:forEach items="${schedulerList}" var="par"> --%>
