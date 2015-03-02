@@ -17,6 +17,7 @@ import com.google.common.collect.Maps;
 
 
 
+
 import net.infotop.web.easyui.DataGrid;
 
 import org.apache.shiro.SecurityUtils;
@@ -186,7 +187,7 @@ public class PagedatainfoService {
 		return user.loginName;
 	}
 	
-	public void deleteByTableGroupKey(String tableGroupKey) {
-		pagedatainfoDao.deleteByTableGroupKey(tableGroupKey);		
+	public void deleteByTableGroupKey(List<String> tableGroupKeyList) {
+		pagedatainfoDao.deleteByTableGroupKey(tableGroupKeyList);		
 	}
 }

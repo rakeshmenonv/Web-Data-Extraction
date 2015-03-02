@@ -16,7 +16,7 @@ $.parser.onComplete = function() {
 					return isValid;
 				},
 				success : function(result) {
-				    es.close();					
+					source.close();					
 					var result = $ .parseJSON(result);
 					if(result.success){
 						var id = result.data.id;
@@ -81,7 +81,6 @@ function showLog(url,params) {
 	parent.$.modalDialog(opts);
 
 }
-
 </script>
 
 <form:form id="dataharvest_form_inputForm"
@@ -131,7 +130,7 @@ function showLog(url,params) {
 		<tr>
 	    			<td><spring:message code="webharvest_interval" />:</td> 
 	    			<td>
-	    			<input class="easyui-numberspinner" style="width:80px;" name="jobon" id="jobon" data-options="min:0,max:1000,editable:false"></input>
+	    			<input class="easyui-numberspinner" style="width:100px;" name="jobon" id="jobon" data-options="min:1,max:1000,editable:true"></input>
 <!-- 	    				<select class="easyui-combobox" name="state" id="state" style="width:200px;"> -->
 <!-- 							<option value="">选择任意1..</option> -->
 <%-- 							<c:forEach items="${schedulerList}" var="par"> --%>
@@ -139,6 +138,7 @@ function showLog(url,params) {
 <%-- 							</c:forEach> --%>
 <!-- 						</select> -->
 	    			</td>
+	    			<td>(<font color="red">指定在小时的间隔</font>)</td> 
 	    		</tr>
 		</table>
 		</div>

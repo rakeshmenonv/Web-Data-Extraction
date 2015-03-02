@@ -16,6 +16,6 @@ public interface PagedatainfoDao extends PagingAndSortingRepository<Pagedatainfo
 	List<Pagedatainfo> getPagedatainfoBypageurlinfo(Pageurlinfo pageurlinfo);
 	
 	@Modifying
-	@Query("delete from Pagedatainfo pagedatainfo where pagedatainfo.tableGroupKey = :tableGroupKey")
-	void deleteByTableGroupKey(@Param("tableGroupKey") String tableGroupKey);
+	@Query("delete from Pagedatainfo pagedatainfo where pagedatainfo.tableGroupKey in :tableGroupKeyList")
+	void deleteByTableGroupKey(@Param("tableGroupKeyList") List<String> tableGroupKeyList);
 }

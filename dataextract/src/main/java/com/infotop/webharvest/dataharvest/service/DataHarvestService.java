@@ -2,7 +2,6 @@ package com.infotop.webharvest.dataharvest.service;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +10,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import net.infotop.util.DateTimeUtil;
 import net.infotop.util.OperationNoUtil;
-import net.infotop.util.StringUtils;
 import net.infotop.web.easyui.Message;
 
 import org.jsoup.Jsoup;
@@ -69,7 +67,7 @@ public class DataHarvestService {
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 	
-	Pagedatainfo listPagedatainfo; 
+	Pagedatainfo listPagedatainfo=null; 
 	Message logmsg  = new Message();
 	
 	public List getPiechartData()
@@ -107,12 +105,12 @@ public class DataHarvestService {
 		} catch (FailingHttpStatusCodeException e1) 
 		{
 		    // TODO Auto-generated catch block
-		    //e1.printStackTrace();
+		    e1.printStackTrace();
 		}
 		catch (MalformedURLException e1) 
 		{
 		    // TODO Auto-generated catch block
-		    //e1.printStackTrace();
+		    e1.printStackTrace();
 		}
 		catch (IOException e1) 
 		{
@@ -123,9 +121,8 @@ public class DataHarvestService {
 		String selectedelement = pageurlinfo.getElement() + "["
 				+ pageurlinfo.getAttribute() + "=" + pageurlinfo.getValue()
 				+ "]";
-		page.getWebResponse().cleanUp();
-		//page.getWebResponse().getContentAsString();
-		doc = Jsoup.parse(page.getWebResponse().getContentAsString());
+		
+		doc = Jsoup.parse(page.asXml());
 		if(pageurlinfo.getAttribute().equals("id")){
 			   selectedelement = pageurlinfo.getElement()+"#"+pageurlinfo.getValue();
 		}else if(pageurlinfo.getAttribute().equals("class")){
@@ -222,7 +219,8 @@ public class DataHarvestService {
 					String absUrl=JsoupUtil.getabsUrl(pageurlinfo.getUrl(), element.attr("href"));
 					Pagedatainfo pagedatainfo = new Pagedatainfo();
 					if (!element.ownText().isEmpty()) {
-						pagedatainfo.setContent("<a href='"+absUrl+"'>"+element.ownText()+"</a>");
+						pagedatainfo.setContent(element.ownText() + "|"
+								+"<a href='"+absUrl+"'>"+element.ownText()+"</a>");
 					} else {
 						pagedatainfo.setContent("<a href='"+absUrl+"'>Link</a>");
 						
@@ -505,28 +503,23 @@ public class DataHarvestService {
 		return true;
 	}
 
-	public void logProgress(HttpServletResponse response) throws IOException{
+	public String logProgress(HttpServletResponse response) throws JsonProcessingException{
 
-	    ObjectMapper mapper = new ObjectMapper();
-	    Pagedatainfo sendpageinfo = new Pagedatainfo();
-	    sendpageinfo = listPagedatainfo;
+		/*ObjectMapper mapper = new ObjectMapper();
+	    logmsg.setData(listPagedatainfo);
 	    listPagedatainfo = null;
-	    logmsg.setData(sendpageinfo);
-	    sendpageinfo = null;
-        response.setContentType("text/event-stream");
-        response.setCharacterEncoding("UTF-8");
-        PrintWriter writer = response.getWriter();
-        String str = " ";
-        String repeated = StringUtils.repeat(str, 2048);
-        writer.write(":"+repeated+"\n"); // 2 kB padding for IE
-        writer.write("retry: 5\n");
-        writer.write("data: " + mapper.writeValueAsString(logmsg) + "\n\n");
+        return "retry: 5\ndata:"+mapper.writeValueAsString(logmsg)+"\n\n";*/
+		
+		ObjectMapper mapper = new ObjectMapper();
+	    logmsg.setData(listPagedatainfo);
+	    String event =  "retry: 5\ndata:"+mapper.writeValueAsString(logmsg)+"\n\n";
         logmsg  = new Message();
         listPagedatainfo = null;
-        writer.flush();
-        writer.close();
-   }
-   public String getTagType(String data){
+        return event;
+		
+	}
+
+	public String getTagType(String data){
 		if(data.contains("<a href")){
 			return "Link";
 		}else if(data.contains("<img src")){

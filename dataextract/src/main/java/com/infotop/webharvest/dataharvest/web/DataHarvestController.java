@@ -2,7 +2,6 @@ package com.infotop.webharvest.dataharvest.web;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -14,12 +13,8 @@ import javax.validation.Valid;
 
 import net.infotop.util.DateTimeUtil;
 import net.infotop.util.OperationNoUtil;
-import net.infotop.util.StringUtils;
 import net.infotop.web.easyui.DataGrid;
 import net.infotop.web.easyui.Message;
-
-
-
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Attribute;
@@ -53,6 +48,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.xml.sax.SAXException;
 
 import ch.qos.logback.classic.Logger;
+
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.infotop.common.BasicController;
@@ -115,6 +111,11 @@ public class DataHarvestController extends BasicController {
 			User user = accountService.findUserByLoginName(su.getLoginName());
 			if (user != null) {
 
+				try{
+					  Integer.parseInt(pageurlinfo.getNextScheduleOn());
+				}catch(Exception e){
+					pageurlinfo.setJobon(null);
+				}
 				pageurlinfo.setExtractedDate(DateTimeUtil.nowTimeStr());
 				pageurlinfoService.save(pageurlinfo);
 				if (pageurlinfo.getElement().isEmpty()) {
@@ -133,7 +134,6 @@ public class DataHarvestController extends BasicController {
 				msg.setData("");
 			}
 		} catch (Exception ex) {
-			ex.printStackTrace();
 			logger.log(this.getClass(), Logger.ERROR_INT, ex.getMessage(),
 					super.getLoginUser().getLoginName(), null);
 			msg.setSuccess(false);
@@ -193,33 +193,40 @@ public class DataHarvestController extends BasicController {
 	}
 
 	@RequestMapping(value = "/log", method = RequestMethod.GET)
-    public void sendMessage(Locale locale, HttpServletResponse response) throws JsonMappingException, IOException {
-        dataHarvestService.logProgress(response);
+	@ResponseBody
+	public String sendMessage(Locale locale, HttpServletResponse response)
+			throws JsonMappingException, IOException {
+		response.setContentType("text/event-stream");
+		String event = dataHarvestService.logProgress(response);
+		return event;
 	}
-    @RequestMapping(value = "showdata/{id}", method = RequestMethod.GET)
+
+	@RequestMapping(value = "showdata/{id}", method = RequestMethod.GET)
 	public String updateForm(@PathVariable("id") Long id, Model model) {
-	        ShiroUser su = super.getLoginUser();
-			User user = accountService.findUserByLoginName(su.getLoginName());
-			if (user != null) {
-				Pageurlinfo entity = pageurlinfoService.get(id); 			
-				List<Pagedatainfo> pagedatainfoList=pagedatainfoService.getAlldatainfo(entity);				
-		        model.addAttribute("pagedatainfoList", pagedatainfoList);
-		        model.addAttribute("action", "update");
-			} else {
-				logger.log(this.getClass(),Logger.ERROR_INT,"登陆帐号无效!","",null);
-				return "redirect:/login";
-			}
-	        return "dataharvest/showdata";
-    }
+		ShiroUser su = super.getLoginUser();
+		User user = accountService.findUserByLoginName(su.getLoginName());
+		if (user != null) {
+			Pageurlinfo entity = pageurlinfoService.get(id);
+			List<Pagedatainfo> pagedatainfoList = pagedatainfoService
+					.getAlldatainfo(entity);
+			model.addAttribute("pagedatainfoList", pagedatainfoList);
+			model.addAttribute("action", "update");
+		} else {
+			logger.log(this.getClass(), Logger.ERROR_INT, "登陆帐号无效!", "", null);
+			return "redirect:/login";
+		}
+		return "dataharvest/showdata";
+	}
+
 	@RequestMapping(value = "delete", method = RequestMethod.POST)
 	@ResponseBody
-	public Message delete(@RequestParam(value = "tableGroupKey") String tableGroupKey,
+	public Message delete(@RequestParam(value = "tableGroupKeyList") List<String> tableGroupKeyList,
 			ServletRequest request) throws Exception {
 		try {
 			ShiroUser su = super.getLoginUser();
 			User user = accountService.findUserByLoginName(su.getLoginName());
 			if (user != null) {
-				pagedatainfoService.deleteByTableGroupKey(tableGroupKey);
+				pagedatainfoService.deleteByTableGroupKey(tableGroupKeyList);
 				msg.setSuccess(true);
 				msg.setMessage("信息删除成功");
 				msg.setData("");
