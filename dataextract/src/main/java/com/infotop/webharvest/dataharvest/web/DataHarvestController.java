@@ -2,6 +2,7 @@ package com.infotop.webharvest.dataharvest.web;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -13,8 +14,12 @@ import javax.validation.Valid;
 
 import net.infotop.util.DateTimeUtil;
 import net.infotop.util.OperationNoUtil;
+import net.infotop.util.StringUtils;
 import net.infotop.web.easyui.DataGrid;
 import net.infotop.web.easyui.Message;
+
+
+
 
 
 
@@ -51,6 +56,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.xml.sax.SAXException;
 
 import ch.qos.logback.classic.Logger;
+
+
+
 
 
 
@@ -151,12 +159,9 @@ public class DataHarvestController extends BasicController {
 
     @RequestMapping(value = "/log", method = RequestMethod.GET)
 	@ResponseBody
-	public String sendMessage(Locale locale, HttpServletResponse response) throws JsonMappingException, IOException {
-    	response.setContentType("text/event-stream");
-    	String event = dataHarvestService.logProgress(response);
-		return event;
-      }
-    
+	public void sendMessage(Locale locale, HttpServletResponse response) throws JsonMappingException, IOException {
+        dataHarvestService.logProgress(response);
+	}
     @RequestMapping(value = "showdata/{id}", method = RequestMethod.GET)
 	public String updateForm(@PathVariable("id") Long id, Model model) {
 	        ShiroUser su = super.getLoginUser();

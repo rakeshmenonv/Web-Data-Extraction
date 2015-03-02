@@ -8,7 +8,7 @@
 <title>航海日志</title>
 </head>
 <body>
- <script>
+<!--  <script>
 if (!!window.EventSource) {
        
 	   console.log("Event source available");
@@ -54,13 +54,36 @@ if (!!window.EventSource) {
 	
 
 	
+</script> -->
+
+<script>
+      var es = new EventSource("dataharvest/log");
+      console.info("source::"+es);
+      var listener = function (event) {
+      var div = document.createElement("div");
+      var type = event.type; 
+      var msg = $.parseJSON(event.data); 
+      if(msg.data) {
+	  		if ($('#loadingimg').length){
+	  			$('#loadingimg').remove();
+	  	    }
+		  	$(".log-data").append("<p>"+msg.data.id+"</p>");
+		    $(".log-data").append("<p>"+msg.data.pageurlinfo.url+"</p>");
+			$(".log-data").append("<p>"+msg.data.pageurlinfo.extractedDate+"</p>");
+			$(".log-data").append("<p>"+msg.data.content+"</p>");
+		}
+		if(msg.message) {
+		  	$(".log-data").append("<p>"+msg.message+"</p>");			   
+		}
+	  	$(".log-data").scrollTop($(".log-data").prop('scrollHeight'));
+		
+     };
+     es.addEventListener("open", listener);
+     es.addEventListener("message", listener);
+     es.addEventListener("error", listener);
 </script>
 
-
-
-<div class="log-data" style="height:100%;overflow-y:scroll;"><spring:message code="webharvest_processing" />.................</div>
-
-	<div class="log-data" style="height:100%;overflow-y:scroll;margin-left:20px;">
+     <div class="log-data" style="height:100%;overflow-y:scroll;margin-left:20px;">
 		<div id="loadingimg" style="width:100%;"><center><img style="margin:20px auto;" src="${ctx }/static/images/Vector_Loading_fallback.gif"/></center></div>
 	</div>
 
