@@ -95,8 +95,17 @@ function deleteByTableGroupKey(tableGroupKey) {
 	<div class="easyui-layout" data-options="fit:true">	
 		<div data-options="region:'north',border:false" >	
 			<div class="datagrid-toolbar">
-				<input type="checkbox" id="${obj.tableGroupKey}" onclick="chechAllClick(this);" class="checkAll" />
-				<a href="javascript:batchDeleteByTableGroupKey();" class="easyui-linkbutton" id="deleteAll"  data-options="iconCls:'icon-application_form_delete',plain:true">删除选定的</a>
+				<table>
+					<tr>
+						<td>
+							<input type="checkbox" id="${obj.tableGroupKey}" onclick="chechAllClick(this);" class="checkAll" />
+						</td>
+						<td>
+							<a href="javascript:batchDeleteByTableGroupKey();" class="easyui-linkbutton" id="deleteAll"  data-options="iconCls:'icon-application_form_delete',plain:true">删除选定的
+							</a>
+						</td>
+					</tr>
+				</table>
 			</div>	
 		</div>	
 		<div data-options="region:'center',border:false" id="tabledata" style="padding-left: 30px !important;">			
