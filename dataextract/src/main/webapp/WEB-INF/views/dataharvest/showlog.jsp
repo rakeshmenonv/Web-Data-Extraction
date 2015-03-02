@@ -8,54 +8,6 @@
 <title>航海日志</title>
 </head>
 <body>
-<!--  <script>
-if (!!window.EventSource) {
-       
-	   console.log("Event source available");
-	   var source = new EventSource('dataharvest/log');
-	  
-	   source.addEventListener('message', function(e) {
-		   //console.info(e.data);
-		   var msg = $.parseJSON(e.data);
-		  	if(msg.data) {
-		  		if ($('#loadingimg').length){
-		  			$('#loadingimg').remove();
-		  	    }
-			  	$(".log-data").append("<p>"+msg.data.id+"</p>");
-			    $(".log-data").append("<p>"+msg.data.pageurlinfo.url+"</p>");
-				$(".log-data").append("<p>"+msg.data.pageurlinfo.extractedDate+"</p>");
-				$(".log-data").append("<p>"+msg.data.content+"</p>");
-			}
-			if(msg.message) {
-			  	$(".log-data").append("<p>"+msg.message+"</p>");			   
-			}
-		  	var contentdiv=$(".log-data");
-		  //	contentdiv.scrollTop = contentdiv.scrollHeight;
-		  	$(".log-data").scrollTop($(".log-data").prop('scrollHeight'));
-			//contentdiv.scrollTop(contentdiv[0].scrollHeight-contentdiv.height());
-		});
-
-	   source.addEventListener('open', function(e) {
-		  	console.log("Connection was opened.");
-	   }, false);
-
-	   source.addEventListener('error', function(e) {
-		  	if (e.readyState == EventSource.CLOSED) {
-	            console.log("Connection was closed.");
-	        } else {
-	        	
-	            //console.log(e.readyState);
-	        }
-	   }, false);
-	} else {
-		 
-	        console.log("No SSE available");
-	}
-	
-
-	
-</script> -->
-
 <script>
       var es = new EventSource("dataharvest/log");
       console.info("source::"+es);
