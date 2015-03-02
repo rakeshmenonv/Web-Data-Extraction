@@ -29,6 +29,7 @@ $.parser.onComplete = function() {
      								index_tabs.tabs('getTab', index).panel('refresh');
      							}
      						}
+     						parent.$.modalDialog.handler.dialog('refresh');
      						$.messager.show({ // messager信息提示
      							title : '提示',
      							msg : data.message
@@ -67,6 +68,7 @@ function deleteByTableGroupKey(tableGroupKey) {
 							index_tabs.tabs('getTab', index).panel('refresh');
 						}
 					}
+					parent.$.modalDialog.handler.dialog('refresh');
 					$.messager.show({ // show error message
 						title : '提示',
 						msg : data.message
@@ -114,10 +116,10 @@ function deleteByTableGroupKey(tableGroupKey) {
 				    </c:when>    
 				    <c:otherwise>
 				    	<c:set var="tableindex" scope="session" value="${tableindex+1}"/>
-				    	<c:set var="rowindex" scope="session" value="${1}"/>				    	
-				        </table><br><h3><input type="checkbox" id="${obj.tableGroupKey}" class="checkDataTables" />
+				    	<c:set var="rowindex" scope="session" value="${1}"/>
+				    	</table><br><h3><input type="checkbox" id="${obj.tableGroupKey}" class="checkDataTables" />
 				        <spring:message code="webharvest_group" /> ${tableindex}
-				        <a href="javascript:deleteByTableGroupKey('${obj.tableGroupKey}');" class="easyui-linkbutton" data-options="iconCls:'icon-remove',plain:false">删除</a></h3><br><table  class="tg" >	
+				        <a id="groupdel" href="javascript:deleteByTableGroupKey('${obj.tableGroupKey}');" title="删除这个表" class="easyui-linkbutton easyui-tooltip" data-options="iconCls:'icon-cross',plain:true"></a></h3><br><table  class="tg" >	
 				        <tr><th class="tg-031e"><spring:message code="webharvest_nos" />.</th><th class="tg-031e" colspan="50"></th></tr>
 				        <tr><td class="tg-031e">${rowindex}</td><td class="tg-031e">${obj.content}</td>
 				    </c:otherwise>
