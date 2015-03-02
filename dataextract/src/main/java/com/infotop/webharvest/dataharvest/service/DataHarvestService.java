@@ -30,6 +30,7 @@ import org.seagatesoft.sde.datarecordsfinder.MiningDataRecords;
 import org.seagatesoft.sde.dataregionsfinder.DataRegionsFinder;
 import org.seagatesoft.sde.dataregionsfinder.MiningDataRegions;
 import org.seagatesoft.sde.tagtreebuilder.DOMParserTagTreeBuilder;
+import org.seagatesoft.sde.tagtreebuilder.JsoupUtil;
 import org.seagatesoft.sde.tagtreebuilder.TagTreeBuilder;
 import org.seagatesoft.sde.treematcher.EnhancedSimpleTreeMatching;
 import org.seagatesoft.sde.treematcher.SimpleTreeMatching;
@@ -43,6 +44,7 @@ import org.xml.sax.SAXException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gargoylesoftware.htmlunit.BrowserVersion;
+import com.gargoylesoftware.htmlunit.CookieManager;
 import com.gargoylesoftware.htmlunit.FailingHttpStatusCodeException;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
@@ -82,17 +84,26 @@ public class DataHarvestService {
 		String sqlStr = "select  count(url)as value, date_format(extracted_date,'%d-%m-%Y') as name  from webharvest.page_url_info where url='"+url+"' group by name";
 		return jdbcTemplate.queryForList(sqlStr);
 	}
-	public boolean selectedsave(Pageurlinfo pageurlinfo) {
+	public boolean selectedsave(Pageurlinfo pageurlinfo) throws MalformedURLException {
 		Document doc;
 		listPagedatainfo = null;
 		logmsg.setMessage(null);
 		WebClient webClient = new WebClient(BrowserVersion.FIREFOX_24); // Chrome not working
 		HtmlPage page = null;
 		try 
-		{
-			webClient.getOptions().setThrowExceptionOnFailingStatusCode(false);
-			webClient.getOptions().setThrowExceptionOnScriptError(false);
-		    page = webClient.getPage(pageurlinfo.getUrl());
+		{ webClient.getOptions().setJavaScriptEnabled(true);
+
+	    CookieManager cookieMan = new CookieManager();
+	    cookieMan = webClient.getCookieManager();
+	    cookieMan.setCookiesEnabled(true);
+
+	    webClient.getOptions().setRedirectEnabled(true);
+	    webClient.getOptions().setThrowExceptionOnFailingStatusCode(false);
+	    webClient.getOptions().setTimeout(60000);
+        
+	    webClient.getOptions().setPrintContentOnFailingStatusCode(true);
+	    webClient.getOptions().setThrowExceptionOnScriptError(false);
+		page = webClient.getPage(pageurlinfo.getUrl());
 		} catch (FailingHttpStatusCodeException e1) 
 		{
 		    // TODO Auto-generated catch block
@@ -122,31 +133,34 @@ public class DataHarvestService {
 		}
 		
 		Elements elements = doc.select(selectedelement);
-		Elements tableElements=elements.select("table");
-		if(!elements.isEmpty()){
-			parseElements(tableElements,pageurlinfo);
-			tableElements.remove();
+		if(!pageurlinfo.getElement().equals("table")){
+			Elements tableElements=elements.select("table");
+			if(!tableElements.isEmpty()){
+				parseElements(tableElements,pageurlinfo);
+				elements.select("table").remove();
+			}
 		}
 		parseElements(elements,pageurlinfo);
 		return true;
 	}
-	private void parseElements(Elements elements,Pageurlinfo pageurlinfo){
+	private void parseElements(Elements elements,Pageurlinfo pageurlinfo) throws MalformedURLException{
 		for (Element element2 : elements) {
 			String tableGroupKey = OperationNoUtil.getUUID();
-			System.out.println(element2.nodeName());
 			if (!element2.nodeName().equals("table")){
 			for (Element element : element2.getAllElements()) {
 				String rowGroupKey = OperationNoUtil.getUUID();
 				if (element.nodeName().equals("img")) {
+					
+					String absUrl=JsoupUtil.getabsUrl(pageurlinfo.getUrl(), element.attr("src"));
 					for (Attribute attribute : element.attributes()) {
 
 						if (("src".equals(attribute.getKey()))) {
 							Pagedatainfo pagedatainfo = new Pagedatainfo();
 							if (!element.ownText().isEmpty()) {
 								pagedatainfo.setContent(element.ownText()
-										+ "|" +  "<img src=\""+element.absUrl("src")+"\" alt=\"+"+element.ownText()+"\"  >");
+										+ "|" +  "<img src='"+absUrl+"' alt=\"+"+element.ownText()+"\"  >");
 							} else {
-								pagedatainfo.setContent( "<img src=\""+element.absUrl("src")+"\" alt=\"+"+element.ownText()+"\"  >");
+								pagedatainfo.setContent( "<img src='"+absUrl+"' alt=\"+"+element.ownText()+"\"  >");
 							}
 							pagedatainfo.setType(element.nodeName());
 							pagedatainfo.setExtractedDate(DateTimeUtil
@@ -156,10 +170,7 @@ public class DataHarvestService {
 							pagedatainfo.setPageurlinfo(pageurlinfo);
 							pageDataInfoSave(pagedatainfo);
 							
-							listPagedatainfo = pagedatainfo;
-							listPagedatainfo.setContent(pagedatainfo.getContent());
-							listPagedatainfo.setPageurlinfo(pageurlinfo);
-							listPagedatainfo.setExtractedDate(DateTimeUtil.nowTimeStr());
+							listPagedatainfo = pagedatainfo;	
 							logmsg.setSuccess(true);
 							
 						}
@@ -167,11 +178,11 @@ public class DataHarvestService {
 							Pagedatainfo pagedatainfo = new Pagedatainfo();
 							if (!element.ownText().isEmpty()) {
 								pagedatainfo.setContent(element.ownText()
-										+ "|" + "<img src=\""+element.attr("abs:src")+"\" alt=\"+"+element.ownText()+"\"  >");
+										+ "|" + "<img src='"+absUrl+"' alt=\"+"+element.ownText()+"\"  >");
 								
 								
 							} else {
-								pagedatainfo.setContent("<img src=\""+element.attr("abs:src")+"\" alt=\"+"+element.ownText()+"\"  >");
+								pagedatainfo.setContent("<img src='"+absUrl+"' alt=\"+"+element.ownText()+"\"  >");
 							}
 							pagedatainfo.setType(element.nodeName());
 							pagedatainfo.setExtractedDate(DateTimeUtil
@@ -181,20 +192,18 @@ public class DataHarvestService {
 							pagedatainfo.setPageurlinfo(pageurlinfo);
 							pageDataInfoSave(pagedatainfo);
 							
-							listPagedatainfo = pagedatainfo;
-							listPagedatainfo.setContent(pagedatainfo.getContent());
-							listPagedatainfo.setPageurlinfo(pageurlinfo);
-							listPagedatainfo.setExtractedDate(DateTimeUtil.nowTimeStr());
+							listPagedatainfo = pagedatainfo;		
 							logmsg.setSuccess(true);
 						}
 						if ("data-lazyload".equals(attribute.getKey())) {
+							absUrl=JsoupUtil.getabsUrl(pageurlinfo.getUrl(), element.attr("data-lazyload"));
 							Pagedatainfo pagedatainfo = new Pagedatainfo();
 							if (!element.ownText().isEmpty()) {
 								pagedatainfo.setContent(element.ownText()
 										+ "|"
-										+ "<img src=\""+element.attr("data-lazyload")+"\" alt=\"+"+element.ownText()+"\"  >" );
+										+ "<img src=\""+absUrl+"\" alt=\"+"+element.ownText()+"\"  >" );
 							} else {
-								pagedatainfo.setContent("<img src=\""+element.attr("data-lazyload")+"\" alt=\"+"+element.ownText()+"\"  >" );
+								pagedatainfo.setContent("<img src='"+absUrl+"' alt=\"+"+element.ownText()+"\"  >" );
 							}
 							pagedatainfo.setPageurlinfo(pageurlinfo);
 							pagedatainfo.setExtractedDate(DateTimeUtil
@@ -204,20 +213,18 @@ public class DataHarvestService {
 							pagedatainfo.setTableGroupKey(tableGroupKey);
 							pageDataInfoSave(pagedatainfo);
 							
-							listPagedatainfo = pagedatainfo;
-							listPagedatainfo.setContent(pagedatainfo.getContent());
-							listPagedatainfo.setPageurlinfo(pageurlinfo);
-							listPagedatainfo.setExtractedDate(DateTimeUtil.nowTimeStr());
+							listPagedatainfo = pagedatainfo;		
 							logmsg.setSuccess(true);
 						}
 					}
-				} else if (element.nodeName().equals("a")) {
+				} else if (element.nodeName().equals("a")&&!element.attr("href").isEmpty()) {
+					String absUrl=JsoupUtil.getabsUrl(pageurlinfo.getUrl(), element.attr("href"));
 					Pagedatainfo pagedatainfo = new Pagedatainfo();
 					if (!element.ownText().isEmpty()) {
 						pagedatainfo.setContent(element.ownText() + "|"
-								+"<a href=\""+element.attr("abs:href")+"\">"+element.ownText()+"</a>");
+								+"<a href='"+absUrl+"'>"+element.ownText()+"</a>");
 					} else {
-						pagedatainfo.setContent("<a href=\""+element.attr("abs:href")+"\">Link</a>");
+						pagedatainfo.setContent("<a href='"+absUrl+"'>Link</a>");
 						
 					}
 					pagedatainfo.setType(element.nodeName());
@@ -228,10 +235,7 @@ public class DataHarvestService {
 					pagedatainfo.setTableGroupKey(tableGroupKey);
 					pageDataInfoSave(pagedatainfo);
 					
-					listPagedatainfo = pagedatainfo;
-					listPagedatainfo.setContent(pagedatainfo.getContent());
-					listPagedatainfo.setPageurlinfo(pageurlinfo);
-					listPagedatainfo.setExtractedDate(DateTimeUtil.nowTimeStr());
+					listPagedatainfo = pagedatainfo;		
 					logmsg.setSuccess(true);
 				} else if (element.nodeName().equals("script")) {
 				} else if (element.nodeName().equals("Imports")) {
@@ -248,10 +252,7 @@ public class DataHarvestService {
 					if (!element.ownText().isEmpty()) {
 						if (!element.ownText().equals("  ")) {
 							pageDataInfoSave(pagedatainfo);
-							listPagedatainfo = pagedatainfo;
-							listPagedatainfo.setContent(pagedatainfo.getContent());
-							listPagedatainfo.setPageurlinfo(pageurlinfo);
-							listPagedatainfo.setExtractedDate(DateTimeUtil.nowTimeStr());
+							listPagedatainfo = pagedatainfo;							
 							logmsg.setSuccess(true);
 						}
 
@@ -271,15 +272,17 @@ public class DataHarvestService {
 				}
 				
 				if (element.nodeName().equals("img")) {
+					String absUrl=JsoupUtil.getabsUrl(pageurlinfo.getUrl(), element.attr("src"));
+					
 					for (Attribute attribute : element.attributes()) {
 
 						if (("src".equals(attribute.getKey()))) {
 							Pagedatainfo pagedatainfo = new Pagedatainfo();
 							if (!element.ownText().isEmpty()) {
 								pagedatainfo.setContent(element.ownText()
-										+ "|" +  "<img src=\""+element.absUrl("src")+"\" alt=\"+"+element.ownText()+"\"  >");
+										+ "|" +  "<img src='"+absUrl+"' alt=\"+"+element.ownText()+"\"  >");
 							} else {
-								pagedatainfo.setContent( "<img src=\""+element.absUrl("src")+"\" alt=\"+"+element.ownText()+"\"  >");
+								pagedatainfo.setContent( "<img src='"+absUrl+"' alt=\""+element.ownText()+"\"  >");
 							}
 							pagedatainfo.setType(element.nodeName());
 							pagedatainfo.setExtractedDate(DateTimeUtil
@@ -289,10 +292,7 @@ public class DataHarvestService {
 							pagedatainfo.setPageurlinfo(pageurlinfo);
 							pageDataInfoSave(pagedatainfo);
 							
-							listPagedatainfo = pagedatainfo;
-							listPagedatainfo.setContent(pagedatainfo.getContent());
-							listPagedatainfo.setPageurlinfo(pageurlinfo);
-							listPagedatainfo.setExtractedDate(DateTimeUtil.nowTimeStr());
+							listPagedatainfo = pagedatainfo;			
 							logmsg.setSuccess(true);
 							
 						}
@@ -300,11 +300,11 @@ public class DataHarvestService {
 							Pagedatainfo pagedatainfo = new Pagedatainfo();
 							if (!element.ownText().isEmpty()) {
 								pagedatainfo.setContent(element.ownText()
-										+ "|" + "<img src=\""+element.attr("abs:src")+"\" alt=\"+"+element.ownText()+"\"  >");
+										+ "|" + "<img src='"+absUrl+"' alt=\"+"+element.ownText()+"\"  >");
 								
 								
 							} else {
-								pagedatainfo.setContent("<img src=\""+element.attr("abs:src")+"\" alt=\"+"+element.ownText()+"\"  >");
+								pagedatainfo.setContent("<img src='"+absUrl+"' alt=\"+"+element.ownText()+"\"  >");
 							}
 							pagedatainfo.setType(element.nodeName());
 							pagedatainfo.setExtractedDate(DateTimeUtil
@@ -314,20 +314,18 @@ public class DataHarvestService {
 							pagedatainfo.setPageurlinfo(pageurlinfo);
 							pageDataInfoSave(pagedatainfo);
 							
-							listPagedatainfo = pagedatainfo;
-							listPagedatainfo.setContent(pagedatainfo.getContent());
-							listPagedatainfo.setPageurlinfo(pageurlinfo);
-							listPagedatainfo.setExtractedDate(DateTimeUtil.nowTimeStr());
+							listPagedatainfo = pagedatainfo;					
 							logmsg.setSuccess(true);
 						}
 						if ("data-lazyload".equals(attribute.getKey())) {
+							absUrl=JsoupUtil.getabsUrl(pageurlinfo.getUrl(), element.attr("data-lazyload"));
 							Pagedatainfo pagedatainfo = new Pagedatainfo();
 							if (!element.ownText().isEmpty()) {
 								pagedatainfo.setContent(element.ownText()
 										+ "|"
-										+ "<img src=\""+element.attr("data-lazyload")+"\" alt=\"+"+element.ownText()+"\"  >" );
+										+ "<img src='"+absUrl+"' alt=\"+"+element.ownText()+"\"  >" );
 							} else {
-								pagedatainfo.setContent("<img src=\""+element.attr("data-lazyload")+"\" alt=\"+"+element.ownText()+"\"  >" );
+								pagedatainfo.setContent("<img src='"+absUrl+"' alt=\"+"+element.ownText()+"\"  >" );
 							}
 							pagedatainfo.setPageurlinfo(pageurlinfo);
 							pagedatainfo.setExtractedDate(DateTimeUtil
@@ -337,19 +335,17 @@ public class DataHarvestService {
 							pagedatainfo.setTableGroupKey(tableGroupKey);
 							pageDataInfoSave(pagedatainfo);
 							
-							listPagedatainfo = pagedatainfo;
-							listPagedatainfo.setContent(pagedatainfo.getContent());
-							listPagedatainfo.setPageurlinfo(pageurlinfo);
-							listPagedatainfo.setExtractedDate(DateTimeUtil.nowTimeStr());
+							listPagedatainfo = pagedatainfo;				
 							logmsg.setSuccess(true);
 						}
 					}
-				} else if (element.nodeName().equals("a")) {
+				} else if (element.nodeName().equals("a")&&!element.attr("href").isEmpty()) {
 					Pagedatainfo pagedatainfo = new Pagedatainfo();
+					String absUrl=JsoupUtil.getabsUrl(pageurlinfo.getUrl(), element.attr("href"));
 					if (!element.ownText().isEmpty()) {
-						pagedatainfo.setContent("<a href=\""+element.attr("abs:href")+"\">"+element.ownText()+"</a>");
+						pagedatainfo.setContent("<a href='"+absUrl+"'>"+element.ownText()+"</a>");
 					} else {
-						pagedatainfo.setContent("<a href=\""+element.attr("abs:href")+"\">Link</a>");
+						pagedatainfo.setContent("<a href='"+absUrl+"'>Link</a>");
 						
 					}
 					pagedatainfo.setType(element.nodeName());
@@ -360,10 +356,7 @@ public class DataHarvestService {
 					pagedatainfo.setTableGroupKey(tableGroupKey);
 					pageDataInfoSave(pagedatainfo);
 					
-					listPagedatainfo = pagedatainfo;
-					listPagedatainfo.setContent(pagedatainfo.getContent());
-					listPagedatainfo.setPageurlinfo(pageurlinfo);
-					listPagedatainfo.setExtractedDate(DateTimeUtil.nowTimeStr());
+					listPagedatainfo = pagedatainfo;		
 					logmsg.setSuccess(true);
 				} else if (element.nodeName().equals("script")) {
 				} else if (element.nodeName().equals("Imports")) {
@@ -380,10 +373,7 @@ public class DataHarvestService {
 					if (!element.ownText().isEmpty()) {
 						if (!element.ownText().equals("  ")) {
 							pageDataInfoSave(pagedatainfo);
-							listPagedatainfo = pagedatainfo;
-							listPagedatainfo.setContent(pagedatainfo.getContent());
-							listPagedatainfo.setPageurlinfo(pageurlinfo);
-							listPagedatainfo.setExtractedDate(DateTimeUtil.nowTimeStr());
+							listPagedatainfo = pagedatainfo;						
 							logmsg.setSuccess(true);
 						}
 
@@ -472,18 +462,11 @@ public class DataHarvestService {
 						pagedatainfo.setRowGroupKey(rowGroupKey);
 						pagedatainfo
 								.setExtractedDate(DateTimeUtil.nowTimeStr());
-
 						pagedatainfo.setType(getTagType(itemText.trim()));
 						pagedatainfoService.save(pagedatainfo);		
 						
-						listPagedatainfo = pagedatainfo;
-						listPagedatainfo.setContent(item);
-						listPagedatainfo.setPageurlinfo(pageurlinfo);
-						listPagedatainfo.setExtractedDate(DateTimeUtil.nowTimeStr());
-						logmsg.setSuccess(true);
-
-						pagedatainfo.setType(getTagType(itemText.trim()));
-						pagedatainfoService.save(pagedatainfo);						
+						listPagedatainfo = pagedatainfo;				
+						logmsg.setSuccess(true);					
                         //github.com/rakeshmenonv/Web-Data-Extraction.git
 						//System.out.println(itemText);
 						// output.format("<td>%s</td>\n", itemText);

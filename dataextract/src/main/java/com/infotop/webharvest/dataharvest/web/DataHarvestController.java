@@ -21,10 +21,6 @@ import net.infotop.web.easyui.Message;
 
 
 
-
-
-
-
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Attribute;
 import org.jsoup.nodes.Document;
@@ -51,17 +47,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.xml.sax.SAXException;
 
 import ch.qos.logback.classic.Logger;
-
-
-
-
-
-
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.infotop.common.BasicController;
@@ -86,8 +77,7 @@ public class DataHarvestController extends BasicController {
 
 	@Autowired
 	private DataHarvestService dataHarvestService;
-	
-    
+
 	double similarityTreshold = 0.80;
 	boolean ignoreFormattingTags = false;
 	boolean useContentSimilarity = false;
@@ -99,8 +89,11 @@ public class DataHarvestController extends BasicController {
 		User user = accountService.findUserByLoginName(su.getLoginName());
 		if (user != null) {
 			Pageurlinfo entity = new Pageurlinfo();
-			//List<Parameter> schedulerList = parameterService.getParameterByCategory("scheduler");
-			List<Parameter> schedulerList = parameterService.getParameterByCategoryAndSubcategory("scheduler", "schedulerType");
+			// List<Parameter> schedulerList =
+			// parameterService.getParameterByCategory("scheduler");
+			List<Parameter> schedulerList = parameterService
+					.getParameterByCategoryAndSubcategory("scheduler",
+							"schedulerType");
 			model.addAttribute("schedulerList", schedulerList);
 			model.addAttribute("pageurlinfo", entity);
 			model.addAttribute("action", "extract");
@@ -116,17 +109,18 @@ public class DataHarvestController extends BasicController {
 	public Message extract(@Valid Pageurlinfo pageurlinfo,
 			RedirectAttributes redirectAttributes) {
 		try {
-			
+
 			ShiroUser su = super.getLoginUser();
-			boolean result=false;
+			boolean result = false;
 			User user = accountService.findUserByLoginName(su.getLoginName());
 			if (user != null) {
+
 				pageurlinfo.setExtractedDate(DateTimeUtil.nowTimeStr());
 				pageurlinfoService.save(pageurlinfo);
 				if (pageurlinfo.getElement().isEmpty()) {
-					result=dataHarvestService.basicsave(pageurlinfo);
+					result = dataHarvestService.basicsave(pageurlinfo);
 				} else {
-					result=dataHarvestService.selectedsave(pageurlinfo);
+					result = dataHarvestService.selectedsave(pageurlinfo);
 				}
 				msg.setSuccess(result);
 				msg.setMessage("信息添加成功");
@@ -148,18 +142,57 @@ public class DataHarvestController extends BasicController {
 		return msg;
 	}
 
-	
+	@RequestMapping(value = "extracted")
+	@ResponseBody
+	public Message extracted(@Valid Pageurlinfo pageurlinfo,
+			RedirectAttributes redirectAttributes, @RequestParam("id") Long id) {
+		try {
+
+			ShiroUser su = super.getLoginUser();
+			boolean result = false;
+			User user = accountService.findUserByLoginName(su.getLoginName());
+			if (user != null) {
+				Pageurlinfo pageurlinfonew = new Pageurlinfo();
+				pageurlinfo = pageurlinfoService.get(id);
+				pageurlinfonew.setUrl(pageurlinfo.getUrl());
+				pageurlinfonew.setAttribute(pageurlinfo.getAttribute());
+				pageurlinfonew.setElement(pageurlinfo.getElement());
+				pageurlinfonew.setJobon(pageurlinfo.getJobon());
+				pageurlinfonew.setValue(pageurlinfo.getValue());
+				pageurlinfonew.setExtractedDate(DateTimeUtil.nowTimeStr());
+				pageurlinfoService.save(pageurlinfonew);
+				if (pageurlinfonew.getElement().isEmpty()) {
+					result = dataHarvestService.basicsave(pageurlinfonew);
+				} else {
+					result = dataHarvestService.selectedsave(pageurlinfonew);
+				}
+				msg.setSuccess(result);
+				msg.setMessage("信息添加成功");
+				msg.setData(pageurlinfonew);
+			} else {
+				logger.log(this.getClass(), Logger.ERROR_INT, "登陆帐号无效!", "",
+						null);
+				msg.setSuccess(false);
+				msg.setMessage("完成！单击“下一步”观");
+				msg.setData("");
+			}
+		} catch (Exception ex) {
+			logger.log(this.getClass(), Logger.ERROR_INT, ex.getMessage(),
+					super.getLoginUser().getLoginName(), null);
+			msg.setSuccess(false);
+			msg.setMessage(ex.getMessage());
+			msg.setData("");
+		}
+		return msg;
+	}
 
 	@RequestMapping(value = "showlog")
 	public String showlog() {
 		return "dataharvest/showlog";
 	}
 
-
-
-    @RequestMapping(value = "/log", method = RequestMethod.GET)
-	@ResponseBody
-	public void sendMessage(Locale locale, HttpServletResponse response) throws JsonMappingException, IOException {
+	@RequestMapping(value = "/log", method = RequestMethod.GET)
+    public void sendMessage(Locale locale, HttpServletResponse response) throws JsonMappingException, IOException {
         dataHarvestService.logProgress(response);
 	}
     @RequestMapping(value = "showdata/{id}", method = RequestMethod.GET)
@@ -176,10 +209,34 @@ public class DataHarvestController extends BasicController {
 				return "redirect:/login";
 			}
 	        return "dataharvest/showdata";
+    }
+	@RequestMapping(value = "delete", method = RequestMethod.POST)
+	@ResponseBody
+	public Message delete(@RequestParam(value = "tableGroupKey") String tableGroupKey,
+			ServletRequest request) throws Exception {
+		try {
+			ShiroUser su = super.getLoginUser();
+			User user = accountService.findUserByLoginName(su.getLoginName());
+			if (user != null) {
+				pagedatainfoService.deleteByTableGroupKey(tableGroupKey);
+				msg.setSuccess(true);
+				msg.setMessage("信息删除成功");
+				msg.setData("");
+			} else {
+				logger.log(this.getClass(), Logger.ERROR_INT, "登陆帐号无效!", "",
+						null);
+				msg.setSuccess(false);
+				msg.setMessage("登陆帐号无效!");
+				msg.setData("");
+			}
+
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			msg.setSuccess(false);
+			msg.setMessage(ex.getMessage());
+			msg.setData("");
+
+		}
+		return msg;
 	}
-
-
 }
-
-
-
