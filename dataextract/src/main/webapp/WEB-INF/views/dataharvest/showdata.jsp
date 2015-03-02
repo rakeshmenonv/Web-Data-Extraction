@@ -3,53 +3,56 @@
 <script>
 var showdataDeleteUrl="${ctx}/dataharvest/delete";
 $.parser.onComplete = function() {
-	parent. $ .messager.progress('close');	
-	$('#deleteAll').bind('click', function(){
-		 var selected = [];
-         $.each($("input[class='checkDataTables']:checked"), function(){            
-        	 selected.push($(this).attr('id'));
-         });        
-         if (selected.length > 0) {
-     		parent.$.messager.confirm('确认', '您是否要删除当前选中的项目？', function(r) {
-     			if (r) {
-     				parent.$.messager.progress({
-     					title : '提示',
-     					text : '数据处理中，请稍后....'
-     				});     			
-     				var tableGroupKeyListParam = decodeURIComponent($.param({
-     					tableGroupKeyList : selected
-     				}, true));
-     				$.post(showdataDeleteUrl, tableGroupKeyListParam, function(data) {
-     					if (data.success) {
-     						var tab = index_tabs.tabs('getSelected');
-     						if (tab) {
-     							var href = tab.panel('options').href;
-     							if (href) {/* 说明tab是以href方式引入的目标页面 */
-     							var index = index_tabs.tabs('getTabIndex',index_tabs.tabs('getSelected'));
-     								index_tabs.tabs('getTab', index).panel('refresh');
-     							}
-     						}
-     						parent.$.modalDialog.handler.dialog('refresh');
-     						$.messager.show({ // messager信息提示
-     							title : '提示',
-     							msg : data.message
-     						});
-     					} else {
-     						$.messager.alert('错误', data.message, 'error');
-     					}
-     					parent.$.messager.progress('close');
-     				}, 'JSON');
-
-     			}
-     		});
-     	} else {
-     		$.messager.show({
-     			title : '提示',
-     			msg : '请勾选要删除的记录！'
-     		});
-     	}
-	});
+	parent. $ .messager.progress('close');		
 };
+function chechAllClick(check){
+	$(".checkDataTables").prop('checked', check.checked);
+}
+function batchDeleteByTableGroupKey(){	
+		var selected = [];
+        $.each($("input[class='checkDataTables']:checked"), function(){            
+       	 selected.push($(this).attr('id'));
+        });        
+        if (selected.length > 0) {
+    		parent.$.messager.confirm('确认', '您是否要删除当前选中的项目？', function(r) {
+    			if (r) {
+    				parent.$.messager.progress({
+    					title : '提示',
+    					text : '数据处理中，请稍后....'
+    				});     			
+    				var tableGroupKeyListParam = decodeURIComponent($.param({
+    					tableGroupKeyList : selected
+    				}, true));
+    				$.post(showdataDeleteUrl, tableGroupKeyListParam, function(data) {
+    					if (data.success) {
+    						var tab = index_tabs.tabs('getSelected');
+    						if (tab) {
+    							var href = tab.panel('options').href;
+    							if (href) {/* 说明tab是以href方式引入的目标页面 */
+    							var index = index_tabs.tabs('getTabIndex',index_tabs.tabs('getSelected'));
+    								index_tabs.tabs('getTab', index).panel('refresh');
+    							}
+    						}
+    						parent.$.modalDialog.handler.dialog('refresh');
+    						$.messager.show({ // messager信息提示
+    							title : '提示',
+    							msg : data.message
+    						});
+    					} else {
+    						$.messager.alert('错误', data.message, 'error');
+    					}
+    					parent.$.messager.progress('close');
+    				}, 'JSON');
+
+    			}
+    		});
+    	} else {
+    		$.messager.show({
+    			title : '提示',
+    			msg : '请勾选要删除的记录！'
+    		});
+    	}	
+}
 
 function deleteByTableGroupKey(tableGroupKey) {
 	parent.$.messager.confirm('确认', '是否确定删除该记录?', function(r) {
@@ -92,7 +95,8 @@ function deleteByTableGroupKey(tableGroupKey) {
 	<div class="easyui-layout" data-options="fit:true">	
 		<div data-options="region:'north',border:false" >	
 			<div class="datagrid-toolbar">
-				<a href="#" class="easyui-linkbutton" id="deleteAll"  data-options="iconCls:'icon-application_form_delete',plain:true">删除选定的</a>
+				<input type="checkbox" id="${obj.tableGroupKey}" onclick="chechAllClick(this);" class="checkAll" />
+				<a href="javascript:batchDeleteByTableGroupKey();" class="easyui-linkbutton" id="deleteAll"  data-options="iconCls:'icon-application_form_delete',plain:true">删除选定的</a>
 			</div>	
 		</div>	
 		<div data-options="region:'center',border:false" id="tabledata" style="padding-left: 30px !important;">			
