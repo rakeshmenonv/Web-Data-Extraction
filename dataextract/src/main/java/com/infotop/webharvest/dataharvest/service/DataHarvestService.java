@@ -107,12 +107,12 @@ public class DataHarvestService {
 		} catch (FailingHttpStatusCodeException e1) 
 		{
 		    // TODO Auto-generated catch block
-		    e1.printStackTrace();
+		    //e1.printStackTrace();
 		}
 		catch (MalformedURLException e1) 
 		{
 		    // TODO Auto-generated catch block
-		    e1.printStackTrace();
+		    //e1.printStackTrace();
 		}
 		catch (IOException e1) 
 		{
@@ -123,8 +123,9 @@ public class DataHarvestService {
 		String selectedelement = pageurlinfo.getElement() + "["
 				+ pageurlinfo.getAttribute() + "=" + pageurlinfo.getValue()
 				+ "]";
-		
-		doc = Jsoup.parse(page.asXml());
+		page.getWebResponse().cleanUp();
+		//page.getWebResponse().getContentAsString();
+		doc = Jsoup.parse(page.getWebResponse().getContentAsString());
 		if(pageurlinfo.getAttribute().equals("id")){
 			   selectedelement = pageurlinfo.getElement()+"#"+pageurlinfo.getValue();
 		}else if(pageurlinfo.getAttribute().equals("class")){
@@ -221,8 +222,7 @@ public class DataHarvestService {
 					String absUrl=JsoupUtil.getabsUrl(pageurlinfo.getUrl(), element.attr("href"));
 					Pagedatainfo pagedatainfo = new Pagedatainfo();
 					if (!element.ownText().isEmpty()) {
-						pagedatainfo.setContent(element.ownText() + "|"
-								+"<a href='"+absUrl+"'>"+element.ownText()+"</a>");
+						pagedatainfo.setContent("<a href='"+absUrl+"'>"+element.ownText()+"</a>");
 					} else {
 						pagedatainfo.setContent("<a href='"+absUrl+"'>Link</a>");
 						
