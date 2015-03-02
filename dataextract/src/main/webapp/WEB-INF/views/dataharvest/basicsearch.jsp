@@ -16,7 +16,7 @@ $.parser.onComplete = function() {
 					return isValid;
 				},
 				success : function(result) {
-					source.close();					
+				    es.close();					
 					var result = $ .parseJSON(result);
 					if(result.success){
 						var id = result.data.id;
@@ -81,6 +81,7 @@ function showLog(url,params) {
 	parent.$.modalDialog(opts);
 
 }
+
 </script>
 
 <form:form id="dataharvest_form_inputForm"

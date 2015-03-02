@@ -2,6 +2,7 @@ package com.infotop.webharvest.dataharvest.service;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import net.infotop.util.DateTimeUtil;
 import net.infotop.util.OperationNoUtil;
+import net.infotop.util.StringUtils;
 import net.infotop.web.easyui.Message;
 
 import org.jsoup.Jsoup;
@@ -67,7 +69,7 @@ public class DataHarvestService {
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 	
-	Pagedatainfo listPagedatainfo=null; 
+	Pagedatainfo listPagedatainfo; 
 	Message logmsg  = new Message();
 	
 	public List getPiechartData()
@@ -503,23 +505,28 @@ public class DataHarvestService {
 		return true;
 	}
 
-	public String logProgress(HttpServletResponse response) throws JsonProcessingException{
+	public void logProgress(HttpServletResponse response) throws IOException{
 
-		/*ObjectMapper mapper = new ObjectMapper();
-	    logmsg.setData(listPagedatainfo);
+	    ObjectMapper mapper = new ObjectMapper();
+	    Pagedatainfo sendpageinfo = new Pagedatainfo();
+	    sendpageinfo = listPagedatainfo;
 	    listPagedatainfo = null;
-        return "retry: 5\ndata:"+mapper.writeValueAsString(logmsg)+"\n\n";*/
-		
-		ObjectMapper mapper = new ObjectMapper();
-	    logmsg.setData(listPagedatainfo);
-	    String event =  "retry: 5\ndata:"+mapper.writeValueAsString(logmsg)+"\n\n";
+	    logmsg.setData(sendpageinfo);
+	    sendpageinfo = null;
+        response.setContentType("text/event-stream");
+        response.setCharacterEncoding("UTF-8");
+        PrintWriter writer = response.getWriter();
+        String str = " ";
+        String repeated = StringUtils.repeat(str, 2048);
+        writer.write(":"+repeated+"\n"); // 2 kB padding for IE
+        writer.write("retry: 5\n");
+        writer.write("data: " + mapper.writeValueAsString(logmsg) + "\n\n");
         logmsg  = new Message();
         listPagedatainfo = null;
-        return event;
-		
-	}
-
-	public String getTagType(String data){
+        writer.flush();
+        writer.close();
+   }
+   public String getTagType(String data){
 		if(data.contains("<a href")){
 			return "Link";
 		}else if(data.contains("<img src")){
