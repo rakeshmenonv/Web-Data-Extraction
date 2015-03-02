@@ -215,13 +215,13 @@ public class DataHarvestController extends BasicController {
 
 	@RequestMapping(value = "delete", method = RequestMethod.POST)
 	@ResponseBody
-	public Message delete(@RequestParam(value = "tableGroupKey") String tableGroupKey,
+	public Message delete(@RequestParam(value = "tableGroupKeyList") List<String> tableGroupKeyList,
 			ServletRequest request) throws Exception {
 		try {
 			ShiroUser su = super.getLoginUser();
 			User user = accountService.findUserByLoginName(su.getLoginName());
 			if (user != null) {
-				pagedatainfoService.deleteByTableGroupKey(tableGroupKey);
+				pagedatainfoService.deleteByTableGroupKey(tableGroupKeyList);
 				msg.setSuccess(true);
 				msg.setMessage("信息删除成功");
 				msg.setData("");
