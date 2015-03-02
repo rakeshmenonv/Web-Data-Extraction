@@ -56,7 +56,7 @@ if (!!window.EventSource) {
 	
 </script>
 	<div class="log-data" style="height:100%;overflow-y:scroll;margin-left:20px;">
-		<div id="loadingimg" style="width:100%;"><center><img style="margin:20px auto;" src="${ctx }/static/images/Vector_Loading_fallback.gif"/></center></div>
+		<div id="loadingimg" style="width:100%;"><center><img style="margin:20px auto;" src="${ctx }/static/images/ajax_loader_blue_128.gif"/></center></div>
 	</div>
 </body>
 </html>
