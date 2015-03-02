@@ -69,7 +69,7 @@ function updateForm(url, formId, listDatagrid, params) {
  */
 function view(url, params) {
 	var opts = {
-		width : 800,
+		width : 1000,
 		height : 600,
 		title : '详细信息',
 		href : url,
