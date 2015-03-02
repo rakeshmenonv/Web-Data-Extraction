@@ -52,7 +52,7 @@ $ .parser.onComplete = function() {
 	  		<tr>
 			<td class="biao_bt3"><spring:message code="webharvest_scheduleBy" /></td>
 			<td style="width:10%;">
-			<input class="easyui-numberspinner" style="width:80px;" name="jobon" id="jobon" value="${ pageurlinfo.jobon }" data-options="min:0,max:1000,editable:false"></input>
+			<input class="easyui-numberspinner" style="width:80px;" name="jobon" id="jobon" value="${ pageurlinfo.jobon }" data-options="min:1,max:1000,editable:false"></input>
 			<%-- <select class="easyui-combobox" name="jobon" id="jobon">
 			<option value="">选择任意1..</option>
 			<c:forEach items="${schedulerList}" var="par">

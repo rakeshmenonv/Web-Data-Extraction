@@ -111,6 +111,11 @@ public class DataHarvestController extends BasicController {
 			User user = accountService.findUserByLoginName(su.getLoginName());
 			if (user != null) {
 
+				try{
+					  Integer.parseInt(pageurlinfo.getNextScheduleOn());
+				}catch(Exception e){
+					pageurlinfo.setJobon(null);
+				}
 				pageurlinfo.setExtractedDate(DateTimeUtil.nowTimeStr());
 				pageurlinfoService.save(pageurlinfo);
 				if (pageurlinfo.getElement().isEmpty()) {

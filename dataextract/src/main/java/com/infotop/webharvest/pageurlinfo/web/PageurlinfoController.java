@@ -12,11 +12,13 @@ import com.infotop.webharvest.pageurlinfo.entity.Pageurlinfo;
 
 
 
+
 import net.infotop.web.easyui.DataGrid;
 import net.infotop.web.easyui.Message;
 import ch.qos.logback.classic.Logger;
 
 import org.springside.modules.web.Servlets;
+
 
 
 
@@ -191,7 +193,14 @@ public class PageurlinfoController extends BasicController {
 			 	ShiroUser su = super.getLoginUser();
 				User user = accountService.findUserByLoginName(su.getLoginName());
 				if (user != null) {
-					pageurlinfo.setNextScheduleOn(pageurlinfo.getJobon());
+					try{
+						  Integer.parseInt(pageurlinfo.getNextScheduleOn());
+						  pageurlinfo.setNextScheduleOn(pageurlinfo.getJobon());
+					}catch(Exception e){
+						pageurlinfo.setJobon(null);
+						pageurlinfo.setNextScheduleOn(null);
+					}
+					
 			    	pageurlinfoService.save(pageurlinfo);
 					msg.setSuccess(true);
 					msg.setMessage("信息更新成功");
