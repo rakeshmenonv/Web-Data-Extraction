@@ -92,7 +92,7 @@ function deleteByTableGroupKey(tableGroupKey) {
 	<div class="easyui-layout" data-options="fit:true">	
 		<div data-options="region:'north',border:false" >	
 			<div class="datagrid-toolbar">
-				<a href="#" class="easyui-linkbutton" id="deleteAll"  data-options="iconCls:'icon-remove',plain:false">删除</a>
+				<a href="#" class="easyui-linkbutton" id="deleteAll"  data-options="iconCls:'icon-application_form_delete',plain:true">删除选定的</a>
 			</div>	
 		</div>	
 		<div data-options="region:'center',border:false" id="tabledata" style="padding-left: 30px !important;">			
