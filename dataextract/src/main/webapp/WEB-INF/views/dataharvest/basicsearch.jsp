@@ -99,7 +99,7 @@ function showLog(url,params) {
 				<tr>
 					<td><spring:message code="webharvest_url" />:</td>
 					<td><input class="easyui-validatebox textbox" type="text"  name="url" id="url"
-						data-options="required:true,validType:'url'"  style="width: 267px;"></input></td>
+						data-options="required:true,validType:'url',multiline:true"  style="width:300px;height:100px"></input></td>
 				</tr>
 				
 				

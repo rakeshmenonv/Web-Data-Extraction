@@ -159,7 +159,8 @@ public class AuditController extends  BasicController{
  		public Message stopScheduler(@RequestParam("id") Long id) {
  			try {
  				Pageurlinfo pageurlinfo = pageurlinfoService.get(id);
- 				pageurlinfo.setJobon("");
+ 				pageurlinfo.setJobon(null);
+ 				pageurlinfo.setNextScheduleOn(null);
  				pageurlinfoService.save(pageurlinfo);
  				msg.setSuccess(true);
  				msg.setMessage("scheduler stoped");
