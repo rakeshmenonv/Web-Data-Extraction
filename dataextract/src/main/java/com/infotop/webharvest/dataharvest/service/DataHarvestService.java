@@ -508,7 +508,11 @@ public class DataHarvestService {
 	public void logProgress(HttpServletResponse response) throws IOException{
 
 	    ObjectMapper mapper = new ObjectMapper();
-	    logmsg.setData(listPagedatainfo);
+	    Pagedatainfo sendpageinfo = new Pagedatainfo();
+	    sendpageinfo = listPagedatainfo;
+	    listPagedatainfo = null;
+	    logmsg.setData(sendpageinfo);
+	    sendpageinfo = null;
         response.setContentType("text/event-stream");
         response.setCharacterEncoding("UTF-8");
         PrintWriter writer = response.getWriter();

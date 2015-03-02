@@ -60,8 +60,8 @@ if (!!window.EventSource) {
       var es = new EventSource("dataharvest/log");
       console.info("source::"+es);
       var listener = function (event) {
-      var div = document.createElement("div");
-      var type = event.type; 
+      console.info("data_value:::"+event.data);
+   	  if(event.data) {
       var msg = $.parseJSON(event.data); 
       if(msg.data) {
 	  		if ($('#loadingimg').length){
@@ -76,7 +76,7 @@ if (!!window.EventSource) {
 		  	$(".log-data").append("<p>"+msg.message+"</p>");			   
 		}
 	  	$(".log-data").scrollTop($(".log-data").prop('scrollHeight'));
-		
+   	   }
      };
      es.addEventListener("open", listener);
      es.addEventListener("message", listener);
