@@ -138,7 +138,7 @@ function showLog(url,params) {
 <%-- 							</c:forEach> --%>
 <!-- 						</select> -->
 	    			</td>
-	    			<td>(<font color="red">指定小时白间隔</font>)</td> 
+	    			<td>(<font color="red">指定在小时的间隔</font>)</td> 
 	    		</tr>
 		</table>
 		</div>
