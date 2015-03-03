@@ -35,10 +35,10 @@
 		<div data-options="region:'center',border:true">
 			<table id="urlinfo_list_dg" style="display: none;"></table>
 		</div>
-		<!-- <div id="pageinfoLog_list_toolbar" style="display: none;">
-				<a href="javascript:updateForm(pageinfoLog_list_create_url,'pageinfoLog_form_inputForm',pageinfoLog_list_datagrid,{title:'新增信息'});" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:false">添加</a> 			
-		  	  <a href="javascript:deleteBatch(pageinfoLog_list_delete_url,pageinfoLog_list_datagrid);" class="easyui-linkbutton"  data-options="iconCls:'icon-remove',plain:false">删除</a>
-			</div>  -->
+		<div id="urlinfo_list_toolbar" style="display: none;">
+				 <a href="javascript:deleteBatch(urlinfo_list_delete_url,urlinfo_list_datagrid);" class="easyui-linkbutton"  data-options="iconCls:'icon-remove',plain:false">删除</a>
+			</div>  
+			
 	</div>
 </div>
 <script type="text/javascript">
@@ -55,12 +55,13 @@
 	var pageinfoLog_list_update_url =  '${ctx}/pageinfo/update/';
 	var pageinfoLog_list_delete_url =  '${ctx}/pageinfo/delete';
 	var pageinfoLog_list_view_url =  '${ctx}/pageinfo/view/'; */
-	var urlinfo_list_datagrid_load_url = '${ctx}/audit/getUrlInfo/?id=${id}';
+	var urlinfo_list_datagrid_load_url = '${ctx}/audit/getUrlInfo/?url=${url}';
 	var urlinfo_list_view_url =  '${ctx}/dataharvest/showdata/'; 
 	var user_list_stop_url = '${ctx}/audit/stopScheduler/';
 	var reschedule_url =  '${ctx}/audit/reschedule/';
 	var user_list_search_url = '${ctx}/dataharvest/extracted/';
 	var showLogUrl="${ctx}/dataharvest/showlog";
+	var urlinfo_list_delete_url =  '${ctx}/pageurlinfo/delete';
 	//定义相关的操作按钮
 	function urlinfo_list_actionFormatter(value,row,index){
 		 var str = '';	
@@ -94,6 +95,9 @@
 				row.id, user_list_search_url,
 				'${ctx}/static/js/plugins/jquery-easyui-1.3.4/themes/icons/search.png');
 		str += '&nbsp;';
+		str += formatString('<img onclick="deleteOne(\'{0}\',\'{1}\',urlinfo_list_datagrid);" src="{2}" title="??"/>',
+                row.id,urlinfo_list_delete_url,'${ctx}/static/js/plugins/jquery-easyui-1.3.4/themes/icons/application_form_delete.png');
+		str += '&nbsp;';
 		return str; 
 	}
 	function pattern_formatter(value,row,index){
@@ -106,7 +110,7 @@
 		
 	//DataGrid字段设置
 	var urlinfo_list_datagrid_columns = [ [
-	                    		{field : 'id',title : '编号',width : 150,checkbox : false,hidden:true,align:'center'},
+	                    		{field : 'id',title : '编号',width : 150,checkbox : true,align:'center'},
 	    	          			{field : 'url',title : '<spring:message code="pageinfo_url" />',width : 150,align:'center'},
 	    	          			{field : 'pattern',title : '<spring:message code="webharvest_pattern" />',width : 150,align:'center',formatter : pattern_formatter},
 			          			{field : 'extracted_date',title : '<spring:message code="webharvest_extractedDate" />',width : 150,align:'center'},
@@ -120,7 +124,7 @@
 			title:'<spring:message code="webharvest_individualurlaudit" />',
 			border : false,
 			fitColumns : true,
-			singleSelect : true,
+			singleSelect : false,
 			striped : true,
 			pagination : true,
 			rownumbers : true,
