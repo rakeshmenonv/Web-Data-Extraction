@@ -50,4 +50,4 @@ img {
 
 <!-- reference files for json a js library for json manipulations   -->
 <script type="text/javascript" src="${ctx }/static/js/json2.js"></script>
-
+<script type="text/javascript" src="${ctx }/static/js/eventsource.min.js"></script>

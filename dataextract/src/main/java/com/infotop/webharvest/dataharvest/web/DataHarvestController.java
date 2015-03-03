@@ -193,12 +193,10 @@ public class DataHarvestController extends BasicController {
 	}
 
 	@RequestMapping(value = "/log", method = RequestMethod.GET)
-	@ResponseBody
-	public String sendMessage(Locale locale, HttpServletResponse response)
-			throws JsonMappingException, IOException {
-		response.setContentType("text/event-stream");
-		String event = dataHarvestService.logProgress(response);
-		return event;
+
+	public void sendMessage(Locale locale, HttpServletResponse response) throws IOException{
+		dataHarvestService.logProgress(response);
+	
 	}
 
 	@RequestMapping(value = "showdata/{id}", method = RequestMethod.GET)

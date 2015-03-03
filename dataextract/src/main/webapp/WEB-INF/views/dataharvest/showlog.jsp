@@ -8,52 +8,32 @@
 <title>航海日志</title>
 </head>
 <body>
- <script>
-if (!!window.EventSource) {
-       
-	   console.log("Event source available");
-	   var source = new EventSource('dataharvest/log');
-	  
-	   source.addEventListener('message', function(e) {
-		   //console.info(e.data);
-		   var msg = $.parseJSON(e.data);
-		  	if(msg.data) {
-		  		if ($('#loadingimg').length){
-		  			$('#loadingimg').remove();
-		  	    }
-			  	$(".log-data").append("<p>"+msg.data.id+"</p>");
-			    $(".log-data").append("<p>"+msg.data.pageurlinfo.url+"</p>");
-				$(".log-data").append("<p>"+msg.data.pageurlinfo.extractedDate+"</p>");
-				$(".log-data").append("<p>"+msg.data.content+"</p>");
-			}
-			if(msg.message) {
-			  	$(".log-data").append("<p>"+msg.message+"</p>");			   
-			}
-		  	var contentdiv=$(".log-data");
-		  //	contentdiv.scrollTop = contentdiv.scrollHeight;
-		  	$(".log-data").scrollTop($(".log-data").prop('scrollHeight'));
-			//contentdiv.scrollTop(contentdiv[0].scrollHeight-contentdiv.height());
-		});
+<script>
+      var es = new EventSource("dataharvest/log");
+      console.info("source::"+es);
+      var listener = function (event) {
+      console.info("data_value:::"+event.data);
+   	  if(event.data) {
+      var msg = $.parseJSON(event.data); 
+      if(msg.data) {
+	  		if ($('#loadingimg').length){
+	  			$('#loadingimg').remove();
+	  	    }
+		  	$(".log-data").append("<p>"+msg.data.id+"</p>");
+		    $(".log-data").append("<p>"+msg.data.pageurlinfo.url+"</p>");
+			$(".log-data").append("<p>"+msg.data.pageurlinfo.extractedDate+"</p>");
+			$(".log-data").append("<p>"+msg.data.content+"</p>");
+		}
+		if(msg.message) {
+		  	$(".log-data").append("<p>"+msg.message+"</p>");			   
+		}
+	  	$(".log-data").scrollTop($(".log-data").prop('scrollHeight'));
+   	   }
+     };
+     es.addEventListener("open", listener);
+     es.addEventListener("message", listener);
+     es.addEventListener("error", listener);           
 
-	   source.addEventListener('open', function(e) {
-		  	console.log("Connection was opened.");
-	   }, false);
-
-	   source.addEventListener('error', function(e) {
-		  	if (e.readyState == EventSource.CLOSED) {
-	            console.log("Connection was closed.");
-	        } else {
-	        	
-	            //console.log(e.readyState);
-	        }
-	   }, false);
-	} else {
-		 
-	        console.log("No SSE available");
-	}
-	
-
-	
 </script>
 	<div class="log-data" style="height:100%;overflow-y:scroll;margin-left:20px;">
 		<div id="loadingimg" style="width:100%;"><center><img style="margin:20px auto;" src="${ctx }/static/images/ajax_loader_blue_128.gif"/></center></div>
