@@ -169,7 +169,7 @@
 						$('#formSaveBtn').linkbutton({disabled : false});
 						$('#formSaveBtn').bind('click', function(){
 							 parent.$.modalDialog.handler.dialog('close');						
-							 indexTabsUpdateTab('href',{title:'<spring:message code="webharvest_extracteddata" />',url:'${ctx}/dataharvest/showdata/'+id,iconCls:'icon-table_multiple'});
+							 indexTabsUpdateTab('href',{title:'<spring:message code="webharvest_extracteddata" />',url:'${ctx}/dataharvest/showdata/'+result.data.id,iconCls:'icon-table_multiple'});
 						});
 						urlinfo_list_datagrid.datagrid('reload'); // reload the user data;
 						$.messager.show({ // show error message
