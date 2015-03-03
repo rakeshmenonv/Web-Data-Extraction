@@ -131,7 +131,7 @@ public class AuditController extends  BasicController{
 	 			@RequestParam(value = "order", defaultValue = "desc") String order,
 	 			@RequestParam(value = "page", defaultValue = "1") int pageNumber,
 	 			@RequestParam(value = "rows", defaultValue = ROWS) int rows,
-	 			@RequestParam(value = "id") Long id,
+	 			@RequestParam(value = "url") String url,
 	 			Model model, ServletRequest request) {
 	 		DataGrid dataGrid = new DataGrid();
 	 		try {
@@ -142,9 +142,9 @@ public class AuditController extends  BasicController{
 	 						.getParametersStartingWith(request, "search_");
 	 				model.addAttribute("searchParams", Servlets
 	 						.encodeParameterStringWithPrefix(searchParams, "search_"));
-	 				Pageurlinfo pageurlinfo=pageurlinfoService.get(id);
+	 				//Pageurlinfo pageurlinfo=pageurlinfoService.get(id);
 	 				dataGrid = auditService.dataGridForUrlInfo(searchParams, pageNumber,
-	 						rows, sortType, order,pageurlinfo.getUrl());
+	 						rows, sortType, order,url);
 	 			} else {
 	 				logger.log(this.getClass(),Logger.ERROR_INT,"登陆帐号无效!","",null);
 	 			}

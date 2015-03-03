@@ -12,5 +12,7 @@ public interface PageurlinfoDao extends PagingAndSortingRepository<Pageurlinfo, 
 	List<Pageurlinfo> getPageurlinfoByjobon(String jobon);
 	
 	List<Pageurlinfo> findByJobonNotNull();
+	
+	List<Pageurlinfo> findByUrl(String url);
 
 }

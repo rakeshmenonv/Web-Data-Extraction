@@ -255,7 +255,34 @@ public class PageurlinfoController extends BasicController {
 			}
 			return msg;
 	    }
-	 
+	 @RequestMapping(value = "deleteGroup", method = RequestMethod.POST)
+	 @ResponseBody
+	    public Message deleteGroup(@RequestParam(value = "ids") List<String> url,
+	            ServletRequest request) throws Exception {
+	     try {
+	    	 	ShiroUser su = super.getLoginUser();
+				User user = accountService.findUserByLoginName(su.getLoginName());
+				if (user != null) {
+					pageurlinfoService.deleteByUrl(url);
+					msg.setSuccess(true);
+					msg.setMessage("信息删除成功");
+					msg.setData("");
+				} else {
+					logger.log(this.getClass(),Logger.ERROR_INT,"登陆帐号无效!","",null);
+					msg.setSuccess(false);
+					msg.setMessage("登陆帐号无效!");
+					msg.setData("");
+				}
+	    	 	
+			} catch (Exception ex) {
+				ex.printStackTrace();
+				msg.setSuccess(false);
+				msg.setMessage(ex.getMessage());
+				msg.setData("");
+
+			}
+			return msg;
+	    }
 	 @RequestMapping(value = "view/{id}", method = RequestMethod.GET)
 	    public String view(@PathVariable("id") Long id, Model model) {
 		 	ShiroUser su = super.getLoginUser();

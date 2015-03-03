@@ -13,6 +13,7 @@ import com.google.common.collect.Maps;
 
 
 
+
 import net.infotop.web.easyui.DataGrid;
 
 import org.apache.shiro.SecurityUtils;
@@ -99,6 +100,18 @@ public class PageurlinfoService {
 		businessLogger.log("pageurlinfo", "DELETE", getCurrentUserName(), logData);
 	}
 	
+	@Transactional(readOnly = false)
+	public void deleteByUrl(List<String> url) {
+		for(String urlName:url){
+			List<Pageurlinfo> pageurlinfo =  pageurlinfoDao.findByUrl(urlName);
+			for(Pageurlinfo pageurlinfoDelete:pageurlinfo){
+				delete(pageurlinfoDelete.getId());
+			}
+			
+		}
+		// TODO Auto-generated method stub
+		
+	}
 
 	/**
 	 * 删除操作，支持单个删除和批量删除
@@ -187,4 +200,6 @@ public class PageurlinfoService {
 	public List<Pageurlinfo> findByJobonNotNull(){
 		return pageurlinfoDao.findByJobonNotNull();
 	}
+
+	
 }
