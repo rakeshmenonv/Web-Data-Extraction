@@ -96,6 +96,15 @@ public class DataHarvestService {
 			   selectedelement = pageurlinfo.getElement()+"."+pageurlinfo.getValue();
 		}		
 		Elements elements = doc.select(selectedelement);
+		if (pageurlinfo.getStartTag()!=null && pageurlinfo.getEndTag()!=null  ){
+			String title = StringUtils.substringBetween(elements.html().toString(),pageurlinfo.getStartTag() , pageurlinfo.getEndTag());
+			if (title!=null && title!=""){
+			doc=Jsoup.parse(title);
+			elements = doc.select("body");
+			System.out.println(""+elements.size());
+			System.out.println("@@@@"+elements.html());
+			}
+		}
 		if(!pageurlinfo.getElement().equals("table")){
 			Elements tableElements=elements.select("table");
 			if(!tableElements.isEmpty()){

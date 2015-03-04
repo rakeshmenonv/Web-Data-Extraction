@@ -142,7 +142,22 @@ function showLog(url,params) {
 	    		</tr>
 		</table>
 		</div>
-		
+		<div title="<spring:message code="webharvest_betweenSelected" />" style="padding:10px" data-options="iconCls:'icon-hourglass'">
+		<table cellpadding="5">
+				<tr>
+					<td>start tag:</td>
+					<td><input class="easyui-validatebox textbox" type="text" name="startTag" id="startTag"
+						data-options="required:true" onkeyup="setValidation()"></input></td>
+						
+				</tr>
+				<tr>
+					<td>End tag:</td>
+					<td><input class="easyui-validatebox textbox" type="text" name="endTag" id="endTag"
+						data-options="required:true" onkeyup="setValidation()"></input></td>
+				</tr>
+				
+			</table>
+		</div>
 	</div>
 
 	<div style="text-align: center;">
