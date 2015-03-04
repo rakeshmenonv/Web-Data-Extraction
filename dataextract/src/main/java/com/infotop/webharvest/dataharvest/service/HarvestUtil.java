@@ -84,7 +84,7 @@ public class HarvestUtil {
 				&& !element.attr("href").isEmpty()) {
 			String absUrl = getabsUrl(url, element.attr("href"));
 			if (!element.ownText().isEmpty()) {
-				content = element.ownText() + "|" + "<a href='" + absUrl + "'>"
+				content = "<a href='" + absUrl + "'>"
 						+ element.ownText() + "</a>";
 			} else {
 				content = "<a href='" + absUrl + "'>Link</a>";
