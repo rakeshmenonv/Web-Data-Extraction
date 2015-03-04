@@ -100,9 +100,7 @@ public class DataHarvestService {
 			String title = StringUtils.substringBetween(elements.html().toString(),pageurlinfo.getStartTag() , pageurlinfo.getEndTag());
 			if (title!=null && title!=""){
 			doc=Jsoup.parse(title);
-			elements = doc.select("body");
-			System.out.println(""+elements.size());
-			System.out.println("@@@@"+elements.html());
+			elements = doc.select("body");			
 			}
 		}
 		if(!pageurlinfo.getElement().equals("table")){
