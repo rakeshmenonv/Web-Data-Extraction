@@ -163,14 +163,14 @@ function showLog(url,params) {
 						<table cellpadding="5">
 								<tr>
 									<td>start tag:</td>
-									<td><input class="easyui-validatebox textbox" type="text" name="startTag" id="startTag"
-										data-options="required:false,multiline:true"  style="width:300px;height:100px" onkeyup="setValidation()"></input></td>
+									<td><textarea class="easyui-validatebox textbox" type="text" name="startTag" id="startTag"
+										data-options="required:false,multiline:true"  style="width:300px;height:100px" onkeyup="setValidation()"></textarea></td>
 										
 								</tr>
 								<tr>
 									<td>End tag:</td>
-									<td><input class="easyui-validatebox textbox" type="text" name="endTag" id="endTag"
-										data-options="required:false,multiline:true"  style="width:300px;height:100px" onkeyup="setValidation()"></input></td>
+									<td><textarea class="easyui-validatebox textbox" type="text" name="endTag" id="endTag"
+										data-options="required:false,multiline:true"  style="width:300px;height:100px" onkeyup="setValidation()"></textarea></td>
 								</tr>
 						</table>
 					</div>
