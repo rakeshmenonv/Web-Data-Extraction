@@ -18,6 +18,9 @@ public class Pageurlinfo extends IdEntity{
 	private String nextScheduleOn;
 	private String startTag;
 	private String endTag;
+	private String pageFormat;
+	private int startPage;
+	private int endPage;
 	
 	public String getUrl() {
 		return url;
@@ -73,6 +76,23 @@ public class Pageurlinfo extends IdEntity{
 	public void setEndTag(String endTag) {
 		this.endTag = endTag;
 	}
-	
+	public String getPageFormat() {
+		return pageFormat;
+	}
+	public void setPageFormat(String pageFormat) {
+		this.pageFormat = pageFormat;
+	}
+	public int getStartPage() {
+		return startPage;
+	}
+	public void setStartPage(int startPage) {
+		this.startPage = startPage;
+	}
+	public int getEndPage() {
+		return endPage;
+	}
+	public void setEndPage(int endPage) {
+		this.endPage = endPage;
+	}
 
 }

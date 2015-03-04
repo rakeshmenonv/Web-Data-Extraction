@@ -208,6 +208,26 @@ function showLog(url,params) {
 					    	</tr>
 						</table>
 					</div>
+					<div title="<spring:message code="webharvest_pageData" />" style="padding:10px" data-options="iconCls:'icon-hourglass'">
+						<table cellpadding="5">
+							<tr>
+								<td><spring:message code="webharvest_pageformat" /></td>
+								<td><input class="easyui-validatebox textbox" type="text" name="pageFormat" id="pageFormat" style="width:300px;height:100px"
+									data-options="validType:'url',multiline:true" onkeyup="setValidation()"></input></td>
+									
+							</tr>
+							<tr>
+								<td><spring:message code="webharvest_startpage" />:</td>
+								<td><input class="easyui-numberbox" type="text" name="startPage" id="startPage" value="0"
+									onkeyup="setValidation()"></input></td>
+							</tr>
+							<tr>
+								<td><spring:message code="webharvest_endpage" />:</td>
+								<td><input class="easyui-numberbox" type="text" name="endPage" id="endPage"  value="0"
+									 onkeyup="setValidation()"></input></td>
+							</tr>
+						</table>
+					</div>
 				</div>
 			
 			</form:form>
