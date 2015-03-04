@@ -96,7 +96,7 @@ public class DataHarvestService {
 			   selectedelement = pageurlinfo.getElement()+"."+pageurlinfo.getValue();
 		}		
 		Elements elements = doc.select(selectedelement);
-		if (pageurlinfo.getStartTag()!=null && pageurlinfo.getEndTag()!=null  ){
+		if ((pageurlinfo.getStartTag()!=null && pageurlinfo.getEndTag()!=null) && (!pageurlinfo.getStartTag().isEmpty() && !pageurlinfo.getEndTag().isEmpty())  ){
 			String title = StringUtils.substringBetween(elements.html().toString(),pageurlinfo.getStartTag() , pageurlinfo.getEndTag());
 			if (title!=null && title!=""){
 			doc=Jsoup.parse(title);
