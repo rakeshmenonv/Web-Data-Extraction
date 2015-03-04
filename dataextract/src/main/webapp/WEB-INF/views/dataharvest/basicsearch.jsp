@@ -3,6 +3,7 @@
 <script>
 var formId="dataharvest_form_inputForm";
 var showLogUrl="${ctx}/dataharvest/showlog";
+var basicinfo_save_url="${ctx}/dataharvest/saveElement/";
 $.parser.onComplete = function() {
 	setValidation();
 	parent. $ .messager.progress('close');	
@@ -42,6 +43,22 @@ function beginExtract(){
 	}
 
 }
+function saveElement(){
+	setValidation();
+	var inputForm = $('#'+ formId);
+	inputForm.prop('action','${ctx}/dataharvest/saveElement'); 
+	var isValid = inputForm.form('validate');
+	if (isValid) {
+		inputForm.submit();
+		$.messager.show({ // show error message
+			title : '提示',
+			msg : 'data saved'
+		});
+	}
+
+}
+
+
 function clearForm(){
 	$('#'+ formId).trigger("reset");
 	$.messager.show({ // show error message
@@ -97,7 +114,7 @@ function showLog(url,params) {
 					<tr>
 						<td>
 							<div style="text-align: center;">
-								<a href="#" class="easyui-linkbutton" onclick="beginExtract();"
+								<a href="javascript:saveElement(basicinfo_save_url)" class="easyui-linkbutton"
 									data-options="iconCls:'icon-disk',plain:true">Save</a>
 							</div>
 						</td>
