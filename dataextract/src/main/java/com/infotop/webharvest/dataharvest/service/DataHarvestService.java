@@ -61,10 +61,6 @@ public class DataHarvestService {
 
 	@Autowired
 	private PagedatainfoService pagedatainfoService;
-	double similarityTreshold = 0.80;
-	boolean ignoreFormattingTags = false;
-	boolean useContentSimilarity = false;
-	int maxNodeInGeneralizedNodes = 9;
 	
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
@@ -87,51 +83,18 @@ public class DataHarvestService {
 	public boolean selectedsave(Pageurlinfo pageurlinfo) throws MalformedURLException {
 		Document doc;
 		listPagedatainfo = null;
-		logmsg.setMessage(null);
-		WebClient webClient = new WebClient(BrowserVersion.FIREFOX_24); // Chrome not working
-		HtmlPage page = null;
-		try 
-		{ webClient.getOptions().setJavaScriptEnabled(true);
-
-	    CookieManager cookieMan = new CookieManager();
-	    cookieMan = webClient.getCookieManager();
-	    cookieMan.setCookiesEnabled(true);
-
-	    webClient.getOptions().setRedirectEnabled(true);
-	    webClient.getOptions().setThrowExceptionOnFailingStatusCode(false);
-	    webClient.getOptions().setTimeout(60000);
-        
-	    webClient.getOptions().setPrintContentOnFailingStatusCode(true);
-	    webClient.getOptions().setThrowExceptionOnScriptError(false);
-		page = webClient.getPage(pageurlinfo.getUrl());
-		} catch (FailingHttpStatusCodeException e1) 
-		{
-		    // TODO Auto-generated catch block
-		    e1.printStackTrace();
-		}
-		catch (MalformedURLException e1) 
-		{
-		    // TODO Auto-generated catch block
-		    e1.printStackTrace();
-		}
-		catch (IOException e1) 
-		{
-		    // TODO Auto-generated catch block
-		    e1.printStackTrace();
-		} 
-		
+		logmsg.setMessage(null);		
+		HtmlPage page = HarvestUtil.getPage(pageurlinfo.getUrl());	
+		doc = Jsoup.parse(page.asXml());
 		String selectedelement = pageurlinfo.getElement() + "["
 				+ pageurlinfo.getAttribute() + "=" + pageurlinfo.getValue()
-				+ "]";
-		
-		doc = Jsoup.parse(page.asXml());
+				+ "]";		
 		if(pageurlinfo.getAttribute().equals("id")){
 			   selectedelement = pageurlinfo.getElement()+"#"+pageurlinfo.getValue();
 		}else if(pageurlinfo.getAttribute().equals("class")){
 			
 			   selectedelement = pageurlinfo.getElement()+"."+pageurlinfo.getValue();
-		}
-		
+		}		
 		Elements elements = doc.select(selectedelement);
 		if(!pageurlinfo.getElement().equals("table")){
 			Elements tableElements=elements.select("table");
@@ -146,310 +109,50 @@ public class DataHarvestService {
 	private void parseElements(Elements elements,Pageurlinfo pageurlinfo) throws MalformedURLException{
 		for (Element element2 : elements) {
 			String tableGroupKey = OperationNoUtil.getUUID();
-			if (!element2.nodeName().equals("table")){
-			for (Element element : element2.getAllElements()) {
-				String rowGroupKey = OperationNoUtil.getUUID();
-				if (element.nodeName().equals("img")) {
-					
-					String absUrl=JsoupUtil.getabsUrl(pageurlinfo.getUrl(), element.attr("src"));
-					for (Attribute attribute : element.attributes()) {
-
-						if (("src".equals(attribute.getKey()))) {
-							Pagedatainfo pagedatainfo = new Pagedatainfo();
-							if (!element.ownText().isEmpty()) {
-								pagedatainfo.setContent(element.ownText()
-										+ "|" +  "<img src='"+absUrl+"' alt=\"+"+element.ownText()+"\"  >");
-							} else {
-								pagedatainfo.setContent( "<img src='"+absUrl+"' alt=\"+"+element.ownText()+"\"  >");
-							}
-							pagedatainfo.setType(element.nodeName());
-							pagedatainfo.setExtractedDate(DateTimeUtil
-									.nowTimeStr());
-							pagedatainfo.setRowGroupKey(rowGroupKey);
-							pagedatainfo.setTableGroupKey(tableGroupKey);
-							pagedatainfo.setPageurlinfo(pageurlinfo);
-							pageDataInfoSave(pagedatainfo);
-							
-							listPagedatainfo = pagedatainfo;	
-							logmsg.setSuccess(true);
-							
-						}
-						if ("abs:src".equals(attribute.getKey())) {
-							Pagedatainfo pagedatainfo = new Pagedatainfo();
-							if (!element.ownText().isEmpty()) {
-								pagedatainfo.setContent(element.ownText()
-										+ "|" + "<img src='"+absUrl+"' alt=\"+"+element.ownText()+"\"  >");
-								
-								
-							} else {
-								pagedatainfo.setContent("<img src='"+absUrl+"' alt=\"+"+element.ownText()+"\"  >");
-							}
-							pagedatainfo.setType(element.nodeName());
-							pagedatainfo.setExtractedDate(DateTimeUtil
-									.nowTimeStr());
-							pagedatainfo.setRowGroupKey(rowGroupKey);
-							pagedatainfo.setTableGroupKey(tableGroupKey);
-							pagedatainfo.setPageurlinfo(pageurlinfo);
-							pageDataInfoSave(pagedatainfo);
-							
-							listPagedatainfo = pagedatainfo;		
-							logmsg.setSuccess(true);
-						}
-						if ("data-lazyload".equals(attribute.getKey())) {
-							absUrl=JsoupUtil.getabsUrl(pageurlinfo.getUrl(), element.attr("data-lazyload"));
-							Pagedatainfo pagedatainfo = new Pagedatainfo();
-							if (!element.ownText().isEmpty()) {
-								pagedatainfo.setContent(element.ownText()
-										+ "|"
-										+ "<img src=\""+absUrl+"\" alt=\"+"+element.ownText()+"\"  >" );
-							} else {
-								pagedatainfo.setContent("<img src='"+absUrl+"' alt=\"+"+element.ownText()+"\"  >" );
-							}
-							pagedatainfo.setPageurlinfo(pageurlinfo);
-							pagedatainfo.setExtractedDate(DateTimeUtil
-									.nowTimeStr());
-							pagedatainfo.setType(element.nodeName());
-							pagedatainfo.setRowGroupKey(rowGroupKey);
-							pagedatainfo.setTableGroupKey(tableGroupKey);
-							pageDataInfoSave(pagedatainfo);
-							
-							listPagedatainfo = pagedatainfo;		
-							logmsg.setSuccess(true);
-						}
-					}
-				} else if (element.nodeName().equals("a")&&!element.attr("href").isEmpty()) {
-					String absUrl=JsoupUtil.getabsUrl(pageurlinfo.getUrl(), element.attr("href"));
-					Pagedatainfo pagedatainfo = new Pagedatainfo();
-					if (!element.ownText().isEmpty()) {
-						pagedatainfo.setContent(element.ownText() + "|"
-								+"<a href='"+absUrl+"'>"+element.ownText()+"</a>");
-					} else {
-						pagedatainfo.setContent("<a href='"+absUrl+"'>Link</a>");
-						
-					}
-					pagedatainfo.setType(element.nodeName());
-					pagedatainfo
-							.setExtractedDate(DateTimeUtil.nowTimeStr());
-					pagedatainfo.setRowGroupKey(rowGroupKey);
-					pagedatainfo.setPageurlinfo(pageurlinfo);
-					pagedatainfo.setTableGroupKey(tableGroupKey);
-					pageDataInfoSave(pagedatainfo);
-					
-					listPagedatainfo = pagedatainfo;		
-					logmsg.setSuccess(true);
-				} else if (element.nodeName().equals("script")) {
-				} else if (element.nodeName().equals("Imports")) {
-				} else {
-
-					Pagedatainfo pagedatainfo = new Pagedatainfo();
-					pagedatainfo.setContent(element.ownText());
-					pagedatainfo.setType(element.nodeName());
-					pagedatainfo
-							.setExtractedDate(DateTimeUtil.nowTimeStr());
-					pagedatainfo.setRowGroupKey(rowGroupKey);
-					pagedatainfo.setTableGroupKey(tableGroupKey);
-					pagedatainfo.setPageurlinfo(pageurlinfo);
-					if (!element.ownText().isEmpty()) {
-						if (!element.ownText().equals("  ")) {
-							pageDataInfoSave(pagedatainfo);
-							listPagedatainfo = pagedatainfo;							
-							logmsg.setSuccess(true);
-						}
-
-					} else {
-					}
-
-				}
-			}
-			
-			
-		}else{
-			String rowGroupKey = OperationNoUtil.getUUID();
+			if (!element2.nodeName().equals("table")) {
 				for (Element element : element2.getAllElements()) {
-				if (element.nodeName().equals("tr")){
-					  rowGroupKey = OperationNoUtil.getUUID();
-				}else{
+					String rowGroupKey = OperationNoUtil.getUUID();
+					saveData(element, pageurlinfo, rowGroupKey, tableGroupKey);
 				}
-				
-				if (element.nodeName().equals("img")) {
-					String absUrl=JsoupUtil.getabsUrl(pageurlinfo.getUrl(), element.attr("src"));
-					
-					for (Attribute attribute : element.attributes()) {
-
-						if (("src".equals(attribute.getKey()))) {
-							Pagedatainfo pagedatainfo = new Pagedatainfo();
-							if (!element.ownText().isEmpty()) {
-								pagedatainfo.setContent(element.ownText()
-										+ "|" +  "<img src='"+absUrl+"' alt=\"+"+element.ownText()+"\"  >");
-							} else {
-								pagedatainfo.setContent( "<img src='"+absUrl+"' alt=\""+element.ownText()+"\"  >");
-							}
-							pagedatainfo.setType(element.nodeName());
-							pagedatainfo.setExtractedDate(DateTimeUtil
-									.nowTimeStr());
-							pagedatainfo.setRowGroupKey(rowGroupKey);
-							pagedatainfo.setTableGroupKey(tableGroupKey);
-							pagedatainfo.setPageurlinfo(pageurlinfo);
-							pageDataInfoSave(pagedatainfo);
-							
-							listPagedatainfo = pagedatainfo;			
-							logmsg.setSuccess(true);
-							
-						}
-						if ("abs:src".equals(attribute.getKey())) {
-							Pagedatainfo pagedatainfo = new Pagedatainfo();
-							if (!element.ownText().isEmpty()) {
-								pagedatainfo.setContent(element.ownText()
-										+ "|" + "<img src='"+absUrl+"' alt=\"+"+element.ownText()+"\"  >");
-								
-								
-							} else {
-								pagedatainfo.setContent("<img src='"+absUrl+"' alt=\"+"+element.ownText()+"\"  >");
-							}
-							pagedatainfo.setType(element.nodeName());
-							pagedatainfo.setExtractedDate(DateTimeUtil
-									.nowTimeStr());
-							pagedatainfo.setRowGroupKey(rowGroupKey);
-							pagedatainfo.setTableGroupKey(tableGroupKey);
-							pagedatainfo.setPageurlinfo(pageurlinfo);
-							pageDataInfoSave(pagedatainfo);
-							
-							listPagedatainfo = pagedatainfo;					
-							logmsg.setSuccess(true);
-						}
-						if ("data-lazyload".equals(attribute.getKey())) {
-							absUrl=JsoupUtil.getabsUrl(pageurlinfo.getUrl(), element.attr("data-lazyload"));
-							Pagedatainfo pagedatainfo = new Pagedatainfo();
-							if (!element.ownText().isEmpty()) {
-								pagedatainfo.setContent(element.ownText()
-										+ "|"
-										+ "<img src='"+absUrl+"' alt=\"+"+element.ownText()+"\"  >" );
-							} else {
-								pagedatainfo.setContent("<img src='"+absUrl+"' alt=\"+"+element.ownText()+"\"  >" );
-							}
-							pagedatainfo.setPageurlinfo(pageurlinfo);
-							pagedatainfo.setExtractedDate(DateTimeUtil
-									.nowTimeStr());
-							pagedatainfo.setType(element.nodeName());
-							pagedatainfo.setRowGroupKey(rowGroupKey);
-							pagedatainfo.setTableGroupKey(tableGroupKey);
-							pageDataInfoSave(pagedatainfo);
-							
-							listPagedatainfo = pagedatainfo;				
-							logmsg.setSuccess(true);
-						}
-					}
-				} else if (element.nodeName().equals("a")&&!element.attr("href").isEmpty()) {
-					Pagedatainfo pagedatainfo = new Pagedatainfo();
-					String absUrl=JsoupUtil.getabsUrl(pageurlinfo.getUrl(), element.attr("href"));
-					if (!element.ownText().isEmpty()) {
-						pagedatainfo.setContent("<a href='"+absUrl+"'>"+element.ownText()+"</a>");
-					} else {
-						pagedatainfo.setContent("<a href='"+absUrl+"'>Link</a>");
-						
-					}
-					pagedatainfo.setType(element.nodeName());
-					pagedatainfo
-							.setExtractedDate(DateTimeUtil.nowTimeStr());
-					pagedatainfo.setRowGroupKey(rowGroupKey);
-					pagedatainfo.setPageurlinfo(pageurlinfo);
-					pagedatainfo.setTableGroupKey(tableGroupKey);
-					pageDataInfoSave(pagedatainfo);
-					
-					listPagedatainfo = pagedatainfo;		
-					logmsg.setSuccess(true);
-				} else if (element.nodeName().equals("script")) {
-				} else if (element.nodeName().equals("Imports")) {
-				} else {
-
-					Pagedatainfo pagedatainfo = new Pagedatainfo();
-					pagedatainfo.setContent(element.ownText());
-					pagedatainfo.setType(element.nodeName());
-					pagedatainfo
-							.setExtractedDate(DateTimeUtil.nowTimeStr());
-					pagedatainfo.setRowGroupKey(rowGroupKey);
-					pagedatainfo.setTableGroupKey(tableGroupKey);
-					pagedatainfo.setPageurlinfo(pageurlinfo);
-					if (!element.ownText().isEmpty()) {
-						if (!element.ownText().equals("  ")) {
-							pageDataInfoSave(pagedatainfo);
-							listPagedatainfo = pagedatainfo;						
-							logmsg.setSuccess(true);
-						}
-
-					} else {
-					}
-
+			} else {
+				String rowGroupKey = OperationNoUtil.getUUID();
+				for (Element element : element2.getAllElements()) {
+					if (element.nodeName().equals("tr")) {
+						rowGroupKey = OperationNoUtil.getUUID();
+					} 
+					saveData(element, pageurlinfo, rowGroupKey, tableGroupKey);
 				}
-			
-			}
 			}
 		}
 	}
-	private void pageDataInfoSave(Pagedatainfo pagedatainfo) {
-		try{
-		pagedatainfoService.save(pagedatainfo);
-		}catch(Exception e){
-			e.printStackTrace();	
+	
+	private void saveData(Element element, Pageurlinfo pageurlinfo, String rowGroupKey, String tableGroupKey) throws MalformedURLException{
+		Pagedatainfo pagedatainfo=new Pagedatainfo();
+		String content=HarvestUtil.getContent(element,pageurlinfo.getUrl());
+		if (!content.isEmpty()) {
+			if (!content.equals("  ")) {
+				pagedatainfo.setContent(content);
+				pagedatainfo.setType(element.nodeName());
+				pagedatainfo.setExtractedDate(DateTimeUtil.nowTimeStr());
+				pagedatainfo.setRowGroupKey(rowGroupKey);
+				pagedatainfo.setTableGroupKey(tableGroupKey);
+				pagedatainfo.setPageurlinfo(pageurlinfo);
+				pagedatainfoService.save(pagedatainfo);		
+				listPagedatainfo = pagedatainfo;		
+				logmsg.setSuccess(true);
+			}
 		}
-	}
-	public boolean basicsave(Pageurlinfo pageurlinfo) {
-		    
+	}	
+	
+	public boolean basicsave(Pageurlinfo pageurlinfo) {		    
 		try {
 			listPagedatainfo = null;
-			logmsg.setMessage(null);
-			TagTreeBuilder builder = new DOMParserTagTreeBuilder();
-			TagTree tagTree = builder.buildTagTree(pageurlinfo.getUrl(),
-					ignoreFormattingTags);
-			TreeMatcher matcher = new SimpleTreeMatching();
-			DataRegionsFinder dataRegionsFinder = new MiningDataRegions(matcher);
-			List<DataRegion> dataRegions = dataRegionsFinder.findDataRegions(
-					tagTree.getRoot(), maxNodeInGeneralizedNodes,
-					similarityTreshold);
-			DataRecordsFinder dataRecordsFinder = new MiningDataRecords(matcher);
-			DataRecord[][] dataRecords = new DataRecord[dataRegions.size()][];
-			for (int dataRecordArrayCounter = 0; dataRecordArrayCounter < dataRegions
-					.size(); dataRecordArrayCounter++) {
-				DataRegion dataRegion = dataRegions.get(dataRecordArrayCounter);
-				dataRecords[dataRecordArrayCounter] = dataRecordsFinder
-						.findDataRecords(dataRegion, similarityTreshold);
-			}
-			ColumnAligner aligner = null;
-			if (useContentSimilarity) {
-				aligner = new PartialTreeAligner(
-						new EnhancedSimpleTreeMatching());
-			} else {
-				aligner = new PartialTreeAligner(matcher);
-			}
-			List<String[][]> dataTables = new ArrayList<String[][]>();
-			for (int tableCounter = 0; tableCounter < dataRecords.length; tableCounter++) {
-				String[][] dataTable = aligner
-						.alignDataRecords(dataRecords[tableCounter]);
-
-				if (dataTable != null) {
-					dataTables.add(dataTable);
-				}
-			}
-			int recordsFound = 0;
-			for (String[][] dataTable : dataTables) {
-				recordsFound += dataTable.length;
-			}
-			// int tableCounter = 1;
+			logmsg.setMessage(null);			
+			List<String[][]> dataTables = HarvestUtil.getDataTables(pageurlinfo.getUrl());			
 			for (String[][] table : dataTables) {
-				String tableGroupKey = OperationNoUtil.getUUID();
-				// output.format("<h2>Table %s</h2>\n<table>\n<thead>\n<tr>\n<th>Row Number</th>\n",
-				// tableCounter);
-				// for(int columnCounter=1; columnCounter<=table[0].length;
-				// columnCounter++)
-				// {
-				// output.format("<th></th>\n");
-				// }
-				// output.format("</tr>\n</thead>\n<tbody>\n");
-				// int rowCounter = 1;
+				String tableGroupKey = OperationNoUtil.getUUID();			
 				for (String[] row : table) {
-					String rowGroupKey = OperationNoUtil.getUUID();
-					// output.format("<tr>\n<td>%s</td>", rowCounter);
-					// int columnCounter = 1;
+					String rowGroupKey = OperationNoUtil.getUUID();					
 					for (String item : row) {
 						String itemText = item;
 						if (itemText == null) {
@@ -462,39 +165,15 @@ public class DataHarvestService {
 						pagedatainfo.setRowGroupKey(rowGroupKey);
 						pagedatainfo
 								.setExtractedDate(DateTimeUtil.nowTimeStr());
-						pagedatainfo.setType(getTagType(itemText.trim()));
-						pagedatainfoService.save(pagedatainfo);		
-						
+						pagedatainfo.setType(HarvestUtil.getTagType(itemText.trim()));
+						pagedatainfoService.save(pagedatainfo);	
 						listPagedatainfo = pagedatainfo;				
-						logmsg.setSuccess(true);					
-                        //github.com/rakeshmenonv/Web-Data-Extraction.git
-						//System.out.println(itemText);
-						// output.format("<td>%s</td>\n", itemText);
-						// columnCounter++;
-					}
-					// output.format("</tr>\n");
-					// rowCounter++;
+						logmsg.setSuccess(true);
+					}					
 				}
-				
-				// output.format("</tbody>\n</table>\n");
-				// tableCounter++;
 			}
-			
-			
-			// output.format("</body></html>");
 		} catch (SecurityException exception) {
 			logmsg.setMessage(exception.toString());
-			exception.printStackTrace();
-			return false;
-		} catch (FileNotFoundException exception) {
-			logmsg.setMessage(exception.toString());
-			exception.printStackTrace();
-			return false;
-		} catch (IOException exception) {
-			logmsg.setMessage("connection Timeout : "+pageurlinfo.getUrl()+" can not access.");
-			exception.printStackTrace();			
-			return false;
-		} catch (SAXException exception) {
 			exception.printStackTrace();
 			return false;
 		} catch (Exception exception) {
@@ -506,7 +185,6 @@ public class DataHarvestService {
 	}
 
 	public void logProgress(HttpServletResponse response) throws IOException{
-
 		ObjectMapper mapper = new ObjectMapper();
 		Pagedatainfo sentPagedatainfo = new Pagedatainfo();
 		sentPagedatainfo = listPagedatainfo;
@@ -524,17 +202,7 @@ public class DataHarvestService {
         logmsg  = new Message();
         listPagedatainfo = null;
         writer.flush();
-        writer.close();
-		
-	}
-
-	public String getTagType(String data){
-		if(data.contains("<a href")){
-			return "Link";
-		}else if(data.contains("<img src")){
-			return "Image";
-		}
-		return "Text";		
-	}
+        writer.close();		
+	}	
 	
 }

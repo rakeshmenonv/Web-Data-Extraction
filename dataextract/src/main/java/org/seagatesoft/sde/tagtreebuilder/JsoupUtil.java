@@ -26,8 +26,6 @@ public class JsoupUtil {
 
     Logger l = Logger.getLogger(JsoupUtil.class);
     private static JsoupUtil ins = new JsoupUtil();
-    private static Pattern absoluteURIPattern = Pattern.compile("^.*:.*$");
-	private static Pattern PartialURIPattern = Pattern.compile("//.*$");
     public static JsoupUtil getInstance() {
         return ins;
     }
@@ -41,33 +39,7 @@ public class JsoupUtil {
         convertor.convert(doc);
         return convertor.doc;
     }
-
-    public static String getabsUrl(String baseURL,String relativeUrl) throws MalformedURLException{
-    	URL url = new URL(baseURL);
-    	baseURL = url.getProtocol() + "://" + url.getHost();
-    	Matcher absoluteURIMatcher = absoluteURIPattern.matcher( relativeUrl );
-		
-		// jika URI pada atribut src bukan merupakan URI absolut (URI relatif)
-		if ( ! absoluteURIMatcher.matches() )
-		{
-			Matcher partialURIMatcher = PartialURIPattern.matcher( relativeUrl );
-			if(! partialURIMatcher.matches() ){
-				String[] splitimgURI=relativeUrl.split("/",2);	
-				if(splitimgURI[0].contains(".") || splitimgURI[0].contains("/")){									
-					if(splitimgURI.length==2){
-						relativeUrl = baseURL+"/" + splitimgURI[1];	
-					}else{
-						relativeUrl = baseURL+"/" + splitimgURI[0];
-					}
-				}else{
-					relativeUrl = baseURL+"/" + relativeUrl;	
-				}														
-			}else{
-				relativeUrl = "http:" + relativeUrl;
-			}
-		}
-		return relativeUrl;
-    }
+    
     private class W3CDocumentConvertor {
 
         String doctype = "html";
