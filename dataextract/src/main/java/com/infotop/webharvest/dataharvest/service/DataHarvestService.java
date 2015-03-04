@@ -81,10 +81,23 @@ public class DataHarvestService {
 		return jdbcTemplate.queryForList(sqlStr);
 	}
 	public boolean selectedsave(Pageurlinfo pageurlinfo) throws MalformedURLException {
+		dataExtract(pageurlinfo,pageurlinfo.getUrl());
+		String pageFormate=pageurlinfo.getPageFormat();
+		if(!pageFormate.isEmpty()){
+			int startPage=pageurlinfo.getStartPage();
+			int endPage=pageurlinfo.getEndPage();
+			for(int i=startPage;i<=endPage;i++){
+				dataExtract(pageurlinfo,pageFormate.replace("*",String.valueOf(i)));
+			}
+		}
+		return true;
+	}
+	
+	private void dataExtract(Pageurlinfo pageurlinfo,String url) throws MalformedURLException{
 		Document doc;
 		listPagedatainfo = null;
 		logmsg.setMessage(null);		
-		HtmlPage page = HarvestUtil.getPage(pageurlinfo.getUrl());	
+		HtmlPage page = HarvestUtil.getPage(url);	
 		doc = Jsoup.parse(page.asXml());
 		String selectedelement = pageurlinfo.getElement() + "["
 				+ pageurlinfo.getAttribute() + "=" + pageurlinfo.getValue()
@@ -111,8 +124,9 @@ public class DataHarvestService {
 			}
 		}
 		parseElements(elements,pageurlinfo);
-		return true;
 	}
+	
+	
 	private void parseElements(Elements elements,Pageurlinfo pageurlinfo) throws MalformedURLException{
 		for (Element element2 : elements) {
 			String tableGroupKey = OperationNoUtil.getUUID();

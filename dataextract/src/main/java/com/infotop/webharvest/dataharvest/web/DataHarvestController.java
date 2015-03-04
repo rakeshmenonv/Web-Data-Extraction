@@ -143,6 +143,43 @@ public class DataHarvestController extends BasicController {
 		return msg;
 	}
 
+	@RequestMapping(value = "saveElement", method = RequestMethod.POST)
+	@ResponseBody
+	public Message saveElement(@Valid Pageurlinfo pageurlinfo,
+			RedirectAttributes redirectAttributes) {
+		try {
+
+			ShiroUser su = super.getLoginUser();
+			
+			User user = accountService.findUserByLoginName(su.getLoginName());
+			if (user != null) {
+
+				try{
+					  Integer.parseInt(pageurlinfo.getNextScheduleOn());
+				}catch(Exception e){
+					pageurlinfo.setJobon(null);
+				}
+				pageurlinfo.setExtractedDate(DateTimeUtil.nowTimeStr());
+				pageurlinfoService.save(pageurlinfo);
+				msg.setSuccess(true);
+				msg.setMessage("信息添加成功");
+				msg.setData(pageurlinfo);
+			} else {
+				logger.log(this.getClass(), Logger.ERROR_INT, "登陆帐号无效!", "",
+						null);
+				msg.setSuccess(false);
+				msg.setMessage("登陆帐号无效!");
+				msg.setData("");
+			}
+		} catch (Exception ex) {
+			logger.log(this.getClass(), Logger.ERROR_INT, ex.getMessage(),
+					super.getLoginUser().getLoginName(), null);
+			msg.setSuccess(false);
+			msg.setMessage(ex.getMessage());
+			msg.setData("");
+		}
+		return msg;
+	}
 	@RequestMapping(value = "extracted")
 	@ResponseBody
 	public Message extracted(@Valid Pageurlinfo pageurlinfo,
