@@ -6,6 +6,8 @@ import java.io.PrintWriter;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -19,6 +21,7 @@ import org.jsoup.nodes.Attribute;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.parser.Parser;
+import org.jsoup.safety.Whitelist;
 import org.jsoup.select.Elements;
 import org.seagatesoft.sde.DataRecord;
 import org.seagatesoft.sde.DataRegion;
@@ -109,13 +112,22 @@ public class DataHarvestService {
 			   selectedelement = pageurlinfo.getElement()+"."+pageurlinfo.getValue();
 		}		
 		Elements elements = doc.select(selectedelement);
-		if ((pageurlinfo.getStartTag()!=null && pageurlinfo.getEndTag()!=null) && (!pageurlinfo.getStartTag().isEmpty() && !pageurlinfo.getEndTag().isEmpty())  ){
-			String title = StringUtils.substringBetween(elements.html().toString(),pageurlinfo.getStartTag() , pageurlinfo.getEndTag());
-			if (title!=null && title!=""){
-			doc=Jsoup.parse(title);
-			elements = doc.select("body");			
+		if ((pageurlinfo.getStartTag() != null && pageurlinfo.getEndTag() != null)	&& (!pageurlinfo.getStartTag().isEmpty() && !pageurlinfo.getEndTag().isEmpty())) {
+			String str = HarvestUtil.getWithoutSpaceAndLine(elements.html().toString());
+			pageurlinfo.setStartTag(HarvestUtil.getWithoutSpaceAndLine(pageurlinfo.getStartTag()));
+			pageurlinfo.setEndTag(HarvestUtil.getWithoutSpaceAndLine(pageurlinfo.getEndTag()));
+			String pattern = pageurlinfo.getStartTag() + "(.+?)"+ pageurlinfo.getEndTag();
+			Pattern TAG_REGEX = Pattern.compile(pattern);
+			final Matcher matcher = TAG_REGEX.matcher(str);
+			while (matcher.find()) {
+				if (matcher.group(1) != null && matcher.group(1) != "") {
+					doc = Jsoup.parse(matcher.group(1));
+					elements = doc.select("body");
+					parseElements(elements, pageurlinfo);
+				}
 			}
-		}
+
+		} else {
 		if(!pageurlinfo.getElement().equals("table")){
 			Elements tableElements=elements.select("table");
 			if(!tableElements.isEmpty()){
@@ -124,6 +136,7 @@ public class DataHarvestService {
 			}
 		}
 		parseElements(elements,pageurlinfo);
+		  }
 	}
 	
 	
@@ -225,5 +238,4 @@ public class DataHarvestService {
         writer.flush();
         writer.close();		
 	}	
-	
 }

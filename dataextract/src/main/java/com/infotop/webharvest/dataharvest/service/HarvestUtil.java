@@ -204,4 +204,12 @@ public class HarvestUtil {
 		}
 		return relativeUrl;
     }
+	public static String getWithoutSpaceAndLine(String content){
+		String[] contents=content.split("\n");
+		 StringBuilder sb = new StringBuilder();
+	        for (String element : contents) {	            
+	            sb.append(element.trim());
+	        }
+	        return sb.toString();
+	}
 }
