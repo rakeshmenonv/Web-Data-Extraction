@@ -121,9 +121,14 @@ public class DataHarvestService {
 			final Matcher matcher = TAG_REGEX.matcher(str);
 			while (matcher.find()) {
 				if (matcher.group(1) != null && matcher.group(1) != "") {
-					doc = Jsoup.parse(matcher.group(1));
+					doc = Jsoup.parse(pageurlinfo.getStartTag()+matcher.group(1)+pageurlinfo.getEndTag());
 					elements = doc.select("body");
-					parseElements(elements, pageurlinfo);
+					Elements tableElements=elements.select("table");
+					if(!tableElements.isEmpty()){
+						parseElements(tableElements,pageurlinfo);
+						elements.select("table").remove();
+					}
+					parseElements(elements,pageurlinfo);
 				}
 			}
 
