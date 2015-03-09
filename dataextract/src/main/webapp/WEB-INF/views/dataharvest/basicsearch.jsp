@@ -3,7 +3,8 @@
 <script>
 var formId="dataharvest_form_inputForm";
 var showLogUrl="${ctx}/dataharvest/showlog";
-var basicinfo_save_url="${ctx}/dataharvest/saveElement/";
+var basicinfo_saveonly_url="${ctx}/dataharvest/saveElement";
+var basicinfo_save_showdata_url="${ctx}/dataharvest/${action}";
 $.parser.onComplete = function() {
 	setValidation();
 	parent. $ .messager.progress('close');	
@@ -17,6 +18,9 @@ $.parser.onComplete = function() {
 					return isValid;
 				},
 				success : function(result) {
+					var inputForm = $('#'+ formId);
+					inputForm.prop('action',basicinfo_save_showdata_url); 
+					
 					es.close();					
 					var result = $ .parseJSON(result);
 					if(result.success){
@@ -46,7 +50,7 @@ function beginExtract(){
 function saveElement(){
 	setValidation();
 	var inputForm = $('#'+ formId);
-	inputForm.prop('action','${ctx}/dataharvest/saveElement'); 
+	inputForm.prop('action',basicinfo_saveonly_url); 
 	var isValid = inputForm.form('validate');
 	if (isValid) {
 		inputForm.submit();
@@ -134,12 +138,12 @@ function showLog(url,params) {
 				</table>
 			</div>	
 		</div>	
-		<div data-options="region:'center',border:false" style="padding-left: 30px !important;">	
+		<div data-options="region:'center',border:false">	
 			<form:form id="dataharvest_form_inputForm"
 				name="dataharvest_form_inputForm" action="${ctx}/dataharvest/${action}"
 				modelAttribute="pageurlinfo" method="post" class="form-horizontal">
-				<div class="easyui-tabs"
-					style="width: 50%; height: 350px; margin: 20px auto;" >
+				<div class="easyui-tabs" data-options="border:false"
+					style="width: 100%; height:400px;;overflow: hidden;">
 					<div title="<spring:message code="webharvest_basicSearch" />" style="padding: 10px" data-options="iconCls:'icon-page_white_magnify'">
 					
 						<%-- URL:
@@ -181,34 +185,17 @@ function showLog(url,params) {
 								<tr>
 									<td>start tag:</td>
 									<td><textarea class="easyui-validatebox textbox" type="text" name="startTag" id="startTag"
-										data-options="required:false,multiline:true"  style="width:300px;height:100px" onkeyup="setValidation()"></textarea></td>
+										data-options="required:false,multiline:true"  style="width:500px;height:150px" onkeyup="setValidation()"></textarea></td>
 										
 								</tr>
 								<tr>
 									<td>End tag:</td>
 									<td><textarea class="easyui-validatebox textbox" type="text" name="endTag" id="endTag"
-										data-options="required:false,multiline:true"  style="width:300px;height:100px" onkeyup="setValidation()"></textarea></td>
+										data-options="required:false,multiline:true"  style="width:500px;height:150px" onkeyup="setValidation()"></textarea></td>
 								</tr>
 						</table>
 					</div>
-					<div title="<spring:message code="webharvest_scheduler" />" style="padding:10px" data-options="iconCls:'icon-hourglass'">
-						<table cellpadding="5">
-							<tr>
-					    		<td><spring:message code="webharvest_interval" />:</td> 
-					    		<td>
-					    			<input class="easyui-numberspinner" style="width:100px;" name="jobon" id="jobon" data-options="min:1,max:1000,editable:true"></input>
-				<!-- 	    				<select class="easyui-combobox" name="state" id="state" style="width:200px;"> -->
-				<!-- 							<option value="">选择任意1..</option> -->
-				<%-- 							<c:forEach items="${schedulerList}" var="par"> --%>
-				<%-- 							<option value="${par.name}">${par.name}</option> --%>
-				<%-- 							</c:forEach> --%>
-				<!-- 						</select> -->
-					    		</td>
-					    		<td>(<font color="red">指定在小时的间隔</font>)</td> 
-					    	</tr>
-						</table>
-					</div>
-					<div title="<spring:message code="webharvest_pageData" />" style="padding:10px" data-options="iconCls:'icon-hourglass'">
+					<div title="高级搜索" style="padding:10px" data-options="iconCls:'icon-find'">
 						<table cellpadding="5">
 							<tr>
 								<td><spring:message code="webharvest_pageformat" /></td>
@@ -226,6 +213,23 @@ function showLog(url,params) {
 								<td><input class="easyui-numberbox" type="text" name="endPage" id="endPage"  value="0"
 									 onkeyup="setValidation()"></input></td>
 							</tr>
+						</table>
+					</div>
+					<div title="<spring:message code="webharvest_scheduler" />" style="padding:10px" data-options="iconCls:'icon-hourglass'">
+						<table cellpadding="5">
+							<tr>
+					    		<td><spring:message code="webharvest_interval" />:</td> 
+					    		<td>
+					    			<input class="easyui-numberspinner" style="width:100px;" name="jobon" id="jobon" data-options="min:1,max:1000,editable:true"></input>
+				<!-- 	    				<select class="easyui-combobox" name="state" id="state" style="width:200px;"> -->
+				<!-- 							<option value="">选择任意1..</option> -->
+				<%-- 							<c:forEach items="${schedulerList}" var="par"> --%>
+				<%-- 							<option value="${par.name}">${par.name}</option> --%>
+				<%-- 							</c:forEach> --%>
+				<!-- 						</select> -->
+					    		</td>
+					    		<td>(<font color="red">指定在小时的间隔</font>)</td> 
+					    	</tr>
 						</table>
 					</div>
 				</div>

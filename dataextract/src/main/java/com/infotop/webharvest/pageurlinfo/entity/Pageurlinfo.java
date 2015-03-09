@@ -1,9 +1,14 @@
 package com.infotop.webharvest.pageurlinfo.entity;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.infotop.common.IdEntity;
+import com.infotop.webharvest.pagedatainfo.entity.Pagedatainfo;
 
 @Entity
 @Table(name = "page_url_info")
@@ -21,7 +26,7 @@ public class Pageurlinfo extends IdEntity{
 	private String pageFormat;
 	private int startPage;
 	private int endPage;
-	
+	 private List<Pagedatainfo> pagedatainfos;
 	public String getUrl() {
 		return url;
 	}
@@ -94,5 +99,14 @@ public class Pageurlinfo extends IdEntity{
 	public void setEndPage(int endPage) {
 		this.endPage = endPage;
 	}
+	@OneToMany(mappedBy="pageurlinfo",orphanRemoval=true, cascade={CascadeType.ALL})
+	public List<Pagedatainfo> getPagedatainfos() {
+		return pagedatainfos;
+	}
+	public void setPagedatainfos(List<Pagedatainfo> pagedatainfos) {
+		this.pagedatainfos = pagedatainfos;
+	}
+	
+	 
 
 }

@@ -81,19 +81,24 @@ public class AuditController extends  BasicController{
 	public String urlInfo(Model model, ServletRequest request,@PathVariable("id") String id) throws JsonProcessingException {
     	ShiroUser su = super.getLoginUser();
 		User user = accountService.findUserByLoginName(su.getLoginName());
-		if (user != null) {
-			//TODO add some code.
-			ObjectMapper mapper = new ObjectMapper();
-			Pageurlinfo entity = pageurlinfoService.get(Long.parseLong(id));
-			String piechart1 = mapper.writeValueAsString(dataHarvestService.getPiechartDate(entity.getUrl()));
- 			model.addAttribute("piechartdata",piechart1);
- 			model.addAttribute("url",entity.getUrl());
-			model.addAttribute("id", id);
-			model.addAttribute("id", id);
-		} else {
-			logger.log(this.getClass(),Logger.ERROR_INT,"登陆帐号无效!","",null);
-			return "redirect:/login";
+		try {
+			if (user != null) {
+				//TODO add some code.
+				ObjectMapper mapper = new ObjectMapper();
+				Pageurlinfo entity = pageurlinfoService.get(Long.parseLong(id));
+				String piechart1 = mapper.writeValueAsString(dataHarvestService.getPiechartDate(entity.getUrl()));
+	 			model.addAttribute("piechartdata",piechart1);
+	 			model.addAttribute("url",entity.getUrl());
+				model.addAttribute("id", id);
+				model.addAttribute("id", id);
+			} else {
+				logger.log(this.getClass(),Logger.ERROR_INT,"登陆帐号无效!","",null);
+				return "redirect:/login";
+			}
 		}
+		catch (Exception ex) {
+ 			logger.log(this.getClass(),Logger.ERROR_INT,ex.getMessage(),super.getLoginUser().getLoginName(),null);
+ 		}
        return "dataharvest/audit/urlinfoView";
     }
  	 @RequestMapping(value = "findLogList", method = RequestMethod.POST )
