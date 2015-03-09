@@ -209,7 +209,8 @@ public class HarvestUtil {
 	public static String getWithoutSpaceAndLine(String content){
 		String[] contents=content.split("\n");
 		 StringBuilder sb = new StringBuilder();
-	        for (String element : contents) {	            
+	        for (String element : contents) {
+	        	element=element.replaceAll("^[\\n\\r\\s\\u00A0]+|[\\n\\r\\s\\u00A0]+$", "");
 	            sb.append(element.trim());
 	        }
 	        return sb.toString();
