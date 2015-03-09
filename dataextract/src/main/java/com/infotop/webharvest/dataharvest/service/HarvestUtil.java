@@ -207,6 +207,7 @@ public class HarvestUtil {
 		return relativeUrl;
     }
 	public static String getWithoutSpaceAndLine(String content){
+		content=content.replaceAll("<", "\n<").replaceAll(">", ">\n");
 		String[] contents=content.split("\n");
 		 StringBuilder sb = new StringBuilder();
 	        for (String element : contents) {
