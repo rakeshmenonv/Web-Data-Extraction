@@ -194,7 +194,7 @@ public class PageurlinfoController extends BasicController {
 				User user = accountService.findUserByLoginName(su.getLoginName());
 				if (user != null) {
 					try{
-						  Integer.parseInt(pageurlinfo.getNextScheduleOn());
+						  Integer.parseInt(pageurlinfo.getJobon());
 						  pageurlinfo.setNextScheduleOn(pageurlinfo.getJobon());
 					}catch(Exception e){
 						pageurlinfo.setJobon(null);

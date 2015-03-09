@@ -9,7 +9,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.jsoup.nodes.Attribute;
+import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.seagatesoft.sde.DataRecord;
 import org.seagatesoft.sde.DataRegion;
 import org.seagatesoft.sde.TagTree;
@@ -212,4 +214,29 @@ public class HarvestUtil {
 	        }
 	        return sb.toString();
 	}
+	
+	public static Elements selectedElement(Pageurlinfo pageurlinfo, Document doc) {
+		String selectedelement = pageurlinfo.getElement() + "["
+				+ pageurlinfo.getAttribute() + "=" + pageurlinfo.getValue()
+				+ "]";		
+		if(pageurlinfo.getAttribute().equals("id")){
+			   selectedelement = pageurlinfo.getElement()+"#"+pageurlinfo.getValue();
+		}else if(pageurlinfo.getAttribute().equals("class")){
+			
+			   selectedelement = pageurlinfo.getElement()+"."+pageurlinfo.getValue();
+		}		
+		Elements elements = doc.select(selectedelement);
+		return elements;
+	}
+	public static Matcher patternAndMatcher(Pageurlinfo pageurlinfo, Elements elements) {
+		String str = HarvestUtil.getWithoutSpaceAndLine(elements.html().toString());
+		pageurlinfo.setStartTag(HarvestUtil.getWithoutSpaceAndLine(pageurlinfo.getStartTag()));
+		pageurlinfo.setEndTag(HarvestUtil.getWithoutSpaceAndLine(pageurlinfo.getEndTag()));
+		String pattern = pageurlinfo.getStartTag() + "(.+?)"+ pageurlinfo.getEndTag();
+		Pattern TAG_REGEX = Pattern.compile(pattern);
+		final Matcher matcher = TAG_REGEX.matcher(str);
+		return matcher;
+	}
+	
+	
 }

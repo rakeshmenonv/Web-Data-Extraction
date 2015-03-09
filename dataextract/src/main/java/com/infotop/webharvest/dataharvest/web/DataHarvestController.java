@@ -112,7 +112,7 @@ public class DataHarvestController extends BasicController {
 			if (user != null) {
 
 				try{
-					  Integer.parseInt(pageurlinfo.getNextScheduleOn());
+					  Integer.parseInt(pageurlinfo.getJobon());
 				}catch(Exception e){
 					pageurlinfo.setJobon(null);
 				}

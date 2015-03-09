@@ -102,47 +102,47 @@ public class DataHarvestService {
 		logmsg.setMessage(null);		
 		HtmlPage page = HarvestUtil.getPage(url);	
 		doc = Jsoup.parse(page.asXml());
-		String selectedelement = pageurlinfo.getElement() + "["
-				+ pageurlinfo.getAttribute() + "=" + pageurlinfo.getValue()
-				+ "]";		
-		if(pageurlinfo.getAttribute().equals("id")){
-			   selectedelement = pageurlinfo.getElement()+"#"+pageurlinfo.getValue();
-		}else if(pageurlinfo.getAttribute().equals("class")){
-			
-			   selectedelement = pageurlinfo.getElement()+"."+pageurlinfo.getValue();
-		}		
-		Elements elements = doc.select(selectedelement);
-		if ((pageurlinfo.getStartTag() != null && pageurlinfo.getEndTag() != null)	&& (!pageurlinfo.getStartTag().isEmpty() && !pageurlinfo.getEndTag().isEmpty())) {
-			String str = HarvestUtil.getWithoutSpaceAndLine(elements.html().toString());
-			pageurlinfo.setStartTag(HarvestUtil.getWithoutSpaceAndLine(pageurlinfo.getStartTag()));
-			pageurlinfo.setEndTag(HarvestUtil.getWithoutSpaceAndLine(pageurlinfo.getEndTag()));
-			String pattern = pageurlinfo.getStartTag() + "(.+?)"+ pageurlinfo.getEndTag();
-			Pattern TAG_REGEX = Pattern.compile(pattern);
-			final Matcher matcher = TAG_REGEX.matcher(str);
+		selectedLogic(pageurlinfo, doc);
+	}
+
+	public void selectedLogic(Pageurlinfo pageurlinfo, Document doc)
+			throws MalformedURLException {
+		Elements elements = HarvestUtil.selectedElement(pageurlinfo, doc);
+		if ((pageurlinfo.getStartTag() != null && pageurlinfo.getEndTag() != null)
+				&& (!pageurlinfo.getStartTag().isEmpty() && !pageurlinfo
+						.getEndTag().isEmpty())) {
+			final Matcher matcher = HarvestUtil.patternAndMatcher(pageurlinfo,
+					elements);
 			while (matcher.find()) {
 				if (matcher.group(1) != null && matcher.group(1) != "") {
-					doc = Jsoup.parse(pageurlinfo.getStartTag()+matcher.group(1)+pageurlinfo.getEndTag());
+					doc = Jsoup.parse(pageurlinfo.getStartTag()
+							+ matcher.group(1) + pageurlinfo.getEndTag());
 					elements = doc.select("body");
-					Elements tableElements=elements.select("table");
-					if(!tableElements.isEmpty()){
-						parseElements(tableElements,pageurlinfo);
-						elements.select("table").remove();
-					}
-					parseElements(elements,pageurlinfo);
+					tableLogic(pageurlinfo, elements);
+					parseElements(elements, pageurlinfo);
 				}
 			}
 
 		} else {
-		if(!pageurlinfo.getElement().equals("table")){
-			Elements tableElements=elements.select("table");
-			if(!tableElements.isEmpty()){
-				parseElements(tableElements,pageurlinfo);
-				elements.select("table").remove();
+			if (!pageurlinfo.getElement().equals("table")) {
+				tableLogic(pageurlinfo, elements);
 			}
+			parseElements(elements, pageurlinfo);
 		}
-		parseElements(elements,pageurlinfo);
-		  }
 	}
+
+	public void tableLogic(Pageurlinfo pageurlinfo, Elements elements)
+			throws MalformedURLException {
+		Elements tableElements=elements.select("table");
+		if(!tableElements.isEmpty()){
+			parseElements(tableElements,pageurlinfo);
+			elements.select("table").remove();
+		}
+	}
+
+	
+
+	
 	
 	
 	private void parseElements(Elements elements,Pageurlinfo pageurlinfo) throws MalformedURLException{
