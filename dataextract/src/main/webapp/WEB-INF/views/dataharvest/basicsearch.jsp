@@ -183,40 +183,51 @@ function showLog(url,params) {
 					<div title="<spring:message code="webharvest_betweenSelected" />" style="padding:10px" data-options="iconCls:'icon-page_code'">
 						<table cellpadding="5">
 								<tr>
-									<td>start tag:</td>
+									<td>开始模式:</td>
 									<td><textarea class="easyui-validatebox textbox" type="text" name="startTag" id="startTag"
 										data-options="required:false,multiline:true"  style="width:500px;height:150px" onkeyup="setValidation()"></textarea></td>
 										
 								</tr>
 								<tr>
-									<td>End tag:</td>
+									<td>结束模式:</td>
 									<td><textarea class="easyui-validatebox textbox" type="text" name="endTag" id="endTag"
 										data-options="required:false,multiline:true"  style="width:500px;height:150px" onkeyup="setValidation()"></textarea></td>
 								</tr>
 						</table>
 					</div>
 					<div title="高级搜索" style="padding:10px" data-options="iconCls:'icon-find'">
-						<table cellpadding="5">
+						<table cellpadding="5" style="float:left;">
 							<tr>
-								<td><spring:message code="webharvest_pageformat" /></td>
+								<td>页面格式</td>
 								<td><input class="easyui-validatebox textbox" type="text" name="pageFormat" id="pageFormat" style="width:300px;height:100px"
 									data-options="validType:'url',multiline:true" onkeyup="setValidation()"></input></td>
 									
 							</tr>
 							<tr>
-								<td><spring:message code="webharvest_startpage" />:</td>
+								<td>页面开始索引:</td>
 								<td><input class="easyui-numberbox" type="text" name="startPage" id="startPage" value="0"
 									onkeyup="setValidation()"></input></td>
 							</tr>
 							<tr>
-								<td><spring:message code="webharvest_endpage" />:</td>
+								<td>页末指数:</td>
 								<td><input class="easyui-numberbox" type="text" name="endPage" id="endPage"  value="0"
 									 onkeyup="setValidation()"></input></td>
 							</tr>
 						</table>
+						<div class="easyui-panel" title="Basic Panel" style="height:200px;padding:10px;float:right;font-size:14px;">
+					        <p style="">jQuery EasyUI framework helps you build your web pages easily.</p>
+					        <ul>
+					            <li>easyui is a collection of user-interface plugin based on jQuery.</li>
+					            <li>easyui provides essential functionality for building modem, interactive, javascript applications.</li>
+					            <li>using easyui you don't need to write many javascript code, you usually defines user-interface by writing some HTML markup.</li>
+					            <li>complete framework for HTML5 web page.</li>
+					            <li>easyui save your time and scales while developing your products.</li>
+					            <li>easyui is very easy but powerful.</li>
+					        </ul>
+					    </div>
 					</div>
 					<div title="<spring:message code="webharvest_scheduler" />" style="padding:10px" data-options="iconCls:'icon-hourglass'">
-						<table cellpadding="5">
+						<table cellpadding="5" style="float:left;">
 							<tr>
 					    		<td><spring:message code="webharvest_interval" />:</td> 
 					    		<td>
@@ -231,6 +242,17 @@ function showLog(url,params) {
 					    		<td>(<font color="red">指定在小时的间隔</font>)</td> 
 					    	</tr>
 						</table>
+						<div class="easyui-panel" title="Basic Panel" style="height:200px;padding:10px;float:right;font-size:14px;">
+					        <p style="">jQuery EasyUI framework helps you build your web pages easily.</p>
+					        <ul>
+					            <li>easyui is a collection of user-interface plugin based on jQuery.</li>
+					            <li>easyui provides essential functionality for building modem, interactive, javascript applications.</li>
+					            <li>using easyui you don't need to write many javascript code, you usually defines user-interface by writing some HTML markup.</li>
+					            <li>complete framework for HTML5 web page.</li>
+					            <li>easyui save your time and scales while developing your products.</li>
+					            <li>easyui is very easy but powerful.</li>
+					        </ul>
+					    </div>
 					</div>
 				</div>
 			
