@@ -119,13 +119,13 @@ function showLog(url,params) {
 						<td>
 							<div style="text-align: center;">
 								<a href="javascript:saveElement(basicinfo_save_url)" class="easyui-linkbutton"
-									data-options="iconCls:'icon-disk',plain:true">Save</a>
+									data-options="iconCls:'icon-disk',plain:true">拯救</a>
 							</div>
 						</td>
 						<td>
 							<div style="text-align: center;">
 								<a href="#" class="easyui-linkbutton" onclick="clearForm();"
-									data-options="iconCls:'icon-error_delete',plain:true">Clear</a>
+									data-options="iconCls:'icon-error_delete',plain:true">明确的</a>
 							</div>
 						</td>
 						<td>
