@@ -149,7 +149,7 @@ function showLog(url,params) {
 						<%-- URL:
 						
 					<input type="text" name="URL" id="URL"  class="easyui-validatebox" data-options="missingMessage:'<spring:message code="hyperlinkinfo_linkName" />URL',required:true"   /> --%>
-						<table cellpadding="5">
+						<table cellpadding="5" style="float:left;">
 			
 							<tr>
 								<td><spring:message code="webharvest_url" />:</td>
@@ -159,9 +159,20 @@ function showLog(url,params) {
 							
 							
 						</table>
+						<div class="easyui-panel" title="Description" style="height:150px;padding:10px;float:right;font-size:14px;">					        
+					        <ul>
+					            <li>1. Basic search module is used to extract data from given URL.</li> 
+					            <li>2. In that URL field need to provide URL of which page want to extract.</li>
+					        </ul>
+					        <br>					        
+					        <p style="color:blue;">Example:</p>					        
+					        <div style="padding-left:60px;">
+					        <p>URL : http://iamtop.net/</p>
+					        </div>
+					    </div>
 					</div>
 					<div title="<spring:message code="webharvest_patternSearch" />" style="padding: 10px" data-options="iconCls:'icon-page_white_star'">
-						<table cellpadding="5">
+						<table cellpadding="5" style="float:left;">
 							<tr>
 								<td><spring:message code="webharvest_element" />:</td>
 								<td><input class="easyui-validatebox textbox" type="text" name="element" id="element"
@@ -179,9 +190,24 @@ function showLog(url,params) {
 									data-options="required:true" onkeyup="setValidation()"></input></td>
 							</tr>
 						</table>
+						<div class="easyui-panel" title="Description" style="height:210px;padding:10px;float:right;font-size:14px;">					        
+					        <ul>
+					            <li>1. Pattern search module is helps to customize search. </li>
+					            <li>2. With the help of this we can get specific data of the page, for that we have to provide three parameters. </li>
+					            <li>3. The first one is exact name of the element or tag. </li>
+					            <li>4. The second one is attribute of element or tag, at last value of that attribute.</li>
+					        </ul>
+					        <br>
+					       <p style="color:blue;">Example:</p>					       
+					        <div style="padding-left:60px;">
+					        <p><spring:message code="webharvest_element" /> : div</p>
+					        <p><spring:message code="webharvest_attribute" /> : id</p>
+					        <p><spring:message code="webharvest_value" /> : idvalue</p>
+					        </div>
+					    </div>
 					</div>
 					<div title="<spring:message code="webharvest_betweenSelected" />" style="padding:10px" data-options="iconCls:'icon-page_code'">
-						<table cellpadding="5">
+						<table cellpadding="5" style="float:left;">
 								<tr>
 									<td>开始模式:</td>
 									<td><textarea class="easyui-validatebox textbox" type="text" name="startTag" id="startTag"
@@ -194,6 +220,20 @@ function showLog(url,params) {
 										data-options="required:false,multiline:true"  style="width:500px;height:150px" onkeyup="setValidation()"></textarea></td>
 								</tr>
 						</table>
+						<div class="easyui-panel" title="Description" style="height:230px;padding:10px;float:right;font-size:14px;">					      
+					        <ul>
+					            <li>1. The between select module is used to get in between data from given start tag to end tag.</li> 
+					            <li>2. We have to mention start and end tag.</li>
+					        </ul>
+					        <br>
+					        <p style="color:blue;">Example:</p>					        
+					        <div style="padding-left:60px;">
+					        <p>开始模式: &lt;table cellpadding="5" style="float:left;"&gt;</p>
+					        <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tr&gt;</p>
+					        <br>
+					        <p>结束模式: &lt;/table&gt;</p>
+					        </div>
+					    </div>
 					</div>
 					<div title="高级搜索" style="padding:10px" data-options="iconCls:'icon-find'">
 						<table cellpadding="5" style="float:left;">
@@ -214,16 +254,20 @@ function showLog(url,params) {
 									 onkeyup="setValidation()"></input></td>
 							</tr>
 						</table>
-						<div class="easyui-panel" title="Basic Panel" style="height:200px;padding:10px;float:right;font-size:14px;">
-					        <p style="">jQuery EasyUI framework helps you build your web pages easily.</p>
+						<div class="easyui-panel" title="Description" style="height:230px;padding:10px;float:right;font-size:14px;">					       
 					        <ul>
-					            <li>easyui is a collection of user-interface plugin based on jQuery.</li>
-					            <li>easyui provides essential functionality for building modem, interactive, javascript applications.</li>
-					            <li>using easyui you don't need to write many javascript code, you usually defines user-interface by writing some HTML markup.</li>
-					            <li>complete framework for HTML5 web page.</li>
-					            <li>easyui save your time and scales while developing your products.</li>
-					            <li>easyui is very easy but powerful.</li>
-					        </ul>
+					            <li>1. This advance search module is used to get pageable data.</li>
+					            <li>2. We need to provide exact page data URL in that page format filed. </li>
+					            <li>3. We have to mention * instated of the index value of the URL. </li>
+					            <li>4. In start page index field need to provide starting index of the page and end page index field need to provide ending index of the page.</li>
+					          </ul>
+					        <br>
+					        <p style="color:blue;">Example:</p>					        
+					        <div style="padding-left:60px;">
+					        <p>页面格式 : http://iamtop.net/employelist?page*.html</p>
+					        <p>页面开始索引: 2</p>
+					        <p>页末指数: 5</p>
+					        </div>
 					    </div>
 					</div>
 					<div title="<spring:message code="webharvest_scheduler" />" style="padding:10px" data-options="iconCls:'icon-hourglass'">
@@ -242,16 +286,15 @@ function showLog(url,params) {
 					    		<td>(<font color="red">指定在小时的间隔</font>)</td> 
 					    	</tr>
 						</table>
-						<div class="easyui-panel" title="Basic Panel" style="height:200px;padding:10px;float:right;font-size:14px;">
-					        <p style="">jQuery EasyUI framework helps you build your web pages easily.</p>
+						<div class="easyui-panel" title="Description" style="height:150px;padding:10px;float:right;font-size:14px;">					        
 					        <ul>
-					            <li>easyui is a collection of user-interface plugin based on jQuery.</li>
-					            <li>easyui provides essential functionality for building modem, interactive, javascript applications.</li>
-					            <li>using easyui you don't need to write many javascript code, you usually defines user-interface by writing some HTML markup.</li>
-					            <li>complete framework for HTML5 web page.</li>
-					            <li>easyui save your time and scales while developing your products.</li>
-					            <li>easyui is very easy but powerful.</li>
-					        </ul>
+					           <li>1. This scheduler module is used to set the interval by hours. </li> 
+					           <li>2. At the time of interval it will automatically extract data form that given specification.</li> </ul>
+					         <br>
+					       <p style="color:blue;">Example:</p>					        
+					        <div style="padding-left:60px;">
+					        <p><spring:message code="webharvest_interval" />: 10</p>
+					        </div>
 					    </div>
 					</div>
 				</div>
